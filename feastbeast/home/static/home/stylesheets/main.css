@@ -1,3 +1,40 @@
 body {
 	padding: 70px 0 0;
 }
+
+.home-heading {
+	font-size: 100px !important;
+	font-weight: 300;
+}
+
+.jumbotron {
+	background-color: #fff;
+}
+
+.main-button {
+	width: 160px;
+	height: 48px;
+}
+
+.float-right {
+	float: right;
+}
+
+.float-left {
+	float: left;
+}
+
+.demo-card-square.mdl-card {
+    max-width: 100%;
+    width: 100%;
+    height: 280px;
+}
+
+.cards {
+	padding: 0;
+}
+
+.steps {
+	padding: 50px 0 0;
+}
+

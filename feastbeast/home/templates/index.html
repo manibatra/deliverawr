@@ -8,26 +8,45 @@
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
 
 	<title></title>
+	<!-- JQUERY -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-	<!-- Local Stylesheets -->
-	<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
+	<!-- Material Design -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+	<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
+	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
+
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<!-- Local Stylesheets -->
+	<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
+
+	<!-- Polymer Elements -->
+	<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
+	<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+
 
 </head>
 <body>
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span> 
+				</button>
 				<a class="navbar-brand">FeastBeast</a>
 			</div>
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
 				<li role="presentation"><a href="#">SignUp</a></li>
 				<li role="presentation"><a href="#">Login</a></li>
 			</ul>
@@ -36,32 +55,51 @@
 
 	<div class="container">
 		<div class="jumbotron">
-			<div class="col-md-12">
-				FEAST BEAST
+			<div class="container">
+				<h1 class="text-center home-heading">FEAST BEAST</h1>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6">
-				START YOUR CAFE
+			<div class="col-md-6 col-xs-6">
+				<paper-button raised class="main-button float-right">START YOUR CAFE</paper-button>
 			</div>
-			<div class="col-md-6">
-				GET SOME GRUB
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				HOW IT WORKS
+			<div class="col-md-6 col-xs-6">
+				<paper-button raised class="main-button float-left">GET SOME GRUB</paper-button>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-4">
-				IMAGE 1
+		<div class="row steps">
+			<div class="col-md-4 cards">
+				<div class="mdl-card mdl-shadow--2dp demo-card-square">
+					<div class="mdl-card__title mdl-card--expand">
+						<h2 class="mdl-card__title-text">Step 1</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Aenan convallis.
+					</div>
+				</div>
 			</div>
-			<div class="col-md-4">
-				IMAGE 2
+			<div class="col-md-4 cards">
+				<div class="mdl-card mdl-shadow--2dp demo-card-square">
+					<div class="mdl-card__title mdl-card--expand">
+						<h2 class="mdl-card__title-text">Step 2</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Aenan convallis.
+					</div>
+				</div>
 			</div>
-			<div class="col-md-4">
-				IMAGE 3
+			<div class="col-md-4 cards">
+				<div class="mdl-card mdl-shadow--2dp demo-card-square">
+					<div class="mdl-card__title mdl-card--expand">
+						<h2 class="mdl-card__title-text">Step 3</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Aenan convallis.
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
