@@ -7,13 +7,28 @@ body {
 	font-weight: 300;
 }
 
+.home-sub {
+	font-size: 50px !important;
+	font-weight: 200;
+}
+
 .jumbotron {
 	background-color: #fff;
+	margin: 0;
+}
+
+.jumbo-foot {
+	margin: 200px 0 0;
 }
 
 .main-button {
 	width: 160px;
 	height: 48px;
+}
+
+.list-cafe {
+	background-color: rgb(255, 64, 129) !important;
+	color: white;
 }
 
 .float-right {
@@ -30,11 +45,31 @@ body {
     height: 280px;
 }
 
-.cards {
-	padding: 0;
+.steps {
+	padding: 50px 0;
 }
 
-.steps {
-	padding: 50px 0 0;
+.brand-title {
+	margin: 9.5px 0;
 }
+
+.works {
+	height: 80vh;
+	background-color: #03a9f4;
+}
+
+.works-hidden {
+	display: none;
+}
+
+.works-button {
+	margin: 30px 20px;
+}
+
+.works-button:hover {
+	color: white;
+	cursor: pointer;
+}
+
+
 
