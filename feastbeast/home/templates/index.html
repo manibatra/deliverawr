@@ -17,8 +17,11 @@
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
+	<!-- Include Font Awesome Stylesheet in Header -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
 	<!-- Material Design -->
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:200,300">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:200,300,500,700">
 	<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
 	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
 
@@ -37,6 +40,7 @@
 
 </head>
 <body>
+	<!-- Site header , remains constant across most pages -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -54,6 +58,8 @@
 			</ul>
 		</div>
 	</nav>
+
+	<!-- Home page main body -->
 	<div class="container-fluid works works-hidden" id="working">
 		<div class="row">
 			<div class="col-md-12">
@@ -83,7 +89,7 @@
 		</div>
 		<div class="row home-sub">
 			<div class="col-md-12">
-				<h3 class="text-center">TRY SOME LOCAL DELICACIES</h3>
+				<h3 class="text-center home-sub">TRY SOME LOCAL DELICACIES</h3>
 			</div>
 		</div>
 		<div class="row steps">
@@ -122,6 +128,63 @@
 			</div>
 		</div>
 	</div>
+
+	<!--Site footer, remains constant across most pages-->
+	<footer class="mdl-mega-footer">
+		<div class="container">
+			<div class="mdl-mega-footer__middle-section">
+
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Features</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">About</a></li>
+							<li><a href="#">Terms</a></li>
+							<li><a href="#">Partners</a></li>
+							<li><a href="#">Updates</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Details</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">Specs</a></li>
+							<li><a href="#">Tools</a></li>
+							<li><a href="#">Resources</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Technology</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">How it works</a></li>
+							<li><a href="#">Patterns</a></li>
+							<li><a href="#">Usage</a></li>
+							<li><a href="#">Products</a></li>
+							<li><a href="#">Contracts</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="text-center center-block">
+				<br />
+			<p class="social-text">Join Us</p>
+				<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
+				<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
+				<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
+				<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+			</div>
+		</div>
+	</footer>
+
 	<script type="text/javascript">
 		var slider = function() {
 			$("#howItWorks").click(function() {
