@@ -48,25 +48,6 @@ body {
 	padding: 50px 0;
 }
 
-.brand-title {
-	margin: 0 0;
-	padding: 0 15px;
-
-}
-
-.brand-image {
-	margin: 1% 0 6%;
-}
-
-.brand-text {
-	margin: 0 10px;
-	line-height: 69px;
-	color: #f44336;
-	height: 69px;
-	font-family: "Roboto";
-	font-weight: 500;
-}
-
 .works {
 	height: 65vh;
 	background-color: #03a9f4;

@@ -1,0 +1,65 @@
+body {
+	padding: 20px 0 0;
+}
+
+.jumbotron {
+	background-color: #fff;
+}
+
+.banner-img {
+	position: absolute;
+	height: 60vh;
+	width: 100%;
+}
+
+.overlay-container {
+	position: absolute;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	height: 60vh;
+}
+
+.restaurant-name {
+	color: white;
+	font-family: 'Roboto', Helvetica, Sans-Serif;
+	font-size: 45px;
+	padding: 2px 0;
+	line-height: 1.4;
+	width: 100%;
+	font-weight: 300;
+	float: left;
+}
+
+.restaurant-name span {
+	background-color: rgba(255, 64, 129, 0.7);
+	display: inline;
+	padding: 0.38rem;  /* Needs prefixing */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.demo-card-square.mdl-card {
+	width: 36vh;
+	height: 40vh;
+	margin: auto 100px;
+	float: right;
+}
+
+.demo-card-square > .mdl-card__title {
+	color: #fff;
+	background: url('../images/chef.jpg') no-repeat rgb(255, 64, 129);
+	background-size: cover;
+}
+
+.team-name {
+	background-color: rgba(255, 64, 129, 0.7);
+	display: inline;
+	padding: 0.38rem;  /* Needs prefixing */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.center-text {
+	margin: 0 auto;
+}

@@ -1,41 +1,79 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-
-	<title></title>
-	<!-- JQUERY -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
-	<!-- Include Font Awesome Stylesheet in Header -->
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
-	<!-- Material Design -->
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:200,300,500,700">
-	<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
-	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
-
-
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-	<!-- Local Stylesheets -->
-	<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
-
-	<!-- Polymer Elements -->
-	<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
-	<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-</head>
-<body>
-	You are at the menu of the restaurant {{ menu_id }}
-</body>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+		<title></title>
+		<!-- JQUERY -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<!-- Include Font Awesome Stylesheet in Header -->
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Material Design -->
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:200,300,500,700">
+		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
+		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<!-- Local Stylesheets -->
+		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
+		<!-- Polymer Elements -->
+		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
+		<link rel="import" href="{% static 'bower_components/iron-flex-layout/iron-flex-layout.html' %}">
+		<link rel="import" href="{% static 'bower_components/polymer/polymer.html' %}">
+		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	</head>
+	<body>
+		<!-- Site header , remains constant across most pages -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand brand-title">
+						<img alt="Brand" width="50vw" height="50vw" src="{% static "images/monster.png" %}" class="pull-left brand-image">
+						<span class="pull-right brand-text">feast beast</span>
+					</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
+					<li role="presentation"><a href="#"><paper-button noink>SignUp</paper-button></a></li>
+					<li role="presentation"><a href="#"><paper-button noink>Login</paper-button></a></li>
+					<li role="presentation"><a href="#"><paper-button class="list-cafe">START YOUR CAFE</paper-button></a></li>
+				</ul>
+			</div>
+		</nav>
+		<!--Banner of the restuarant -->
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-md-12">
+					<img alt="Banner" src="{% static "menus/images/banner1.png" %}" class="banner-img img-responsive">
+					<div class="row overlay-container">
+						<div class="col-md-4 col-xs-12 text-center"><h2 class="restaurant-name"><span>Moretti's</span></h2></div>
+						<div class="col-md-4 hidden-xs"></div>
+						<div class="col-md-4 hidden-xs">
+						<div class="mdl-card mdl-shadow--3dp demo-card-square ">
+							<div class="mdl-card__title mdl-card--expand">
+								<h2 class="mdl-card__title-text center-text"><span class="team-name">The Team</span></h2>
+							</div>
+							<div class="mdl-card__supporting-text">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Aenan convallis.
+							</div>
+						</div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
