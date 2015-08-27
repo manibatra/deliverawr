@@ -4,6 +4,8 @@ body {
 
 .jumbotron {
 	background-color: #fff;
+	padding-bottom: 50px;
+	height: 60vh;
 }
 
 .banner-img {
@@ -62,4 +64,8 @@ body {
 
 .center-text {
 	margin: 0 auto;
+}
+
+.menu {
+	margin-top: 50px;
 }

@@ -54,26 +54,59 @@
 			</div>
 		</nav>
 		<!--Banner of the restuarant -->
-		<div class="jumbotron">
-			<div class="row">
-				<div class="col-md-12">
-					<img alt="Banner" src="{% static "menus/images/banner1.png" %}" class="banner-img img-responsive">
-					<div class="row overlay-container">
-						<div class="col-md-4 col-xs-12 text-center"><h2 class="restaurant-name"><span>Moretti's</span></h2></div>
-						<div class="col-md-4 hidden-xs"></div>
-						<div class="col-md-4 hidden-xs">
-						<div class="mdl-card mdl-shadow--3dp demo-card-square ">
-							<div class="mdl-card__title mdl-card--expand">
-								<h2 class="mdl-card__title-text center-text"><span class="team-name">The Team</span></h2>
+		<div class="row">
+			<div class="jumbotron">
+				<div class="row">
+					<div class="col-md-12">
+						<img alt="Banner" src="{% static "menus/images/banner1.png" %}" class="banner-img img-responsive">
+						<div class="row overlay-container">
+							<div class="col-md-4 col-xs-12 text-center"><h2 class="restaurant-name"><span>Moretti's</span></h2></div>
+							<div class="col-md-4 hidden-xs"></div>
+							<div class="col-md-4 hidden-xs">
+								<div class="mdl-card mdl-shadow--3dp demo-card-square ">
+									<div class="mdl-card__title mdl-card--expand">
+										<h2 class="mdl-card__title-text center-text"><span class="team-name">The Team</span></h2>
+									</div>
+									<div class="mdl-card__supporting-text">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+										Aenan convallis.
+									</div>
+								</div></div>
 							</div>
-							<div class="mdl-card__supporting-text">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Aenan convallis.
-							</div>
-						</div></div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</body>
-</html>
+			<!--Menu start -->
+			<div class="container menu">
+				<div class = "row">
+					<!--Menu categories -->
+					<div class="col-md-3">
+						<ul class="nav nav-pills nav-stacked" role="tablist">
+							<li role="presentation" class="active">
+								<a href="#pizzas" aria-controls="pizzas" role="tab" data-toggle="tab">Pizzas</a>
+							</li>
+							<li role="presentation">
+								<a href="#sides" aria-controls="sides" role="tab" data-toggle="tab">Sides</a>
+							</li>
+							<li role="presentation">
+								<a href="#salads" aria-controls="salads" role="tab" data-toggle="tab">Salads</a>
+							</li>
+						</ul>
+					</div>
+					<!--Menu items -->
+					<div class="col-md-6">
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="pizzas">Pizzas</div>
+							<div role="tabpanel" class="tab-pane" id="sides">Sides</div>
+							<div role="tabpanel" class="tab-pane" id="salads">Salads</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						Total
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>
