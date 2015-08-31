@@ -15,7 +15,7 @@
 		<!-- Include Font Awesome Stylesheet in Header -->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		<!-- Material Design -->
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:200,300,500,700">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:200,300,400,700">
 		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
 		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
 		<!-- Latest compiled and minified JavaScript -->
@@ -24,12 +24,15 @@
 		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
 		<!-- Global Stylesheets -->
 		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
+		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
 		<!-- Polymer Elements -->
 		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
 		<link rel="import" href="{% static 'bower_components/iron-flex-layout/iron-flex-layout.html' %}">
 		<link rel="import" href="{% static 'bower_components/polymer/polymer.html' %}">
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<!-- import default iconset and iron-icon -->
+		<link rel="import" href="/components/iron-icons/iron-icons.html">
 	</head>
 	<body>
 		<!-- Site header , remains constant across most pages -->
@@ -81,32 +84,221 @@
 			<div class="container menu">
 				<div class = "row">
 					<!--Menu categories -->
-					<div class="col-md-3">
-						<ul class="nav nav-pills nav-stacked" role="tablist">
+					<div class="col-md-2">
+						<ul class="nav nav-pills nav-stacked red" role="tablist">
 							<li role="presentation" class="active">
 								<a href="#pizzas" aria-controls="pizzas" role="tab" data-toggle="tab">Pizzas</a>
 							</li>
 							<li role="presentation">
 								<a href="#sides" aria-controls="sides" role="tab" data-toggle="tab">Sides</a>
 							</li>
-							<li role="presentation">
-								<a href="#salads" aria-controls="salads" role="tab" data-toggle="tab">Salads</a>
-							</li>
 						</ul>
 					</div>
 					<!--Menu items -->
-					<div class="col-md-6">
+					<div class="col-md-8">
 						<!-- Tab panes -->
 						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="pizzas">Pizzas</div>
-							<div role="tabpanel" class="tab-pane" id="sides">Sides</div>
-							<div role="tabpanel" class="tab-pane" id="salads">Salads</div>
+							<div role="tabpanel" class="tab-pane active" id="pizzas">
+								<div class="menu-items">
+									<!-- A single menu item with edit and add to cart button -->
+									<div class="demo-card-wide mdl-card menu-item">
+										<div class="row text-center menu-item__heading">
+											Vietnamese Chilli Chicken
+										</div>
+										<div class="row text-center menu-item__description">
+											Marinated Chicken Breast Fillets, Shallots, on a Hoisin Sweet Chilli and Garlic base, garnished with Slaw, Fresh Coriander, Chilli &amp; Coriander Aioli
+										</div>
+										<div class="row price text-center">
+											$ 20
+										</div>
+										<div class="row vcenter menu-item__actions">
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-left">
+													Customize
+												</paper-button>
+											</div>
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-right">
+													Add to Order
+												</paper-button>
+											</div>
+										</div>
+									</div>
+									<!-- A single menu item with edit and add to cart button -->
+									<div class="demo-card-wide mdl-card menu-item">
+										<div class="row text-center menu-item__heading">
+											Margherita
+										</div>
+										<div class="row text-center menu-item__description">
+											Mozzarella &amp; Oregano on a Tomato base
+										</div>
+										<div class="row price text-center">
+											$ 20
+										</div>
+										<div class="row vcenter menu-item__actions">
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-left">
+													Customize
+												</paper-button>
+											</div>
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-right">
+													Add to Order
+												</paper-button>
+											</div>
+										</div>
+									</div>
+									<!-- A single menu item with edit and add to cart button -->
+									<div class="demo-card-wide mdl-card menu-item">
+										<div class="row text-center menu-item__heading">
+											Seafood
+										</div>
+										<div class="row text-center menu-item__description">
+											Marinated Tiger Prawns, Scallops, Mussels, Sundried Tomatoes &amp; Bocconcini on a Tomato base, garnished with Fresh Herbs &amp; Lemon
+										</div>
+										<div class="row price text-center">
+											$ 20
+										</div>
+										<div class="row vcenter menu-item__actions">
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-left">
+													Customize
+												</paper-button>
+											</div>
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-right">
+													Add to Order
+												</paper-button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="sides">
+								<div class="menu-items">
+									<!-- A single menu item with edit and add to cart button -->
+									<div class="demo-card-wide mdl-card menu-item">
+										<div class="row text-center menu-item__heading">
+											Herb &amp; Garlic Squares
+										</div>
+										<div class="row text-center menu-item__description">
+											Garlic Squares topped with fresh herbs
+										</div>
+										<div class="row price text-center">
+											$ 20
+										</div>
+										<div class="row vcenter menu-item__actions">
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-left">
+													Customize
+												</paper-button>
+											</div>
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-right">
+													Add to Order
+												</paper-button>
+											</div>
+										</div>
+									</div>
+									<!-- A single menu item with edit and add to cart button -->
+									<div class="demo-card-wide mdl-card menu-item">
+										<div class="row text-center menu-item__heading">
+											Ciabatta (Herb &amp; Garlic)
+										</div>
+										<div class="row text-center menu-item__description">
+											Ciabatta loaf served with Herb &amp; Garlic Butter
+										</div>
+										<div class="row price text-center">
+											$ 20
+										</div>
+										<div class="row vcenter menu-item__actions">
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-left">
+													Customize
+												</paper-button>
+											</div>
+											<div class="col-md-6">
+												<!-- Mini FAB button -->
+												<paper-button class="menu-item__button pull-right">
+													Add to Order
+												</paper-button>
+											</div>
+										</div>
+									</div>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
-						Total
+					</div>
+					<div class="col-md-2">
+						<paper-button class="menu-item__button center-block top-button">
+							Order
+						</paper-button>
+						<paper-button class="menu-item__button center-block">
+							Checkout
+						</paper-button>
 					</div>
 				</div>
 			</div>
+			<!--Site footer, remains constant across most pages-->
+			<footer class="mdl-mega-footer">
+				<div class="container">
+					<div class="mdl-mega-footer__middle-section">
+						<div class="col-md-4">
+							<div class="mdl-mega-footer__drop-down-section center-this">
+								<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+								<h1 class="mdl-mega-footer__heading">Features</h1>
+								<ul class="mdl-mega-footer__link-list">
+									<li><a href="#">About</a></li>
+									<li><a href="#">Terms</a></li>
+									<li><a href="#">Partners</a></li>
+									<li><a href="#">Updates</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="mdl-mega-footer__drop-down-section center-this">
+								<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+								<h1 class="mdl-mega-footer__heading">Details</h1>
+								<ul class="mdl-mega-footer__link-list">
+									<li><a href="#">Specs</a></li>
+									<li><a href="#">Tools</a></li>
+									<li><a href="#">Resources</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="mdl-mega-footer__drop-down-section center-this">
+								<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+								<h1 class="mdl-mega-footer__heading">Technology</h1>
+								<ul class="mdl-mega-footer__link-list">
+									<li><a href="#">How it works</a></li>
+									<li><a href="#">Patterns</a></li>
+									<li><a href="#">Usage</a></li>
+									<li><a href="#">Products</a></li>
+									<li><a href="#">Contracts</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="text-center center-block">
+						<br />
+						<p class="social-text">Join Us</p>
+						<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
+						<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
+						<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
+						<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+					</div>
+				</div>
+			</footer>
 		</body>
 	</html>

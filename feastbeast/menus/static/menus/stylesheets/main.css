@@ -68,4 +68,91 @@ body {
 
 .menu {
 	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.menu-items {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+}
+
+.menu-item__heading {
+	padding: 25px;
+	font-family: 'Roboto', Helvetica, Sans-Serif;
+	font-size: 25px;
+	font-weight: 400;
+}
+
+.menu-item__description {
+	padding: 0 25px 20px;
+	font-family: 'Roboto', Helvetica, Sans-Serif;
+	font-size: 15px;
+	font-weight: 200;
+	height: 80px;
+}
+
+.vcenter {
+	display: flex;
+	align-items: center;
+}
+
+.hcenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.menu-item__quantity {
+	border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+.menu-item__actions {
+	height: 70px;
+}
+
+.menu-item__button {
+	background-color: rgb(255, 64, 129) !important;
+	color: white;
+	font-family: 'Roboto', Helvetica, Sans-Serif;
+	font-size: 15px;
+	font-weight: 200;
+	width: 120px;
+	margin: 20px;
+}
+
+.demo-card-wide.mdl-card {
+	width: 50%;
+	height: 250px;
+	border: 1px solid rgba(0, 0, 0, .1);
+}
+
+.demo-card-wide > .mdl-card__title {
+	color: #fff;
+	height: 176px;
+}
+
+.demo-card-wide > .mdl-card__menu {
+	color: #fff;
+}
+
+.nav-pills {
+	font-family: 'Roboto', Helvetica, Sans-Serif;
+	font-size: 15px;
+}
+
+.price {
+	font-family: 'Roboto', Helvetica, Sans-Serif;
+	font-size: 15px;
+	font-weight: 500;
+	height: 30px;
+}
+
+.top-button {
+	margin-top: 0;
+}
+
+.red .active a,
+.red .active a:hover {
+    background-color: rgb(255, 64, 129) !important;
 }
