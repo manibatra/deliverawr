@@ -2,6 +2,10 @@ body {
 	padding: 70px 0 0;
 }
 
+* {
+	font-family: 'Roboto', Helvetica, Sans-Serif;
+}
+
 .home-heading {
 	font-size: 100px !important;
 	font-weight: 300;
@@ -28,10 +32,6 @@ body {
 .list-cafe {
 	background-color: rgb(255, 64, 129) !important;
 	color: white;
-}
-
-.float-right {
-	float: right;
 }
 
 .float-left {
@@ -64,5 +64,66 @@ body {
 .works-button:hover {
 	color: white;
 	cursor: pointer;
+}
+
+.modal-dialog {
+	width: 20%;
+}
+
+.decoration {
+	margin: 5px 0;
+	padding: 0;
+
+}
+
+.decoration-hr {
+	padding: 0;
+}
+
+.vcenter {
+	display: flex;
+	align-items: center;
+}
+
+.signup-form {
+	font-weight: 200;
+	margin-bottom: 0;
+}
+
+.signup-button {
+	width: 100%;
+	background-color: rgb(255, 64, 129) !important;
+	color: white;
+
+}
+
+h5 {
+	margin: 0 auto 5px;
+	color: rgb(255, 64, 129);
+}
+
+.facebook-label {
+	width: 100%;
+	font-weight: 400;
+	padding-left: 8%;
+}
+
+.modal-footer {
+	border-top-width: 0;
+}
+
+
+@media screen and (max-width : 1024px) {
+	.modal-dialog {
+		width: 35%;
+		margin: 50px auto;
+	}
+}
+
+@media screen and (max-width: 737px) {
+	.modal-dialog {
+		width: 95%;
+		margin: 50px auto;
+	}
 }
 

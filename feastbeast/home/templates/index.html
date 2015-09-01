@@ -20,6 +20,10 @@
 	<!-- Include Font Awesome Stylesheet in Header -->
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
+	<!-- Social Buttons -->
+	<link rel="stylesheet" href="{% static "stylesheets/bootstrap-social.css" %}">
+
+
 	<!-- Material Design -->
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:200,300,500,700">
 	<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
@@ -59,7 +63,7 @@
 				</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
-				<li role="presentation"><a href="#"><paper-button noink>SignUp</paper-button></a></li>
+				<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
 				<li role="presentation"><a href="#"><paper-button noink>Login</paper-button></a></li>
 				<li role="presentation"><a href="#"><paper-button class="list-cafe">START YOUR CAFE</paper-button></a></li>
 			</ul>
@@ -191,6 +195,68 @@
 			</div>
 		</div>
 	</footer>
+
+	<!--Modal to present the signup form to the user-->
+	<div class="modal fade" id="signupModal" role="dialog" aria-labelledby="gridSystemModalLabel">
+  		<div class="modal-dialog" role="document">
+   			 <div class="modal-content">
+      			<div class="modal-body">
+        			<div class="container-fluid">
+          				<div class="row">
+            				<a class="btn btn-block btn-social btn-facebook text-center">
+  								<i class="fa fa-facebook"></i>
+  								<label class="facebook-label">Sign Up with Facebook</span>
+							</a>
+          				</div>
+          				<div class="row decoration vcenter">
+          					<div class="col-md-5 col-xs-5 decoration-hr">
+          						<hr>
+          					</div>
+          					<div class="col-md-2 col-xs-2">
+          						or
+          					</div>
+          					<div class="col-md-5 col-xs-5 decoration-hr">
+          						<hr>
+          					</div>
+          				</div>
+          				<div class="row text-center">
+							<h5>Sign up with Email</h5>
+          				</div>
+      					<form action="#">
+      						<div class="row">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="text" id="sample1" />
+								    <label class="mdl-textfield__label signup-form" for="sample1">First Name</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="text" id="sample1" />
+								    <label class="mdl-textfield__label signup-form" for="sample1">Last Name</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="text" id="sample1" />
+								    <label class="mdl-textfield__label signup-form" for="sample1">Email</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="text" id="sample1" />
+								    <label class="mdl-textfield__label signup-form" for="sample1">Password</label>
+								</div>
+							</div>
+						</form>
+			        </div>
+			    </div>
+		      	<div class="modal-footer">
+		        	<paper-button class="signup-button text-center">Sign Up</paper-button>
+		      	</div>
+		    </div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
 
 	<script type="text/javascript">
 		var slider = function() {
