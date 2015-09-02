@@ -119,6 +119,16 @@ body {
 	background-color: rgb(255, 64, 129) !important;
 	color: white;
 	font-family: 'Roboto', Helvetica, Sans-Serif;
+	font-size: 12px;
+	font-weight: 200;
+	width: 100px;
+	margin: 20px;
+}
+
+.sidebar__button {
+	background-color: rgb(255, 64, 129) !important;
+	color: white;
+	font-family: 'Roboto', Helvetica, Sans-Serif;
 	font-size: 15px;
 	font-weight: 200;
 	width: 120px;
