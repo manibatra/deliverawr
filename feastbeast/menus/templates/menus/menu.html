@@ -50,8 +50,13 @@
 					</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
-					<li role="presentation"><a href="#"><paper-button noink>SignUp</paper-button></a></li>
+					{% if request.user.is_authenticated %}
+					<li role="presentation"><a href="#signupModal"><paper-button noink>Hello, {{request.user.first_name }} !</paper-button></a></li>
+					<li role="presentation"><a href="#"><paper-button noink>Logout</paper-button></a></li>
+					{% else %}
+					<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
 					<li role="presentation"><a href="#"><paper-button noink>Login</paper-button></a></li>
+					{% endif %}
 					<li role="presentation"><a href="#"><paper-button class="list-cafe">START YOUR CAFE</paper-button></a></li>
 				</ul>
 			</div>

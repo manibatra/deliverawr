@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login
+
 
 # Create your views here.
 
 def landing(request):
+
 	if request.method == "POST":
 		first_name = request.POST['firstName']
 		last_name = request.POST['lastName']
@@ -13,7 +17,13 @@ def landing(request):
 		user.first_name = first_name
 		user.last_name = last_name
 		user.save()
+		user = authenticate(username=email, password=password)
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect('')
 
-	context = {}
+
+	context = {'hello' : 'hello'}
 	return render(request, 'home/index.html', context)
 
