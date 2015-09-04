@@ -4,5 +4,5 @@ from django.shortcuts import render
 
 def detail(request, menu_id):
 	context = {'menu_id': menu_id}
-	return render(request, 'menus/menu.html', context)
+	return render(request, 'restaurants/menu.html', context)
 

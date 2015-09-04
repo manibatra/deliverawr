@@ -24,6 +24,6 @@ def landing(request):
 				return HttpResponseRedirect('')
 
 
-	context = {'hello' : 'hello'}
+	context = {}
 	return render(request, 'home/index.html', context)
 
