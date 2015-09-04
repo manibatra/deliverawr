@@ -91,157 +91,54 @@
 					<!--Menu categories -->
 					<div class="col-md-2">
 						<ul class="nav nav-pills nav-stacked red" role="tablist">
-							<li role="presentation" class="active">
-								<a href="#pizzas" aria-controls="pizzas" role="tab" data-toggle="tab">Pizzas</a>
-							</li>
-							<li role="presentation">
-								<a href="#sides" aria-controls="sides" role="tab" data-toggle="tab">Sides</a>
-							</li>
+						    {% for category in categories %}
+								<li role="presentation" {% if category == categories|first %}class="active"{% endif %}>
+									<a href="#{{ category.item_category }}" aria-controls="{{ category.item_category }}" role="tab" data-toggle="tab">{{ category.item_category }}</a>
+								</li>
+							{% endfor %}
 						</ul>
 					</div>
 					<!--Menu items -->
 					<div class="col-md-8">
 						<!-- Tab panes -->
 						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="pizzas">
-								<div class="menu-items">
-									<!-- A single menu item with edit and add to cart button -->
-									<div class="demo-card-wide mdl-card menu-item">
-										<div class="row text-center menu-item__heading">
-											Vietnamese Chilli Chicken
-										</div>
-										<div class="row text-center menu-item__description">
-											Marinated Chicken Breast Fillets, Shallots, on a Hoisin Sweet Chilli and Garlic base, garnished with Slaw, Fresh Coriander, Chilli &amp; Coriander Aioli
-										</div>
-										<div class="row price text-center">
-											$ 20
-										</div>
-										<div class="row vcenter menu-item__actions">
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-left">
-													Customize
-												</paper-button>
-											</div>
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-right">
-													Add to Order
-												</paper-button>
-											</div>
-										</div>
-									</div>
-									<!-- A single menu item with edit and add to cart button -->
-									<div class="demo-card-wide mdl-card menu-item">
-										<div class="row text-center menu-item__heading">
-											Margherita
-										</div>
-										<div class="row text-center menu-item__description">
-											Mozzarella &amp; Oregano on a Tomato base
-										</div>
-										<div class="row price text-center">
-											$ 20
-										</div>
-										<div class="row vcenter menu-item__actions">
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-left">
-													Customize
-												</paper-button>
-											</div>
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-right">
-													Add to Order
-												</paper-button>
-											</div>
-										</div>
-									</div>
-									<!-- A single menu item with edit and add to cart button -->
-									<div class="demo-card-wide mdl-card menu-item">
-										<div class="row text-center menu-item__heading">
-											Seafood
-										</div>
-										<div class="row text-center menu-item__description">
-											Marinated Tiger Prawns, Scallops, Mussels, Sundried Tomatoes &amp; Bocconcini on a Tomato base, garnished with Fresh Herbs &amp; Lemon
-										</div>
-										<div class="row price text-center">
-											$ 20
-										</div>
-										<div class="row vcenter menu-item__actions">
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-left">
-													Customize
-												</paper-button>
-											</div>
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-right">
-													Add to Order
-												</paper-button>
-											</div>
-										</div>
+							{% for category in categories %}
+								<div role="tabpanel" class="tab-pane {% if category == categories|first %}active{% endif %}" id="{{ category.item_category }}">
+									<div class="menu-items">
+										<!-- A single menu item with edit and add to cart button -->
+										{% for item in items %}
+											{% if category.item_category == item.item_category %}
+												<div class="demo-card-wide mdl-card menu-item">
+													<div class="row text-center menu-item__heading">
+														{{ item.item_name }}
+													</div>
+													<div class="row text-center menu-item__description">
+														{{ item.item_description }}
+													</div>
+													<div class="row price text-center">
+														$ {{ item.item_price }}
+													</div>
+													<div class="row vcenter menu-item__actions">
+														<div class="col-md-6">
+															<!-- Mini FAB button -->
+															<paper-button class="menu-item__button pull-left">
+																Customize
+															</paper-button>
+														</div>
+														<div class="col-md-6">
+															<!-- Mini FAB button -->
+															<paper-button class="menu-item__button pull-right">
+																Add to Order
+															</paper-button>
+														</div>
+													</div>
+												</div>
+											{% endif %}
+										{% endfor %}
 									</div>
 								</div>
-							</div>
-							<div role="tabpanel" class="tab-pane" id="sides">
-								<div class="menu-items">
-									<!-- A single menu item with edit and add to cart button -->
-									<div class="demo-card-wide mdl-card menu-item">
-										<div class="row text-center menu-item__heading">
-											Herb &amp; Garlic Squares
-										</div>
-										<div class="row text-center menu-item__description">
-											Garlic Squares topped with fresh herbs
-										</div>
-										<div class="row price text-center">
-											$ 20
-										</div>
-										<div class="row vcenter menu-item__actions">
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-left">
-													Customize
-												</paper-button>
-											</div>
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-right">
-													Add to Order
-												</paper-button>
-											</div>
-										</div>
-									</div>
-									<!-- A single menu item with edit and add to cart button -->
-									<div class="demo-card-wide mdl-card menu-item">
-										<div class="row text-center menu-item__heading">
-											Ciabatta (Herb &amp; Garlic)
-										</div>
-										<div class="row text-center menu-item__description">
-											Ciabatta loaf served with Herb &amp; Garlic Butter
-										</div>
-										<div class="row price text-center">
-											$ 20
-										</div>
-										<div class="row vcenter menu-item__actions">
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-left">
-													Customize
-												</paper-button>
-											</div>
-											<div class="col-md-6">
-												<!-- Mini FAB button -->
-												<paper-button class="menu-item__button pull-right">
-													Add to Order
-												</paper-button>
-											</div>
-										</div>
-									</div>
-							</div>
+							{% endfor %}
 						</div>
-					</div>
 					</div>
 					<div class="col-md-2">
 						<paper-button class="sidebar__button center-block top-button">

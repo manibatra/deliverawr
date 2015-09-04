@@ -7,4 +7,4 @@ class MenuItem(models.Model):
 	item_name = models.CharField(max_length=30)
 	item_price = models.IntegerField()
 	item_description = models.CharField(max_length=140)
-	item_category = models.CharField(max_length=30)
+	item_category = models.CharField(max_length=30) #have to display it in particular order
