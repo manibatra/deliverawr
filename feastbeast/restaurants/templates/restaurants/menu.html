@@ -31,8 +31,9 @@
 		<link rel="import" href="{% static 'bower_components/polymer/polymer.html' %}">
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		<!-- import default iconset and iron-icon -->
-		<link rel="import" href="/components/iron-icons/iron-icons.html">
+		<!--Stripe Checkout Script -->
+		<script src="https://checkout.stripe.com/checkout.js"></script>
+
 	</head>
 	<body>
 		<!-- Site header , remains constant across most pages -->
@@ -91,7 +92,7 @@
 					<!--Menu categories -->
 					<div class="col-md-2">
 						<ul class="nav nav-pills nav-stacked red" role="tablist">
-						    {% for category in categories %}
+							{% for category in categories %}
 								<li role="presentation" {% if category == categories|first %}class="active"{% endif %}>
 									<a href="#{{ category.item_category }}" aria-controls="{{ category.item_category }}" role="tab" data-toggle="tab">{{ category.item_category }}</a>
 								</li>
@@ -127,7 +128,7 @@
 														</div>
 														<div class="col-md-6">
 															<!-- Mini FAB button -->
-															<paper-button class="menu-item__button pull-right">
+															<paper-button name="{{ item.item_id }}" class="add_to_cart menu-item__button pull-right">
 																Add to Order
 															</paper-button>
 														</div>
@@ -144,9 +145,56 @@
 						<paper-button class="sidebar__button center-block top-button">
 							Order
 						</paper-button>
-						<paper-button class="sidebar__button center-block">
-							Checkout
+						{% load carton_tags %}
+						{% get_cart as cart %}
+						<paper-button id="payButton" class="sidebar__button center-block" value="{{ cart.total }}">
+							Pay
 						</paper-button>
+						<script type="text/javascript">
+
+
+							var handler = StripeCheckout.configure({
+									key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
+									image: '{% static "images/monster.png" %}',
+									locale: 'auto',
+									token: function(token) {
+									  // Use the token to create the charge with a server-side script.
+									  // You can access the token ID with `token.id`
+									  var data = {}
+									  data['stripToken'] = token;
+									  $.post(
+										 '/charge',
+										 data,
+										 function(responseText) {
+											alert(responseText);
+										 }
+									  );
+
+									}
+								  });
+
+							var mail = "";
+							{% if request.user.is_authenticated %}
+							 mail = "{{ request.user.email }}"
+							{% endif %}
+
+							$('#payButton').on('click', function(e) {
+									// Open Checkout with further options
+									handler.open({
+									  email: mail,
+									  name: 'Feast Beast',
+									  description: 'Your Order',
+									  currency: "aud",
+									  amount: parseInt($('#payButton').attr("value"))*100
+									});
+									e.preventDefault();
+								  });
+
+							// Close Checkout on page navigation
+							$(window).on('popstate', function() {
+								handler.close();
+							});
+						</script>
 					</div>
 				</div>
 			</div>
@@ -202,5 +250,14 @@
 					</div>
 				</div>
 			</footer>
+			<script type="text/javascript">
+				$('.add_to_cart').click( function() {
+					var $id = $(this).attr("name");
+					 $.get("add/"+$id, function(data, status){
+							alert("Data: " + data + "\nStatus: " + status);
+							$('#payButton').attr("value", data);
+						});
+				});
+			</script>
 		</body>
 	</html>
