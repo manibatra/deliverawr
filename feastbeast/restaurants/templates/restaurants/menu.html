@@ -157,13 +157,16 @@
 									key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
 									image: '{% static "images/monster.png" %}',
 									locale: 'auto',
+									allowRememberMe: true,
+									shippingAddress: true,
 									token: function(token) {
 									  // Use the token to create the charge with a server-side script.
 									  // You can access the token ID with `token.id`
 									  var data = {}
+									  data['csrfmiddlewaretoken'] = "{{ csrf_token }}";
 									  data['stripToken'] = token;
 									  $.post(
-										 '/charge',
+										 '{% url 'payments:charge' %}',
 										 data,
 										 function(responseText) {
 											alert(responseText);
