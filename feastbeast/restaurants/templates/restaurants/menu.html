@@ -157,14 +157,16 @@
 									key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
 									image: '{% static "images/monster.png" %}',
 									locale: 'auto',
-									allowRememberMe: true,
+									allowRememberMe: true, //doesnt work in australia (todo: create stripe customer, save customer id)
 									shippingAddress: true,
 									token: function(token) {
 									  // Use the token to create the charge with a server-side script.
 									  // You can access the token ID with `token.id`
 									  var data = {}
 									  data['csrfmiddlewaretoken'] = "{{ csrf_token }}";
-									  data['stripToken'] = token;
+									  data['stripeToken'] = token.id;
+									  data['description'] = "customer_id|restaurant_id|order_id";//to be filled up when backend is complete
+
 									  $.post(
 										 '{% url 'payments:charge' %}',
 										 data,
@@ -174,6 +176,7 @@
 									  );
 
 									}
+
 								  });
 
 							var mail = "";
