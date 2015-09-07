@@ -1,0 +1,47 @@
+.page-heading {
+	margin-top: 50px;
+	font-size: 45px;
+	font-weight: 200;
+}
+
+.reduced-margin {
+	margin: 30px auto;
+}
+
+.main-body {
+	margin-bottom: 230px;
+}
+
+.restaurant-listings {
+	margin-top: 10px;
+	margin-bottom: 200px;
+	padding-top: 40px;
+	padding-bottom: 20px;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+}
+
+.pretty-text {
+	width: 80%;
+	padding-top: 50px;
+}
+
+.sorry-text {
+	font-size: 40px;
+	font-weight: 300;
+	max-width: 80%;
+	line-height: 50px;
+}
+
+.demo-card-square.mdl-card {
+  width: 260px;
+  height: 260px;
+  margin: 30px;
+}
+
+.demo-card-square > .mdl-card__title {
+  color: #fff;
+  background:
+    url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
+}
