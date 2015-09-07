@@ -36,7 +36,7 @@ class DeliveryHours(models.Model):
 			)
 
 	restaurant = models.ForeignKey('Restaurant')
-	day = models.CharField(choices=DAYS, unique=True)
+	day = models.CharField(max_length=2, choices=DAYS, unique=True)
 	open_hour = models.TimeField()
 	close_hour = models.TimeField()
 
