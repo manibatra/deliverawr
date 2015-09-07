@@ -49,11 +49,11 @@
 				</div>
 				<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
 					{% if request.user.is_authenticated %}
-					<li role="presentation"><a href="#signupModal"><paper-button noink>Hello, {{request.user.first_name }} !</paper-button></a></li>
-					<li role="presentation"><a href="#"><paper-button noink>Logout</paper-button></a></li>
+						<li role="presentation"><a href="#signupModal"><paper-button noink>Hello, {{request.user.first_name }} !</paper-button></a></li>
+						<li role="presentation"><a href="#"><paper-button noink>Logout</paper-button></a></li>
 					{% else %}
-					<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
-					<li role="presentation"><a href="#"><paper-button noink>Login</paper-button></a></li>
+						<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
+						<li role="presentation"><a href="#"><paper-button noink>Login</paper-button></a></li>
 					{% endif %}
 					<li role="presentation"><a href="#"><paper-button class="list-cafe">START YOUR CAFE</paper-button></a></li>
 				</ul>
@@ -77,186 +77,208 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-						<paper-button raised class="main-button center-block" id="howItWorks">HOW IT WORKS</paper-button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12 jumbo-foot">
-					<paper-button raised class="main-button center-block">GET SOME GRUB</paper-button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row home-sub">
-		<div class="col-md-12">
-			<h3 class="text-center home-sub">TRY SOME LOCAL DELICACIES</h3>
-		</div>
-	</div>
-	<div class="row steps">
-		<div class="col-md-4 cards">
-			<div class="mdl-card mdl-shadow--2dp demo-card-square">
-				<div class="mdl-card__title mdl-card--expand">
-					<h2 class="mdl-card__title-text">IMAGE 1</h2>
-				</div>
-				<div class="mdl-card__supporting-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Aenan convallis.
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 cards">
-			<div class="mdl-card mdl-shadow--2dp demo-card-square">
-				<div class="mdl-card__title mdl-card--expand">
-					<h2 class="mdl-card__title-text">IMAGE 2</h2>
-				</div>
-				<div class="mdl-card__supporting-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Aenan convallis.
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 cards">
-			<div class="mdl-card mdl-shadow--2dp demo-card-square">
-				<div class="mdl-card__title mdl-card--expand">
-					<h2 class="mdl-card__title-text">IMAGE 3</h2>
-				</div>
-				<div class="mdl-card__supporting-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Aenan convallis.
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!--Site footer, remains constant across most pages-->
-<footer class="mdl-mega-footer">
-	<div class="container">
-		<div class="mdl-mega-footer__middle-section">
-			<div class="col-md-4">
-				<div class="mdl-mega-footer__drop-down-section center-this">
-					<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-					<h1 class="mdl-mega-footer__heading">Features</h1>
-					<ul class="mdl-mega-footer__link-list">
-						<li><a href="#">About</a></li>
-						<li><a href="#">Terms</a></li>
-						<li><a href="#">Partners</a></li>
-						<li><a href="#">Updates</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="mdl-mega-footer__drop-down-section center-this">
-					<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-					<h1 class="mdl-mega-footer__heading">Details</h1>
-					<ul class="mdl-mega-footer__link-list">
-						<li><a href="#">Specs</a></li>
-						<li><a href="#">Tools</a></li>
-						<li><a href="#">Resources</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="mdl-mega-footer__drop-down-section center-this">
-					<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-					<h1 class="mdl-mega-footer__heading">Technology</h1>
-					<ul class="mdl-mega-footer__link-list">
-						<li><a href="#">How it works</a></li>
-						<li><a href="#">Patterns</a></li>
-						<li><a href="#">Usage</a></li>
-						<li><a href="#">Products</a></li>
-						<li><a href="#">Contracts</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<hr>
-		<div class="text-center center-block">
-			<br />
-			<p class="social-text">Join Us</p>
-			<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
-			<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
-			<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
-			<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
-		</div>
-	</div>
-</footer>
-<!--Modal to present the signup form to the user-->
-<div class="modal fade" id="signupModal" role="dialog" aria-labelledby="gridSystemModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="container-fluid">
-					<div class="row">
-						<a class="btn btn-block btn-social btn-facebook text-center">
-							<i class="fa fa-facebook"></i>
-							<label class="facebook-label">Sign Up with Facebook</label>
-						</a>
-					</div>
-					<div class="row decoration vcenter">
-						<div class="col-md-5 col-xs-5 decoration-hr">
-							<hr>
-						</div>
-						<div class="col-md-2 col-xs-2">
-							or
-						</div>
-						<div class="col-md-5 col-xs-5 decoration-hr">
-							<hr>
-						</div>
-					</div>
-					<div class="row text-center">
-						<h5>Sign up with Email</h5>
-					</div>
-					<form id="signupForm" action="{{ request.path }}" method="post">
-					{% csrf_token %}
-						<div class="row">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="text" name="firstName" id="firstName" />
-								<label class="mdl-textfield__label signup-form" for="firstName">First Name</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="text" name="lastName" id="lastName" />
-								<label class="mdl-textfield__label signup-form" for="lastName">Last Name</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="email" name="email" id="email" />
-								<label class="mdl-textfield__label signup-form" for="email">Email</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="password" name="password" id="password" />
-								<label class="mdl-textfield__label signup-form" for="password">Password</label>
-							</div>
-						</div>
-						<div class="row">
-							<paper-button onclick="submitForm()" class="signup-button text-center">
-								Sign Up
+							<paper-button raised class="main-button center-block" id="howItWorks">
+								HOW IT WORKS
 							</paper-button>
 						</div>
-					</form>
+					</div>
+					<div class="row">
+						<form id="postcodeForm" action="{{ request.path }}" method="post">
+							{% csrf_token %}
+							<div class="col-md-12 jumbo-foot">
+								<div class="row">
+									<div class="col-md-7 col-xs-6">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label pull-right">
+										    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="postcode" />
+										    <label class="mdl-textfield__label signup-form" for="postcode">Postcode</label>
+										    <span class="mdl-textfield__error postcode-error">Invalid postcode!</span>
+										</div>
+									</div>
+									<div class="col-md-5 col-xs-6">
+										<paper-button raised class="main-button pull-left">
+										GET SOME GRUB
+										</paper-button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="row home-sub">
+				<div class="col-md-12">
+					<h3 class="text-center home-sub">TRY SOME LOCAL DELICACIES</h3>
+				</div>
+			</div>
+			<div class="row steps">
+				<div class="col-md-4 cards">
+					<div class="mdl-card mdl-shadow--2dp demo-card-square">
+						<div class="mdl-card__title mdl-card--expand">
+							<h2 class="mdl-card__title-text">IMAGE 1</h2>
+						</div>
+						<div class="mdl-card__supporting-text">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Aenan convallis.
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 cards">
+					<div class="mdl-card mdl-shadow--2dp demo-card-square">
+						<div class="mdl-card__title mdl-card--expand">
+							<h2 class="mdl-card__title-text">IMAGE 2</h2>
+						</div>
+						<div class="mdl-card__supporting-text">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Aenan convallis.
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 cards">
+					<div class="mdl-card mdl-shadow--2dp demo-card-square">
+						<div class="mdl-card__title mdl-card--expand">
+							<h2 class="mdl-card__title-text">IMAGE 3</h2>
+						</div>
+						<div class="mdl-card__supporting-text">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Aenan convallis.
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<script type="text/javascript">
-	function submitForm() {
-		document.getElementById('signupForm').submit();
-	};
+		<!--Site footer, remains constant across most pages-->
+		<footer class="mdl-mega-footer">
+			<div class="container">
+				<div class="mdl-mega-footer__middle-section">
+					<div class="col-md-4">
+						<div class="mdl-mega-footer__drop-down-section center-this">
+							<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+							<h1 class="mdl-mega-footer__heading">Features</h1>
+							<ul class="mdl-mega-footer__link-list">
+								<li><a href="#">About</a></li>
+								<li><a href="#">Terms</a></li>
+								<li><a href="#">Partners</a></li>
+								<li><a href="#">Updates</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="mdl-mega-footer__drop-down-section center-this">
+							<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+							<h1 class="mdl-mega-footer__heading">Details</h1>
+							<ul class="mdl-mega-footer__link-list">
+								<li><a href="#">Specs</a></li>
+								<li><a href="#">Tools</a></li>
+								<li><a href="#">Resources</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="mdl-mega-footer__drop-down-section center-this">
+							<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+							<h1 class="mdl-mega-footer__heading">Technology</h1>
+							<ul class="mdl-mega-footer__link-list">
+								<li><a href="#">How it works</a></li>
+								<li><a href="#">Patterns</a></li>
+								<li><a href="#">Usage</a></li>
+								<li><a href="#">Products</a></li>
+								<li><a href="#">Contracts</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="text-center center-block">
+					<br />
+					<p class="social-text">Join Us</p>
+					<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
+					<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
+					<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
+					<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+				</div>
+			</div>
+		</footer>
+		<!--Modal to present the signup form to the user-->
+		<div class="modal fade" id="signupModal" role="dialog" aria-labelledby="gridSystemModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
+								<a class="btn btn-block btn-social btn-facebook text-center">
+									<i class="fa fa-facebook"></i>
+									<label class="facebook-label">Sign Up with Facebook</label>
+								</a>
+							</div>
+							<div class="row decoration vcenter">
+								<div class="col-md-5 col-xs-5 decoration-hr">
+									<hr>
+								</div>
+								<div class="col-md-2 col-xs-2">
+									or
+								</div>
+								<div class="col-md-5 col-xs-5 decoration-hr">
+									<hr>
+								</div>
+							</div>
+							<div class="row text-center">
+								<h5>Sign up with Email</h5>
+							</div>
+							<form id="signupForm" action="{{ request.path }}" method="post">
+								{% csrf_token %}
+								<div class="row">
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<input class="mdl-textfield__input" type="text" name="firstName" id="firstName" />
+										<label class="mdl-textfield__label signup-form" for="firstName">First Name</label>
+										<span class="mdl-textfield__error">Invalid First Name!</span>
 
-	var slider = function() {
-		$("#howItWorks").click(function() {
-			$("#working").slideDown("slow");
-		});
-		$("#closeWorks").click(function() {
-			$("#working").slideUp("slow");
-		});
-	};
-	$(document).ready(slider);
-</script>
-</body>
+									</div>
+								</div>
+								<div class="row">
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<input class="mdl-textfield__input" type="text" name="lastName" id="lastName" />
+										<label class="mdl-textfield__label signup-form" for="lastName">Last Name</label>
+										<span class="mdl-textfield__error">Invalid Last Name!</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<input class="mdl-textfield__input" type="email" name="email" id="email" />
+										<label class="mdl-textfield__label signup-form" for="email">Email</label>
+										<span class="mdl-textfield__error">Invalid Email!</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<input class="mdl-textfield__input" type="password" name="password" id="password" />
+										<label class="mdl-textfield__label signup-form" for="password">Password</label>
+										<span class="mdl-textfield__error">Invalid Password!</span>
+									</div>
+								</div>
+								<div class="row">
+									<paper-button onclick="submitForm()" class="signup-button text-center">
+										Sign Up
+									</paper-button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function submitForm() {
+				document.getElementById('signupForm').submit();
+			};
+			var slider = function() {
+				$("#howItWorks").click(function() {
+					$("#working").slideDown("slow");
+				});
+				$("#closeWorks").click(function() {
+					$("#working").slideUp("slow");
+				});
+			};
+			$(document).ready(slider);
+		</script>
+	</body>
 </html>
