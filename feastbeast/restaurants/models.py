@@ -4,8 +4,8 @@ from django.db import models
 #model for the restaurant
 class Restaurant(models.Model):
 	restaurant_id = models.AutoField(primary_key=True)
-	name = models.CharField(max_lenth=70)
-	street_address = models.CharField(max_lenth=100)
+	name = models.CharField(max_length=70)
+	street_address = models.CharField(max_length=100)
 	postcode = models.CharField(max_length=8)
 	country = models.CharField(max_length=20)
 
@@ -16,18 +16,26 @@ class DeliveryLocation(models.Model):
 
 #model for the restaurant operating hours
 class DeliveryHours(models.Model):
-	DAYS = [
-			  (1, _("Monday")),
-			  (2, _("Tuesday")),
-			  (3, _("Wednesday")),
-			  (4, _("Thursday")),
-			  (5, _("Friday")),
-			  (6, _("Saturday")),
-			  (7, _("Sunday")),
-			]
+	MONDAY = 'Mo'
+	TUESDAY = 'Tu'
+	WEDNESDAY = 'We'
+	THURSDAY = 'Th'
+	FRIDAY = 'Fr'
+	SATURDAY = 'Sa'
+	SUNDAY = 'Su'
+
+	DAYS = (
+			  (MONDAY, 'Monday'),
+			  (TUESDAY, 'Tuesday'),
+			  (WEDNESDAY, 'Wednesday'),
+			  (THURSDAY, 'Thursday'),
+			  (FRIDAY, 'Friday'),
+			  (SATURDAY, 'Saturday'),
+			  (SUNDAY, 'Sunday'),
+			)
 
 	restaurant = models.ForeignKey('Restaurant')
-	day = models.IntegerField(choices=DAYS, unique=True)
+	day = models.CharField(choices=DAYS, unique=True)
 	open_hour = models.TimeField()
 	close_hour = models.TimeField()
 
