@@ -5,7 +5,9 @@ from django.db import models
 class Restaurant(models.Model):
 	restaurant_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_lenth=70)
-	address = models.CharField(max_lenth=100)
+	street_address = models.CharField(max_lenth=100)
+	postcode = models.CharField(max_length=8)
+	country = models.CharField(max_length=20)
 
 #model for the restaurant delivery locations
 class DeliveryLocation(models.Model):
