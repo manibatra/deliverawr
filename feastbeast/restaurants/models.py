@@ -12,7 +12,7 @@ class Restaurant(models.Model):
 
 #model for the restaurant delivery locations
 class DeliveryLocation(models.Model):
-	restaurant = models.ForeignKey('Restaurant')
+	restaurant = models.ForeignKey('restaurants.Restaurant')
 	postcode = models.CharField(max_length=8)
 
 #model for the restaurant operating hours
@@ -35,7 +35,7 @@ class DeliveryHours(models.Model):
 			  (SUNDAY, 'Sunday'),
 			)
 
-	restaurant = models.ForeignKey('Restaurant')
+	restaurant = models.ForeignKey('restaurants.Restaurant')
 	day = models.CharField(max_length=2, choices=DAYS, unique=True)
 	open_hour = models.TimeField()
 	close_hour = models.TimeField()
@@ -43,7 +43,7 @@ class DeliveryHours(models.Model):
 #model for the menu items in the restaurant
 class MenuItem(models.Model):
 	item_id = models.AutoField(primary_key=True)
-	restaurant = models.ForeignKey('Restaurant')
+	restaurant = models.ForeignKey('restaurants.Restaurant')
 	name = models.CharField(max_length=30)
 	price = models.DecimalField(max_digits=3, decimal_places=2)
 	description = models.CharField(max_length=140)
@@ -52,7 +52,7 @@ class MenuItem(models.Model):
 
 #model for the options available to add and remove from the menu item
 class Options(models.Model):
-	item = models.ForeignKey('MenuItem')
+	item = models.ForeignKey('restaurants.MenuItem')
 	name = models.CharField(max_length=35)
 	ingredient = models.BooleanField()
 	add_on = models.BooleanField()

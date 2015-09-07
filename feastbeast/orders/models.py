@@ -3,7 +3,7 @@ from django.conf import settings
 
 # Create your models here.
 class Orders(models.Model):
-	order_id = models.Autofield(primary_key=True)
+	order_id = models.AutoField(primary_key=True)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_order')
 	restaurant = models.ForeignKey('restaurants.Restaurant', related_name='restaurant_order')
 	menu_items = models.ManyToManyField('restaurants.MenuItem')
