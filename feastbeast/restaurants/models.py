@@ -8,6 +8,7 @@ class Restaurant(models.Model):
 	street_address = models.CharField(max_length=100)
 	postcode = models.CharField(max_length=8)
 	country = models.CharField(max_length=20)
+	phone_no = models.CharField(max_length=15)
 
 #model for the restaurant delivery locations
 class DeliveryLocation(models.Model):
