@@ -50,7 +50,7 @@
 				<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
 					{% if request.user.is_authenticated %}
 						<li role="presentation"><a href="#signupModal"><paper-button noink>Hello, {{request.user.first_name }} !</paper-button></a></li>
-						<li role="presentation"><a href="#"><paper-button noink>Logout</paper-button></a></li>
+						<li role="presentation"><a href="{% url 'users:logout_user' %}"><paper-button noink>Logout</paper-button></a></li>
 					{% else %}
 						<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
 						<li role="presentation"><a href="#"><paper-button noink data-target="#loginModal" data-toggle="modal">Login</paper-button></a></li>
@@ -291,7 +291,7 @@
 							<div class="row text-center">
 								<h5>Log In with Email</h5>
 							</div>
-							<form id="loginForm" action="{% url 'users:login' %}" method="post">
+							<form id="loginForm" action="{% url 'users:login_user' %}" method="post">
 								{% csrf_token %}
 								<div class="row">
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -324,7 +324,7 @@
 				document.getElementById('signupForm').submit();
 			};
 
-			function submitForm() {
+			function submitloginForm() {
 				document.getElementById('loginForm').submit();
 			};
 
