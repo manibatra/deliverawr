@@ -99,6 +99,10 @@ body {
 	margin-bottom: 22px;
 }
 
+.error-span {
+	position: static;
+}
+
 .signup-button {
 	width: 100%;
 	background-color: rgb(255, 64, 129) !important;
