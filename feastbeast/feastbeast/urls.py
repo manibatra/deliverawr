@@ -22,4 +22,5 @@ urlpatterns = [
 	url(r'^restaurant/', include('restaurants.urls', namespace="restaurants")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^payments/', include('payments.urls', namespace="payments")),
+    url(r'^user/', include('users.urls', namespace="users")),
 ]

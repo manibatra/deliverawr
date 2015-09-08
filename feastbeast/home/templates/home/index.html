@@ -291,7 +291,7 @@
 							<div class="row text-center">
 								<h5>Log In with Email</h5>
 							</div>
-							<form id="signupForm" action="{{ request.path }}" method="post">
+							<form id="loginForm" action="{% url 'users:login' %}" method="post">
 								{% csrf_token %}
 								<div class="row">
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -306,9 +306,10 @@
 										<label class="mdl-textfield__label signup-form" for="password">Password</label>
 										<span class="mdl-textfield__error error-span">Invalid Password!</span>
 									</div>
+									<input type="hidden" name="orgpath" value="{{ request.path }}">
 								</div>
 								<div class="row">
-									<paper-button onclick="submitForm()" class="signup-button text-center">
+									<paper-button onclick="submitloginForm()" class="signup-button text-center">
 										Log In
 									</paper-button>
 								</div>
@@ -321,6 +322,10 @@
 		<script type="text/javascript">
 			function submitForm() {
 				document.getElementById('signupForm').submit();
+			};
+
+			function submitForm() {
+				document.getElementById('loginForm').submit();
 			};
 
 			function getListing() {
