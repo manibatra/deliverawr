@@ -36,6 +36,8 @@
   width: 260px;
   height: 260px;
   margin: 30px;
+  display: block;
+  text-decoration: none
 }
 
 .demo-card-square > .mdl-card__title {
