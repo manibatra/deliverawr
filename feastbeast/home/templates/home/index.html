@@ -31,6 +31,10 @@
 		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<!-- Sweet alert -->
+		<script src="{% static 'bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-sweetalert/lib/sweet-alert.css' %}">
+
 	</head>
 	<body>
 		<!-- Site header , remains constant across most pages -->
@@ -341,6 +345,12 @@
 				});
 			};
 			$(document).ready(slider);
+
+			setTimeout(function() {
+        		swal({   title: "Order Confirmed!",   text: "We are on our way!!",   imageUrl: "{% static "images/monster.png" %}" });
+        	});
+
+
 		</script>
 	</body>
 </html>

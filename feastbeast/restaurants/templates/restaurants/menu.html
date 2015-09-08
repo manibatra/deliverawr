@@ -94,7 +94,7 @@
 						<ul class="nav nav-pills nav-stacked red" role="tablist">
 							{% for category in categories %}
 								<li role="presentation" {% if category == categories|first %}class="active"{% endif %}>
-									<a href="#{{ category.item_category }}" aria-controls="{{ category.item_category }}" role="tab" data-toggle="tab">{{ category.item_category }}</a>
+									<a href="#{{ category.category }}" aria-controls="{{ category.category }}" role="tab" data-toggle="tab">{{ category.category }}</a>
 								</li>
 							{% endfor %}
 						</ul>
@@ -104,20 +104,20 @@
 						<!-- Tab panes -->
 						<div class="tab-content">
 							{% for category in categories %}
-								<div role="tabpanel" class="tab-pane {% if category == categories|first %}active{% endif %}" id="{{ category.item_category }}">
+								<div role="tabpanel" class="tab-pane {% if category == categories|first %}active{% endif %}" id="{{ category.category }}">
 									<div class="menu-items">
 										<!-- A single menu item with edit and add to cart button -->
 										{% for item in items %}
-											{% if category.item_category == item.item_category %}
+											{% if category.category == item.category %}
 												<div class="demo-card-wide mdl-card menu-item">
 													<div class="row text-center menu-item__heading">
-														{{ item.item_name }}
+														{{ item.name }}
 													</div>
 													<div class="row text-center menu-item__description">
-														{{ item.item_description }}
+														{{ item.description }}
 													</div>
 													<div class="row price text-center">
-														$ {{ item.item_price }}
+														$ {{ item.price }}
 													</div>
 													<div class="row vcenter menu-item__actions">
 														<div class="col-md-6">
@@ -171,7 +171,8 @@
 										 '{% url 'payments:charge' %}',
 										 data,
 										 function(responseText) {
-											alert(responseText);
+											//alert(responseText);
+											window.location.replace('{% url 'home:landing' %}?ordered=1')
 										 }
 									  );
 
@@ -197,9 +198,10 @@
 								  });
 
 							// Close Checkout on page navigation
-							$(window).on('popstate', function() {
+							/* $(window).on('popstate', function() {
 								handler.close();
-							});
+								window.location.replace('{% url 'home:landing' %}')
+							});*/
 						</script>
 					</div>
 				</div>

@@ -15,7 +15,7 @@ def charge(request):
 	if request.is_ajax() or request.method == 'POST':
 		token = request.POST['stripeToken']
 		cart = Cart(request.session)
-		amount = cart.total*100
+		amount = int(cart.total*100)
 
 		# Create the charge on Stripe's servers - this will charge the user's card
 		try:

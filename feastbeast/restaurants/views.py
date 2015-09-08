@@ -8,9 +8,8 @@ from carton.cart import Cart
 
 def detail(request, restaurant_id):
 
-	menu_id = 23  #hardcoded for now, will be using restaurant_id to get the time of the day and accordingly the menu_id in the future
-	all_items = MenuItem.objects.all()
-	all_categories = MenuItem.objects.order_by('item_category').values('item_category').distinct()
+	all_items = MenuItem.objects.filter(restaurant=restaurant_id)
+	all_categories = MenuItem.objects.order_by('category').values('category').distinct()
 	context = {'categories': all_categories, 'items': all_items}
 	return render(request, 'restaurants/menu.html', context)
 
@@ -20,7 +19,7 @@ def add(request, restaurant_id, item_id):
 	if request.is_ajax() or request.method == 'GET':
 		#item_id = request.GET['item_id']
 		product = MenuItem.objects.get(pk=item_id)
-		cart.add(product, price=product.item_price)
+		cart.add(product, price=product.price)
 		return HttpResponse(str(cart.total))
 	else:
 		return HttpResponse("Not Added")
