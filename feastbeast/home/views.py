@@ -26,9 +26,6 @@ def landing(request):
 
 
 	context = {}
-	if request.method == "GET":
-		if request.GET['ordered'] == 1:
-			context['ordered'] = 'true'
 	return render(request, 'home/index.html', context)
 
 def listings(request):
