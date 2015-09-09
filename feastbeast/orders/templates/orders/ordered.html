@@ -24,6 +24,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<!-- Local Stylesheets -->
 		<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
+		<link rel="stylesheet" href="{% static "orders/stylesheets/ordered.css" %}">
 		<!-- Global Stylesheets -->
 		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
 		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
@@ -31,9 +32,6 @@
 		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		<!-- Sweet alert -->
-		<script src="{% static 'bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js' %}"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-sweetalert/lib/sweet-alert.css' %}">
 
 	</head>
 	<body>
@@ -64,89 +62,14 @@
 			</div>
 		</nav>
 		<!-- Home page main body -->
-		<div class="container-fluid works works-hidden" id="working">
+		<div class="container main-body">
 			<div class="row">
-				<div class="col-md-12">
-					<i class="material-icons md-36 pull-right works-button" id="closeWorks">clear</i>
-				</div>
+				<img class="center-block custom-icon" src="{% static "images/monster.png" %}" alt="The Monster" height="300" width="290">
 			</div>
-		</div>
-		<div class="container">
-			<div class="jumbotron">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<h1 class="text-center home-heading">FEAST BEAST</h1>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<paper-button raised class="main-button center-block" id="howItWorks">
-								HOW IT WORKS
-							</paper-button>
-						</div>
-					</div>
-					<div class="row">
-						<form id="postcodeForm" action="{% url 'home:listings' %}" method="get">
-							<div class="col-md-12 jumbo-foot">
-								<div class="row">
-									<div class="col-md-7 col-xs-6">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label pull-right">
-										    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="postcode" id="postcode" />
-										    <label class="mdl-textfield__label signup-form" for="postcode">Postcode</label>
-										    <span class="mdl-textfield__error postcode-error">Invalid postcode!</span>
-										</div>
-									</div>
-									<div class="col-md-5 col-xs-6">
-										<paper-button onClick="getListing()" raised class="main-button pull-left">
-										GET SOME GRUB
-										</paper-button>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="row home-sub">
-				<div class="col-md-12">
-					<h3 class="text-center home-sub">TRY SOME LOCAL DELICACIES</h3>
-				</div>
-			</div>
-			<div class="row steps">
-				<div class="col-md-4 cards">
-					<div class="mdl-card mdl-shadow--2dp demo-card-square">
-						<div class="mdl-card__title mdl-card--expand">
-							<h2 class="mdl-card__title-text">IMAGE 1</h2>
-						</div>
-						<div class="mdl-card__supporting-text">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							Aenan convallis.
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 cards">
-					<div class="mdl-card mdl-shadow--2dp demo-card-square">
-						<div class="mdl-card__title mdl-card--expand">
-							<h2 class="mdl-card__title-text">IMAGE 2</h2>
-						</div>
-						<div class="mdl-card__supporting-text">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							Aenan convallis.
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 cards">
-					<div class="mdl-card mdl-shadow--2dp demo-card-square">
-						<div class="mdl-card__title mdl-card--expand">
-							<h2 class="mdl-card__title-text">IMAGE 3</h2>
-						</div>
-						<div class="mdl-card__supporting-text">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							Aenan convallis.
-						</div>
-					</div>
-				</div>
+			<div class="row text-center pretty-text center-block">
+				<span class="sorry-text">
+					Sweet! We are on our way! 
+				</span>
 			</div>
 		</div>
 		<!--Site footer, remains constant across most pages-->
@@ -201,128 +124,6 @@
 				</div>
 			</div>
 		</footer>
-		<!--Modal to present the signup form to the user-->
-		<div class="modal fade" id="signupModal" role="dialog" aria-labelledby="gridSystemModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="container-fluid">
-							<div class="row">
-								<a class="btn btn-block btn-social btn-facebook text-center">
-									<i class="fa fa-facebook"></i>
-									<label class="facebook-label">Sign Up with Facebook</label>
-								</a>
-							</div>
-							<div class="row decoration vcenter">
-								<div class="col-md-5 col-xs-5 decoration-hr">
-									<hr>
-								</div>
-								<div class="col-md-2 col-xs-2">
-									or
-								</div>
-								<div class="col-md-5 col-xs-5 decoration-hr">
-									<hr>
-								</div>
-							</div>
-							<div class="row text-center">
-								<h5>Sign up with Email</h5>
-							</div>
-							<form id="signupForm" action="{{ request.path }}" method="post">
-								{% csrf_token %}
-								<div class="row">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="text" name="firstName" id="firstName" />
-										<label class="mdl-textfield__label signup-form" for="firstName">First Name</label>
-										<span class="mdl-textfield__error error-span">Invalid First Name!</span>
-
-									</div>
-								</div>
-								<div class="row">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="text" name="lastName" id="lastName" />
-										<label class="mdl-textfield__label signup-form" for="lastName">Last Name</label>
-										<span class="mdl-textfield__error error-span">Invalid Last Name!</span>
-									</div>
-								</div>
-								<div class="row">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="email" name="email" id="email" />
-										<label class="mdl-textfield__label signup-form" for="email">Email</label>
-										<span class="mdl-textfield__error error-span">Invalid Email!</span>
-									</div>
-								</div>
-								<div class="row">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="password" name="password" id="password" />
-										<label class="mdl-textfield__label signup-form" for="password">Password</label>
-										<span class="mdl-textfield__error error-span">Invalid Password!</span>
-									</div>
-								</div>
-								<div class="row">
-									<paper-button onclick="submitForm()" class="signup-button text-center">
-										Sign Up
-									</paper-button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--Modal to present the login form to the user-->
-		<div class="modal fade" id="loginModal" role="dialog" aria-labelledby="gridSystemModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="container-fluid">
-							<div class="row">
-								<a class="btn btn-block btn-social btn-facebook text-center">
-									<i class="fa fa-facebook"></i>
-									<label class="facebook-label">Log In with Facebook</label>
-								</a>
-							</div>
-							<div class="row decoration vcenter">
-								<div class="col-md-5 col-xs-5 decoration-hr">
-									<hr>
-								</div>
-								<div class="col-md-2 col-xs-2">
-									or
-								</div>
-								<div class="col-md-5 col-xs-5 decoration-hr">
-									<hr>
-								</div>
-							</div>
-							<div class="row text-center">
-								<h5>Log In with Email</h5>
-							</div>
-							<form id="loginForm" action="{% url 'users:login_user' %}" method="post">
-								{% csrf_token %}
-								<div class="row">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="email" name="email" id="email" />
-										<label class="mdl-textfield__label signup-form" for="email">Email</label>
-										<span class="mdl-textfield__error error-span">Invalid Email!</span>
-									</div>
-								</div>
-								<div class="row">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="password" name="password" id="password" />
-										<label class="mdl-textfield__label signup-form" for="password">Password</label>
-										<span class="mdl-textfield__error error-span">Invalid Password!</span>
-									</div>
-									<input type="hidden" name="orgpath" value="{{ request.path }}">
-								</div>
-								<div class="row">
-									<paper-button onclick="submitloginForm()" class="signup-button text-center">
-										Log In
-									</paper-button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		<script type="text/javascript">
 			function submitForm() {
 				document.getElementById('signupForm').submit();
@@ -345,11 +146,6 @@
 				});
 			};
 			$(document).ready(slider);
-
-			setTimeout(function() {
-        		swal({   title: "Order Confirmed!",   text: "We are on our way!!",   imageUrl: "{% static "images/monster.png" %}" });
-        	});
-
 
 		</script>
 	</body>

@@ -1,0 +1,24 @@
+.main-body {
+	margin-bottom: 150px;
+}
+
+.pretty-text {
+	width: 80%;
+	padding-top: 50px;
+}
+
+.sorry-text {
+	font-size: 40px;
+	font-weight: 300;
+	max-width: 80%;
+	line-height: 50px;
+}
+
+.custom-icon {
+	background-size: contain;
+	border-radius: 0;
+	border: none;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-top: 50px;
+}
