@@ -42,7 +42,7 @@ def success(request):
 	current_order = Orders(user=request.user, restaurant=request.POST['restaurant_id'], total=cart.total)
 	current_order.save()
 	for product in cart_products:
-		current_order.menu_items.add(product.item_id)
+		current_order.menu_items.add(product.item_id) #maybe can pass it a list of item_ids to fasten up queries
 
 	#clear the cart
 	cart.clear()
