@@ -44,5 +44,8 @@ def success(request):
 	for product in cart_products:
 		current_order.menu_items.add(product.item_id)
 
+	#clear the cart
+	cart.clear()
+
 	#show the success page for ordering
 	return render(request, 'orders/ordered.html', {})
