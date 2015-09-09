@@ -54,7 +54,6 @@ body {
 
 .demo-card-square > .mdl-card__title {
 	color: #fff;
-	background: url('../images/chef.jpg') no-repeat rgb(255, 64, 129);
 	background-size: cover;
 }
 
