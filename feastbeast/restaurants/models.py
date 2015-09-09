@@ -9,8 +9,8 @@ class Restaurant(models.Model):
 	postcode = models.CharField(max_length=8)
 	country = models.CharField(max_length=20)
 	phone_no = models.CharField(max_length=15)
-	primary_image = models.ImageField(upload_to='restaurant/primary_image/')
-	secondary_image = models.ImageField(upload_to='restaurant/secondary_image/')
+	primary_image = models.ImageField(upload_to='restaurants/primary_image/')
+	secondary_image = models.ImageField(upload_to='restaurants/secondary_image/')
 
 #model for the restaurant delivery locations
 class DeliveryLocation(models.Model):

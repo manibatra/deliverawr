@@ -10,7 +10,7 @@ from .models import Restaurant
 def detail(request, restaurant_id):
 
 	all_items = MenuItem.objects.filter(restaurant=restaurant_id)
-	restaurant = Restaurant.get(pk=restaurant_id)
+	restaurant = Restaurant.objects.get(pk=restaurant_id)
 	all_categories = MenuItem.objects.order_by('category').values('category').distinct()
 	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant }
 	return render(request, 'restaurants/menu.html', context)

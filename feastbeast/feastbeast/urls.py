@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.generic import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
 	url(r'^', include('home.urls', namespace="home")),
@@ -24,4 +26,4 @@ urlpatterns = [
     url(r'^payments/', include('payments.urls', namespace="payments")),
     url(r'^user/', include('users.urls', namespace="users")),
     url(r'^orders/', include('orders.urls', namespace="orders")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
