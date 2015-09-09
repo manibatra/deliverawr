@@ -10,7 +10,7 @@ def detail(request, restaurant_id):
 
 	all_items = MenuItem.objects.filter(restaurant=restaurant_id)
 	all_categories = MenuItem.objects.order_by('category').values('category').distinct()
-	context = {'categories': all_categories, 'items': all_items}
+	context = {'categories': all_categories, 'items': all_items, 'restaurant_id': restaurant_id}
 	return render(request, 'restaurants/menu.html', context)
 
 

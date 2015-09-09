@@ -1,8 +1,17 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+
+#importing the auth framework
 from django.contrib.auth import authenticate, login
-from restaurants.models import Restaurant
+
+#importing the required models
+from users.models import UserAddress
+from django.contrib.auth.models import User
+from .models import Orders
+
+#importing the cart
+from carton.cart import Cart
+
 
 
 # Create your views here.
@@ -10,20 +19,30 @@ from restaurants.models import Restaurant
 def success(request):
 
 	if request.method == "POST":
-		first_name = request.POST['firstName']
-		last_name = request.POST['lastName']
-		email = request.POST['email']
-		password = request.POST['password']
-		user = User.objects.create_user(email, email, password)
-		user.first_name = first_name
-		user.last_name = last_name
-		user.save()
-		user = authenticate(username=email, password=password)
-		if user is not None:
-			if user.is_active:
-				login(request, user)
-				return HttpResponseRedirect('')
+
+		#if its a new shipping address then save it (should there be an option to save it or not?)
+		if request.POST['newaddress'] == True:
+			current_user = request.user
+			street_address = request.POST['street_address']
+			postcode = request.POST['postcode']
+			country = request.POST['country']
+
+			#creating a user address object from the shipping info
+			user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode
+										phone_no='0414708810')
+			user_address.save()
 
 
-	context = {}
-	return render(request, 'orders/ordered.html', context)
+	#get the order info from the cart
+
+	cart = Cart(request.session)
+	cart_products = cart.products
+
+	#creating the Orders objec
+	current_order = Orders(user=request.user, restaurant=request.POST['restaurant_id'], total=cart.total)
+	current_order.save()
+	for product in cart_products:
+		current_order.menu_items.add(product.item_id)
+
+	#show the success page for ordering
+	return render(request, 'orders/ordered.html', {})
