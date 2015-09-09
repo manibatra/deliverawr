@@ -28,8 +28,8 @@ def success(request):
 			country = request.POST['country']
 
 			#creating a user address object from the shipping info
-			user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode
-										phone_no='0414708810')
+			user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode, 
+											phone_no='0414708810')
 			user_address.save()
 
 
