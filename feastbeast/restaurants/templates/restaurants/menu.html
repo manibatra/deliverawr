@@ -159,7 +159,7 @@
 									locale: 'auto',
 									allowRememberMe: true, //doesnt work in australia (todo: create stripe customer, save customer id)
 									shippingAddress: true,
-									token: function(token) {
+									token: function(token, args) {
 									  // Use the token to create the charge with a server-side script.
 									  // You can access the token ID with `token.id`
 									  var data = {}
@@ -172,7 +172,17 @@
 										 data,
 										 function(responseText) {
 											//alert(responseText);
-											window.location.replace('{% url 'orders:success' %}')
+											if responseText == 'Made a charge':
+												$.post(
+														//sending the address to save in the database
+													'{% url 'orders:succes' %}',
+													{'country': args.shipping_address_country,
+													 'postcode': args.shipping_address_zip,
+													 'street_address': args.shipping_address_line1,
+													 'city': args.shipping_address_city }
+													);
+											else:
+												alert(responseText)
 										 }
 									  );
 
