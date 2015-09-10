@@ -157,16 +157,20 @@
 							</paper-button>
 						</div>
 						<hr class="center-block">
+						{% if delivery_info == 'true' %}
 						<div class="row">
 							<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}">
-								3/39 Foster Street, Leichhardt
+								{{ street_address }}
 							</paper-button>
 						 </div>
+						 {% endif %}
+						 {% if payment_info == 'true' %}
 						 <div class="row">
 							<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}">
-								Visa : xxxx-1228
+								{{ brand }} : xxxx-{{ last4 }}
 							</paper-button>
 						 </div>
+						 {% endif %}
 						<script type="text/javascript">
 
 
@@ -189,7 +193,7 @@
 										 data,
 										 function(responseText) {
 											//alert(responseText);
-											if responseText == 'Made a charge':
+											if (responseText == 'Made a charge') {
 												$.post(
 														//sending the address to save in the database
 													'{% url 'orders:success' %}',
@@ -199,7 +203,8 @@
 													 'city': args.shipping_address_city,
 													 'restuarant_id': {{ restaurant.restaurant_id }} }
 													);
-											else:
+											}
+											else
 												alert(responseText)
 										 }
 									  );
