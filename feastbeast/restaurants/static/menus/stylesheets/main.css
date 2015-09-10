@@ -130,8 +130,13 @@ body {
 	font-family: 'Roboto', Helvetica, Sans-Serif;
 	font-size: 15px;
 	font-weight: 200;
-	width: 120px;
-	margin: 20px;
+	margin: 10px 0;
+	width: 100%;
+}
+
+.sidebar__button.customer-data {
+	background-color: white !important;
+	color: rgb(51, 51, 51);;
 }
 
 .demo-card-wide.mdl-card {
@@ -169,3 +174,12 @@ body {
 .red .active a:hover {
     background-color: rgb(255, 64, 129) !important;
 }
+
+.wordwrap {
+   white-space: pre-wrap;      /* CSS3 */
+   white-space: -moz-pre-wrap; /* Firefox */
+   white-space: -pre-wrap;     /* Opera <7 */
+   white-space: -o-pre-wrap;   /* Opera 7 */
+   word-wrap: break-word;      /* IE */
+}
+

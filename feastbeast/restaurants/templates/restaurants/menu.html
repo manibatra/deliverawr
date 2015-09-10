@@ -30,6 +30,8 @@
 		<link rel="import" href="{% static 'bower_components/iron-flex-layout/iron-flex-layout.html' %}">
 		<link rel="import" href="{% static 'bower_components/polymer/polymer.html' %}">
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+		<link rel="import" href="{% static 'bower_components/paper-item/paper-icon-item.html' %}">
+		<link rel="import" href="{% static 'bower_components/paper-item/paper-item-body.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<!--Stripe Checkout Script -->
 		<script src="https://checkout.stripe.com/checkout.js"></script>
@@ -142,14 +144,29 @@
 						</div>
 					</div>
 					<div class="col-md-2">
-						<paper-button class="sidebar__button center-block top-button">
-							Order
-						</paper-button>
+						<div class="row">
+							<paper-button id="#orderButton" class="sidebar__button top-button">
+								Order
+							</paper-button>
+						</div>
 						{% load carton_tags %}
 						{% get_cart as cart %}
-						<paper-button id="payButton" class="sidebar__button center-block" value="{{ cart.total }}">
-							Pay
-						</paper-button>
+						<div class="row">
+							<paper-button id="payButton" class="sidebar__button" value="{{ cart.total }}">
+								Pay
+							</paper-button>
+						</div>
+						<hr class="center-block">
+						<div class="row">
+							<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}">
+								3/39 Foster Street, Leichhardt
+							</paper-button>
+						 </div>
+						 <div class="row">
+							<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}">
+								Visa : xxxx-1228
+							</paper-button>
+						 </div>
 						<script type="text/javascript">
 
 
