@@ -293,33 +293,10 @@
 							{% endif %}
 						</div>
 					</div>
-					<div class="address-input row" id="inputAddress">
-						<div class="col-md-5">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="text" name="address_label" id="address_label" />
-								<label class="mdl-textfield__label address-form" for="address_label">Unit, Street Address</label>
-								<span class="mdl-textfield__error error-span">Invalid Address!</span>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
-								<label class="mdl-textfield__label address-form" for="city_label">City</label>
-								<span class="mdl-textfield__error error-span">Invalid City!</span>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="text" name="postcode_label" id="postcode_label" />
-								<label class="mdl-textfield__label address-form" for="postcode_label">PostCode</label>
-								<span class="mdl-textfield__error error-span">Invalid PostCode!</span>
-							</div>
-						</div>
-					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
-								Add an address
+							<paper-button class="sidebar__button text-center" id="addCard" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+								Add a payment method
 							</paper-button>
 						</div>
 					</div>
@@ -343,7 +320,7 @@
 						image: '{% static "images/monster.png" %}',
 						locale: 'auto',
 						allowRememberMe: true, //doesnt work in australia (todo: create stripe customer, save customer id)
-						shippingAddress: true,
+						//shippingAddress: true,
 						token: function(token, args) {
 						// Use the token to create the charge with a server-side script.
 						// You can access the token ID with `token.id`
@@ -384,24 +361,47 @@
 						);
 						}
 					});
+
+				var add_handler = StripeCheckout.configure({
+						key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
+						image: '{% static "images/monster.png" %}',
+						locale: 'auto',
+						//shippingAddress: true,
+						panelLabel: 'Add card',
+						token: function(token, args) {
+						// Use the token to create the charge with a server-side script.
+						// You can access the token ID with `token.id`
+						var data = {}
+						data['csrfmiddlewaretoken'] = "{{ csrf_token }}";
+						data['stripeToken'] = token.id;
+						data['stripe_id'] = "{{ stripe_id }}"
+						$.post(
+							'{% url 'payments:add_card' %}',
+							data,
+							function(data) {
+								if(data.status == 1) {
+									alert("May the force be with you");
+								}
+							}
+						);
+						}
+					});
 				var mail = "";
 				{% if request.user.is_authenticated %}
 						mail = "{{ request.user.email }}"
 				{% endif %}
-				$('#payButton').on('click', function(e) {
+				$('#addCard').on('click', function(e) {
 						// Open Checkout with further options
-						handler.open({
+						add_handler.open({
 						email: mail,
 						name: 'Feast Beast',
-						description: 'Your Order',
-						currency: "aud",
-						amount: parseInt($('#payButton').attr("value"))*100
+						description: 'Add the card',
 						});
 						e.preventDefault();
 					});
 				//Close Checkout on page navigation
 				$(window).on('popstate', function() {
-					handler.close();
+					add_handler.close();
 				});
 	</script>
 	<script type="text/javascript">

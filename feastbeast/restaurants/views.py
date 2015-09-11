@@ -28,7 +28,10 @@ def detail(request, restaurant_id):
 	if len(user_payment_info) > 0:
 		context['payment_info'] = 'true'
 		#retrieving the customer info from stripe
-		customer = stripe.Customer.retrieve(user_payment_info[0].stripe_id)
+		stripe_id = user_payment_info[0].stripe_id
+		customer = stripe.Customer.retrieve(stripe_id)
+		context['stripe_id'] = stripe_id
+		#have to put this whole thing under an additional check to see if there are any cards associated with this customer
 		#retreving and sending the last4 digits and brand of the default card to the template
 		default_card = customer.sources.retrieve(customer['default_source'])
 		context['brand'] = default_card['brand']

@@ -4,7 +4,7 @@ import stripe
 from carton.cart import Cart
 from django.contrib.auth.models import User
 from .models import UserPayment
-
+import json
 # Set your secret key: remember to change this to your live secret key in production
 # See your keys here https://dashboard.stripe.com/account/apikeys
 stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
@@ -65,6 +65,18 @@ def charge(request):
 	else:
 
 		return HttpResponse("Illegal Post query")
+
+
+#Add a new card to the customer
+def add_card(request):
+	if request.is_ajax() or request.method == 'POST':
+		stripe_id = request.POST['stripe_id']
+		token = request.POST['stripeToken']
+		customer = stripe.Customer.retrieve(stripe_id)
+		card = customer.sources.create(source=token)
+		response = {'status':1, 'brand': card.brand, 'last4': card.last4 }
+		return HttpResponse(json.dumps(response), content_type='application/json')
+
 
 #method to save the stripe id of the current_user
 def save_stripeid(user, stripe_id):
