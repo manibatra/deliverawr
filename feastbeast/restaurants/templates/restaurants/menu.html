@@ -281,7 +281,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12" id="panels">
+						<div class="col-md-12" id="cardPanels">
 							{% if payment_info == 'true' %}
 								{% for payment_method in user_payment_methods %}
 									<div class="panel panel-default">
@@ -380,7 +380,8 @@
 							data,
 							function(data) {
 								if(data.status == 1) {
-									alert("May the force be with you");
+									$("#cardPanels").last().append("<div class='panel panel-default'><div class='panel-body text-center'></div></div>");
+                        			$("#cardPanels").children().last().children().text(data.brand + " : " + data.last4);
 								}
 							}
 						);
