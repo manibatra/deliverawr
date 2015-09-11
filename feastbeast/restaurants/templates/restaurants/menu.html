@@ -193,19 +193,31 @@
 										 data,
 										 function(responseText) {
 											//alert(responseText);
-											if (responseText == 'Made a charge') {
+											if (responseText == 'success') {
+												//populate the data to be sent to the success page
+												var success_data = {}
+												success_data['country'] = args.shipping_address_country
+												success_data['csrfmiddlewaretoken'] = "{{ csrf_token }}"
+												success_data['postcode'] = args.shipping_address_zip
+												success_data['street_address'] = args.shipping_address_line1
+												success_data['city'] = args.shipping_address_city
+												success_data['restaurant_id'] = {{ restaurant.restaurant_id }}
+												success_data['new_address'] = 'true'
+
 												$.post(
 														//sending the address to save in the database
-													'{% url 'orders:success' %}',
-													{'country': args.shipping_address_country,
-													 'postcode': args.shipping_address_zip,
-													 'street_address': args.shipping_address_line1,
-													 'city': args.shipping_address_city,
-													 'restuarant_id': {{ restaurant.restaurant_id }} }
-													);
+													'{% url 'orders:place' %}',
+													success_data,
+													function(data){
+														if (data.status == 1) {
+															 window.location.href = '{% url 'orders:success' %}'
+														}
+													}
+												)
 											}
-											else
+											else {
 												alert(responseText)
+											}
 										 }
 									  );
 
@@ -230,11 +242,10 @@
 									e.preventDefault();
 								  });
 
-							// Close Checkout on page navigation
-							/* $(window).on('popstate', function() {
+							//Close Checkout on page navigation
+							 $(window).on('popstate', function() {
 								handler.close();
-								window.location.replace('{% url 'home:landing' %}')
-							});*/
+							});
 						</script>
 					</div>
 				</div>

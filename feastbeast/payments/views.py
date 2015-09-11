@@ -60,7 +60,7 @@ def charge(request):
 
 			save_stripeid(request.user, customer.id)
 
-			return HttpResponse("Made a charge")
+			return HttpResponse("success")
 
 	else:
 
