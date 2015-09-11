@@ -46,6 +46,7 @@ def detail(request, restaurant_id):
 
 		context['street_address'] = current_user.street_address
 		context['user_addresses'] = user_address_info
+		context['country'] = current_user.country
 	else:
 		context['delivery_info'] = 'false'
 
