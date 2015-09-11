@@ -183,3 +183,15 @@ body {
    word-wrap: break-word;      /* IE */
 }
 
+.address-form {
+	font-weight: 200;
+	margin-bottom: 22px;
+}
+
+.error-span {
+	position: static;
+}
+
+.address-input {
+	display: none;
+}

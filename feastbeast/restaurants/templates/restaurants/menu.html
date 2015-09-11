@@ -35,7 +35,6 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<!--Stripe Checkout Script -->
 		<script src="https://checkout.stripe.com/checkout.js"></script>
-
 	</head>
 	<body>
 		<!-- Site header , remains constant across most pages -->
@@ -54,11 +53,11 @@
 				</div>
 				<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
 					{% if request.user.is_authenticated %}
-					<li role="presentation"><a href="#signupModal"><paper-button noink>Hello, {{request.user.first_name }} !</paper-button></a></li>
-					<li role="presentation"><a href="#"><paper-button noink>Logout</paper-button></a></li>
+						<li role="presentation"><a href="#signupModal"><paper-button noink>Hello, {{request.user.first_name }} !</paper-button></a></li>
+						<li role="presentation"><a href="#"><paper-button noink>Logout</paper-button></a></li>
 					{% else %}
-					<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
-					<li role="presentation"><a href="#"><paper-button noink>Login</paper-button></a></li>
+						<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
+						<li role="presentation"><a href="#"><paper-button noink>Login</paper-button></a></li>
 					{% endif %}
 					<li role="presentation"><a href="#"><paper-button class="list-cafe">START YOUR CAFE</paper-button></a></li>
 				</ul>
@@ -96,225 +95,285 @@
 						<ul class="nav nav-pills nav-stacked red" role="tablist">
 							{% for category in categories %}
 								<li role="presentation" {% if category == categories|first %}class="active"{% endif %}>
-									<a href="#{{ category.category }}" aria-controls="{{ category.category }}" role="tab" data-toggle="tab">{{ category.category }}</a>
-								</li>
-							{% endfor %}
+								<a href="#{{ category.category }}" aria-controls="{{ category.category }}" role="tab" data-toggle="tab">{{ category.category }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<!--Menu items -->
+				<div class="col-md-8">
+					<!-- Tab panes -->
+					<div class="tab-content">
+						{% for category in categories %}
+							<div role="tabpanel" class="tab-pane {% if category == categories|first %}active{% endif %}" id="{{ category.category }}">
+							<div class="menu-items">
+								<!-- A single menu item with edit and add to cart button -->
+								{% for item in items %}
+									{% if category.category == item.category %}
+										<div class="demo-card-wide mdl-card menu-item">
+											<div class="row text-center menu-item__heading">
+												{{ item.name }}
+											</div>
+											<div class="row text-center menu-item__description">
+												{{ item.description }}
+											</div>
+											<div class="row price text-center">
+												$ {{ item.price }}
+											</div>
+											<div class="row vcenter menu-item__actions">
+												<div class="col-md-6">
+													<!-- Mini FAB button -->
+													<paper-button class="menu-item__button pull-left">
+														Customize
+													</paper-button>
+												</div>
+												<div class="col-md-6">
+													<!-- Mini FAB button -->
+													<paper-button name="{{ item.item_id }}" class="add_to_cart menu-item__button pull-right">
+														Add to Order
+													</paper-button>
+												</div>
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="row">
+					<paper-button id="#orderButton" class="sidebar__button top-button">
+						Order
+					</paper-button>
+				</div>
+				{% load carton_tags %}
+				{% get_cart as cart %}
+				<div class="row">
+					<paper-button id="payButton" class="sidebar__button" value="{{ cart.total }}">
+						Pay
+					</paper-button>
+				</div>
+				<hr class="center-block">
+				{% if delivery_info == 'true' %}
+					<div class="row">
+						<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}" data-toggle="modal" data-target="#deliveryAddressModal">
+							{{ street_address }}
+						</paper-button>
+					</div>
+				{% endif %}
+				{% if payment_info == 'true' %}
+					<div class="row">
+						<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}">
+							{{ brand }} : xxxx-{{ last4 }}
+						</paper-button>
+					</div>
+				{% endif %}
+				<script type="text/javascript">
+					var handler = StripeCheckout.configure({
+							key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
+							image: '{% static "images/monster.png" %}',
+							locale: 'auto',
+							allowRememberMe: true, //doesnt work in australia (todo: create stripe customer, save customer id)
+							shippingAddress: true,
+							token: function(token, args) {
+							// Use the token to create the charge with a server-side script.
+							// You can access the token ID with `token.id`
+							var data = {}
+							data['csrfmiddlewaretoken'] = "{{ csrf_token }}";
+							data['stripeToken'] = token.id;
+							data['description'] = "customer_id|restaurant_id|order_id";//to be filled up when backend is complete
+							$.post(
+								'{% url 'payments:charge' %}',
+								data,
+								function(responseText) {
+									//alert(responseText);
+									if (responseText == 'success') {
+										//populate the data to be sent to the success page
+										var success_data = {}
+										success_data['country'] = args.shipping_address_country
+										success_data['csrfmiddlewaretoken'] = "{{ csrf_token }}"
+										success_data['postcode'] = args.shipping_address_zip
+										success_data['street_address'] = args.shipping_address_line1
+										success_data['city'] = args.shipping_address_city
+										success_data['restaurant_id'] = {{ restaurant.restaurant_id }}
+										success_data['new_address'] = 'true'
+										$.post(
+												//sending the address to save in the database
+											'{% url 'orders:place' %}',
+											success_data,
+											function(data){
+												if (data.status == 1) {
+													window.location.href = '{% url 'orders:success' %}'
+												}
+											}
+										)
+									}
+									else {
+										alert(responseText)
+									}
+								}
+							);
+							}
+						});
+					var mail = "";
+					{% if request.user.is_authenticated %}
+						mail = "{{ request.user.email }}"
+					{% endif %}
+					$('#payButton').on('click', function(e) {
+							// Open Checkout with further options
+							handler.open({
+							email: mail,
+							name: 'Feast Beast',
+							description: 'Your Order',
+							currency: "aud",
+							amount: parseInt($('#payButton').attr("value"))*100
+							});
+							e.preventDefault();
+						});
+					//Close Checkout on page navigation
+					$(window).on('popstate', function() {
+						handler.close();
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+	<!--Site footer, remains constant across most pages-->
+	<footer class="mdl-mega-footer">
+		<div class="container">
+			<div class="mdl-mega-footer__middle-section">
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Features</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">About</a></li>
+							<li><a href="#">Terms</a></li>
+							<li><a href="#">Partners</a></li>
+							<li><a href="#">Updates</a></li>
 						</ul>
 					</div>
-					<!--Menu items -->
-					<div class="col-md-8">
-						<!-- Tab panes -->
-						<div class="tab-content">
-							{% for category in categories %}
-								<div role="tabpanel" class="tab-pane {% if category == categories|first %}active{% endif %}" id="{{ category.category }}">
-									<div class="menu-items">
-										<!-- A single menu item with edit and add to cart button -->
-										{% for item in items %}
-											{% if category.category == item.category %}
-												<div class="demo-card-wide mdl-card menu-item">
-													<div class="row text-center menu-item__heading">
-														{{ item.name }}
-													</div>
-													<div class="row text-center menu-item__description">
-														{{ item.description }}
-													</div>
-													<div class="row price text-center">
-														$ {{ item.price }}
-													</div>
-													<div class="row vcenter menu-item__actions">
-														<div class="col-md-6">
-															<!-- Mini FAB button -->
-															<paper-button class="menu-item__button pull-left">
-																Customize
-															</paper-button>
-														</div>
-														<div class="col-md-6">
-															<!-- Mini FAB button -->
-															<paper-button name="{{ item.item_id }}" class="add_to_cart menu-item__button pull-right">
-																Add to Order
-															</paper-button>
-														</div>
-													</div>
-												</div>
-											{% endif %}
-										{% endfor %}
-									</div>
-								</div>
-							{% endfor %}
-						</div>
+				</div>
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Details</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">Specs</a></li>
+							<li><a href="#">Tools</a></li>
+							<li><a href="#">Resources</a></li>
+						</ul>
 					</div>
-					<div class="col-md-2">
-						<div class="row">
-							<paper-button id="#orderButton" class="sidebar__button top-button">
-								Order
-							</paper-button>
-						</div>
-						{% load carton_tags %}
-						{% get_cart as cart %}
-						<div class="row">
-							<paper-button id="payButton" class="sidebar__button" value="{{ cart.total }}">
-								Pay
-							</paper-button>
-						</div>
-						<hr class="center-block">
-						{% if delivery_info == 'true' %}
-						<div class="row">
-							<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}">
-								{{ street_address }}
-							</paper-button>
-						 </div>
-						 {% endif %}
-						 {% if payment_info == 'true' %}
-						 <div class="row">
-							<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}">
-								{{ brand }} : xxxx-{{ last4 }}
-							</paper-button>
-						 </div>
-						 {% endif %}
-						<script type="text/javascript">
-
-
-							var handler = StripeCheckout.configure({
-									key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
-									image: '{% static "images/monster.png" %}',
-									locale: 'auto',
-									allowRememberMe: true, //doesnt work in australia (todo: create stripe customer, save customer id)
-									shippingAddress: true,
-									token: function(token, args) {
-									  // Use the token to create the charge with a server-side script.
-									  // You can access the token ID with `token.id`
-									  var data = {}
-									  data['csrfmiddlewaretoken'] = "{{ csrf_token }}";
-									  data['stripeToken'] = token.id;
-									  data['description'] = "customer_id|restaurant_id|order_id";//to be filled up when backend is complete
-
-									  $.post(
-										 '{% url 'payments:charge' %}',
-										 data,
-										 function(responseText) {
-											//alert(responseText);
-											if (responseText == 'success') {
-												//populate the data to be sent to the success page
-												var success_data = {}
-												success_data['country'] = args.shipping_address_country
-												success_data['csrfmiddlewaretoken'] = "{{ csrf_token }}"
-												success_data['postcode'] = args.shipping_address_zip
-												success_data['street_address'] = args.shipping_address_line1
-												success_data['city'] = args.shipping_address_city
-												success_data['restaurant_id'] = {{ restaurant.restaurant_id }}
-												success_data['new_address'] = 'true'
-
-												$.post(
-														//sending the address to save in the database
-													'{% url 'orders:place' %}',
-													success_data,
-													function(data){
-														if (data.status == 1) {
-															 window.location.href = '{% url 'orders:success' %}'
-														}
-													}
-												)
-											}
-											else {
-												alert(responseText)
-											}
-										 }
-									  );
-
-									}
-
-								  });
-
-							var mail = "";
-							{% if request.user.is_authenticated %}
-							 mail = "{{ request.user.email }}"
-							{% endif %}
-
-							$('#payButton').on('click', function(e) {
-									// Open Checkout with further options
-									handler.open({
-									  email: mail,
-									  name: 'Feast Beast',
-									  description: 'Your Order',
-									  currency: "aud",
-									  amount: parseInt($('#payButton').attr("value"))*100
-									});
-									e.preventDefault();
-								  });
-
-							//Close Checkout on page navigation
-							 $(window).on('popstate', function() {
-								handler.close();
-							});
-						</script>
+				</div>
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Technology</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">How it works</a></li>
+							<li><a href="#">Patterns</a></li>
+							<li><a href="#">Usage</a></li>
+							<li><a href="#">Products</a></li>
+							<li><a href="#">Contracts</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<!--Site footer, remains constant across most pages-->
-			<footer class="mdl-mega-footer">
-				<div class="container">
-					<div class="mdl-mega-footer__middle-section">
-						<div class="col-md-4">
-							<div class="mdl-mega-footer__drop-down-section center-this">
-								<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-								<h1 class="mdl-mega-footer__heading">Features</h1>
-								<ul class="mdl-mega-footer__link-list">
-									<li><a href="#">About</a></li>
-									<li><a href="#">Terms</a></li>
-									<li><a href="#">Partners</a></li>
-									<li><a href="#">Updates</a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="mdl-mega-footer__drop-down-section center-this">
-								<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-								<h1 class="mdl-mega-footer__heading">Details</h1>
-								<ul class="mdl-mega-footer__link-list">
-									<li><a href="#">Specs</a></li>
-									<li><a href="#">Tools</a></li>
-									<li><a href="#">Resources</a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="mdl-mega-footer__drop-down-section center-this">
-								<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-								<h1 class="mdl-mega-footer__heading">Technology</h1>
-								<ul class="mdl-mega-footer__link-list">
-									<li><a href="#">How it works</a></li>
-									<li><a href="#">Patterns</a></li>
-									<li><a href="#">Usage</a></li>
-									<li><a href="#">Products</a></li>
-									<li><a href="#">Contracts</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<hr>
-					<div class="text-center center-block">
-						<br />
-						<p class="social-text">Join Us</p>
-						<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
-						<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
-						<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
-						<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
-					</div>
+			<hr>
+			<div class="text-center center-block">
+				<br />
+				<p class="social-text">Join Us</p>
+				<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
+				<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
+				<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
+				<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+			</div>
+		</div>
+	</footer>
+	<div class="modal fade" id="deliveryAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
 				</div>
-			</footer>
-			<script type="text/javascript">
-				$('.add_to_cart').click( function() {
-					var $id = $(this).attr("name");
-					 $.get("add/"+$id, function(data, status){
-							alert("Data: " + data + "\nStatus: " + status);
-							$('#payButton').attr("value", data);
-						});
+				<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+							{% if delivery_info == 'true' %}
+								{% for address in user_addresses %}
+									<div class="panel panel-default">
+										<div class="panel-body text-center">
+											{{ address.street_address }}
+										</div>
+									</div>
+								{% endfor %}
+							{% endif %}
+							</div>
+						</div>
+						<div class="address-input row" id="inputAddress">
+							<div class="col-md-5">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="text" name="address_label" id="address_label" />
+									<label class="mdl-textfield__label address-form" for="address_label">Unit, Street Address</label>
+									<span class="mdl-textfield__error error-span">Invalid Address!</span>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
+									<label class="mdl-textfield__label address-form" for="city_label">City</label>
+									<span class="mdl-textfield__error error-span">Invalid City!</span>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="text" name="postcode_label" id="postcode_label" />
+									<label class="mdl-textfield__label address-form" for="postcode_label">PostCode</label>
+									<span class="mdl-textfield__error error-span">Invalid PostCode!</span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<paper-button class="sidebar__button text-center" id="addAddress">
+									Add an address
+								</paper-button>
+
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<script type="text/javascript">
+			$('.add_to_cart').click( function() {
+				var $id = $(this).attr("name");
+				$.get("add/"+$id, function(data, status){
+						alert("Data: " + data + "\nStatus: " + status);
+						$('#payButton').attr("value", data);
+					});
+			});
+
+			//show the input address fields in the modal
+			var slider = function() {
+				$("#addAddress").click(function() {
+
+					$("#inputAddress").slideDown("slow");
+					$(this).children('paper-material').text('Save Address');
 				});
 
-				//hack to display the team image during development
-				$(document).ready(function() {
-					$('#team-image').css("background-image", "url({{ restaurant.secondary_image.url }})");
-				})
-			</script>
-		</body>
-	</html>
+
+			};
+
+			//hack to display the team image during development
+			$(document).ready(function() {
+				$('#team-image').css("background-image", "url({{ restaurant.secondary_image.url }})");
+			});
+
+			$(document).ready(slider);
+		</script>
+	</body>
+</html>
