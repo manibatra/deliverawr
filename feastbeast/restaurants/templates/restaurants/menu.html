@@ -15,7 +15,6 @@
 		<!-- Material Design -->
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:200,300,400,700">
 		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
-
 		<!-- Local Stylesheets -->
 		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
 		<!-- Global Stylesheets -->
@@ -28,7 +27,6 @@
 		<link rel="import" href="{% static 'bower_components/paper-item/paper-icon-item.html' %}">
 		<link rel="import" href="{% static 'bower_components/paper-item/paper-item-body.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
 	</head>
 	<body>
 		<!-- Site header , remains constant across most pages -->
@@ -152,14 +150,14 @@
 				<hr class="center-block">
 				{% if delivery_info == 'true' %}
 					<div class="row">
-						<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}" data-toggle="modal" data-target="#deliveryAddressModal">
+						<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#deliveryAddressModal">
 							{{ street_address }}
 						</paper-button>
 					</div>
 				{% endif %}
 				{% if payment_info == 'true' %}
 					<div class="row">
-						<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" value="{{ cart.total }}">
+						<paper-button id="payButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#paymentInfoModal">
 							{{ brand }} : xxxx-{{ last4 }}
 						</paper-button>
 					</div>
@@ -227,8 +225,8 @@
 					<h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
 				</div>
 				<div class="modal-body">
-						<div class="row">
-							<div class="col-md-12" id="panels">
+					<div class="row">
+						<div class="col-md-12" id="panels">
 							{% if delivery_info == 'true' %}
 								{% for address in user_addresses %}
 									<div class="panel panel-default">
@@ -238,128 +236,180 @@
 									</div>
 								{% endfor %}
 							{% endif %}
+						</div>
+					</div>
+					<div class="address-input row" id="inputAddress">
+						<div class="col-md-5">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="address_label" id="address_label" />
+								<label class="mdl-textfield__label address-form" for="address_label">Unit, Street Address</label>
+								<span class="mdl-textfield__error error-span">Invalid Address!</span>
 							</div>
 						</div>
-						<div class="address-input row" id="inputAddress">
-							<div class="col-md-5">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<input class="mdl-textfield__input" type="text" name="address_label" id="address_label" />
-									<label class="mdl-textfield__label address-form" for="address_label">Unit, Street Address</label>
-									<span class="mdl-textfield__error error-span">Invalid Address!</span>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
-									<label class="mdl-textfield__label address-form" for="city_label">City</label>
-									<span class="mdl-textfield__error error-span">Invalid City!</span>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<input class="mdl-textfield__input" type="text" name="postcode_label" id="postcode_label" />
-									<label class="mdl-textfield__label address-form" for="postcode_label">PostCode</label>
-									<span class="mdl-textfield__error error-span">Invalid PostCode!</span>
-								</div>
+						<div class="col-md-4">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
+								<label class="mdl-textfield__label address-form" for="city_label">City</label>
+								<span class="mdl-textfield__error error-span">Invalid City!</span>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
-									Add an address
-								</paper-button>
-
+						<div class="col-md-3">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="postcode_label" id="postcode_label" />
+								<label class="mdl-textfield__label address-form" for="postcode_label">PostCode</label>
+								<span class="mdl-textfield__error error-span">Invalid PostCode!</span>
 							</div>
 						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+								Add an address
+							</paper-button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-		<!-- JQUERY -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-				<!--Stripe Checkout Script -->
-		<script src="https://checkout.stripe.com/checkout.js"></script>
-		<!--Custom Script -->
-		<script src="{% static "menus/js/menu.js" %}"></script>
-		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
-		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-					var handler = StripeCheckout.configure({
-							key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
-							image: '{% static "images/monster.png" %}',
-							locale: 'auto',
-							allowRememberMe: true, //doesnt work in australia (todo: create stripe customer, save customer id)
-							shippingAddress: true,
-							token: function(token, args) {
-							// Use the token to create the charge with a server-side script.
-							// You can access the token ID with `token.id`
-							var data = {}
-							data['csrfmiddlewaretoken'] = "{{ csrf_token }}";
-							data['stripeToken'] = token.id;
-							data['description'] = "customer_id|restaurant_id|order_id";//to be filled up when backend is complete
-							$.post(
-								'{% url 'payments:charge' %}',
-								data,
-								function(responseText) {
-									//alert(responseText);
-									if (responseText == 'success') {
-										//populate the data to be sent to the success page
-										var success_data = {}
-										success_data['country'] = args.shipping_address_country
-										success_data['csrfmiddlewaretoken'] = "{{ csrf_token }}"
-										success_data['postcode'] = args.shipping_address_zip
-										success_data['street_address'] = args.shipping_address_line1
-										success_data['city'] = args.shipping_address_city
-										success_data['restaurant_id'] = {{ restaurant.restaurant_id }}
-										success_data['new_address'] = 'true'
-										$.post(
-												//sending the address to save in the database
-											'{% url 'orders:place' %}',
-											success_data,
-											function(data){
-												if (data.status == 1) {
-													window.location.href = '{% url 'orders:success' %}'
-												}
+	<div class="modal fade" id="paymentInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Payment Methods</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12" id="panels">
+							{% if payment_info == 'true' %}
+								{% for payment_method in user_payment_methods %}
+									<div class="panel panel-default">
+										<div class="panel-body text-center">
+											{{ payment_method.brand }} : {{ payment_method.last4 }}
+										</div>
+									</div>
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+					<div class="address-input row" id="inputAddress">
+						<div class="col-md-5">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="address_label" id="address_label" />
+								<label class="mdl-textfield__label address-form" for="address_label">Unit, Street Address</label>
+								<span class="mdl-textfield__error error-span">Invalid Address!</span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
+								<label class="mdl-textfield__label address-form" for="city_label">City</label>
+								<span class="mdl-textfield__error error-span">Invalid City!</span>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="postcode_label" id="postcode_label" />
+								<label class="mdl-textfield__label address-form" for="postcode_label">PostCode</label>
+								<span class="mdl-textfield__error error-span">Invalid PostCode!</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+								Add an address
+							</paper-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- JQUERY -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!--Stripe Checkout Script -->
+	<script src="https://checkout.stripe.com/checkout.js"></script>
+	<!--Custom Script -->
+	<script src="{% static "menus/js/menu.js" %}"></script>
+	<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
+	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+				var handler = StripeCheckout.configure({
+						key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
+						image: '{% static "images/monster.png" %}',
+						locale: 'auto',
+						allowRememberMe: true, //doesnt work in australia (todo: create stripe customer, save customer id)
+						shippingAddress: true,
+						token: function(token, args) {
+						// Use the token to create the charge with a server-side script.
+						// You can access the token ID with `token.id`
+						var data = {}
+						data['csrfmiddlewaretoken'] = "{{ csrf_token }}";
+						data['stripeToken'] = token.id;
+						data['description'] = "customer_id|restaurant_id|order_id";//to be filled up when backend is complete
+						$.post(
+							'{% url 'payments:charge' %}',
+							data,
+							function(responseText) {
+								//alert(responseText);
+								if (responseText == 'success') {
+									//populate the data to be sent to the success page
+									var success_data = {}
+									success_data['country'] = args.shipping_address_country
+									success_data['csrfmiddlewaretoken'] = "{{ csrf_token }}"
+									success_data['postcode'] = args.shipping_address_zip
+									success_data['street_address'] = args.shipping_address_line1
+									success_data['city'] = args.shipping_address_city
+									success_data['restaurant_id'] = {{ restaurant.restaurant_id }}
+									success_data['new_address'] = 'true'
+									$.post(
+											//sending the address to save in the database
+										'{% url 'orders:place' %}',
+										success_data,
+										function(data){
+											if (data.status == 1) {
+												window.location.href = '{% url 'orders:success' %}'
 											}
-										)
-									}
-									else {
-										alert(responseText)
-									}
+										}
+									)
 								}
-							);
+								else {
+									alert(responseText)
+								}
 							}
-						});
-					var mail = "";
-					{% if request.user.is_authenticated %}
-						mail = "{{ request.user.email }}"
-					{% endif %}
-					$('#payButton').on('click', function(e) {
-							// Open Checkout with further options
-							handler.open({
-							email: mail,
-							name: 'Feast Beast',
-							description: 'Your Order',
-							currency: "aud",
-							amount: parseInt($('#payButton').attr("value"))*100
-							});
-							e.preventDefault();
-						});
-					//Close Checkout on page navigation
-					$(window).on('popstate', function() {
-						handler.close();
+						);
+						}
 					});
-				</script>
-			<script type="text/javascript">
-			//hack to display the team image during development
-			$(document).ready(function() {
-				$('#team-image').css("background-image", "url({{ restaurant.secondary_image.url }})");
-			});
-			//$(document).ready(adding);
-		</script>
-
-	</body>
+				var mail = "";
+				{% if request.user.is_authenticated %}
+						mail = "{{ request.user.email }}"
+				{% endif %}
+				$('#payButton').on('click', function(e) {
+						// Open Checkout with further options
+						handler.open({
+						email: mail,
+						name: 'Feast Beast',
+						description: 'Your Order',
+						currency: "aud",
+						amount: parseInt($('#payButton').attr("value"))*100
+						});
+						e.preventDefault();
+					});
+				//Close Checkout on page navigation
+				$(window).on('popstate', function() {
+					handler.close();
+				});
+	</script>
+	<script type="text/javascript">
+	//hack to display the team image during development
+	$(document).ready(function() {
+		$('#team-image').css("background-image", "url({{ restaurant.secondary_image.url }})");
+	});
+	//$(document).ready(adding);
+	</script>
+</body>
 </html>

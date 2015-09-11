@@ -29,10 +29,20 @@ def detail(request, restaurant_id):
 		context['payment_info'] = 'true'
 		#retrieving the customer info from stripe
 		customer = stripe.Customer.retrieve(user_payment_info[0].stripe_id)
-		#retreving and sending the last4 digits and brand of the card to the template
-		card = customer['sources']['data'][0]
-		context['brand'] = card['brand']
-		context['last4'] = card['last4']
+		#retreving and sending the last4 digits and brand of the default card to the template
+		default_card = customer.sources.retrieve(customer['default_source'])
+		context['brand'] = default_card['brand']
+		context['last4'] = default_card['last4']
+		#setting the list of cards and brand names
+		user_payment_methods = []
+		for card_object in customer['sources']['data']:
+			payment_method = {}
+			payment_method['brand'] = card_object['brand']
+			payment_method['last4'] = card_object['last4']
+			user_payment_methods.append(payment_method)
+
+		context['user_payment_methods'] = user_payment_methods
+
 	else:
 		context['payment_info'] = 'false'
 
