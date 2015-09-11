@@ -9,7 +9,7 @@ function submitAddress(country, target_url, csrf_token) {
     if (toggle == 1) {
 
         $("#inputAddress").slideDown("slow");
-        $(this).children('paper-material').text('Save Address');
+        $("#addAddress").children("paper-material").text("Save Address");
         toggle = 0;
     } else {
         var address = $("#address_label").val();

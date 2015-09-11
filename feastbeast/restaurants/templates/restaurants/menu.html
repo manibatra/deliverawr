@@ -275,13 +275,7 @@
 			</div>
 		</div>
 	</div>
-		<script type="text/javascript">
-			//hack to display the team image during development
-			$(document).ready(function() {
-				$('#team-image').css("background-image", "url({{ restaurant.secondary_image.url }})");
-			});
-			//$(document).ready(adding);
-		</script>
+
 		<!-- JQUERY -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 				<!--Stripe Checkout Script -->
@@ -359,6 +353,13 @@
 						handler.close();
 					});
 				</script>
+			<script type="text/javascript">
+			//hack to display the team image during development
+			$(document).ready(function() {
+				$('#team-image').css("background-image", "url({{ restaurant.secondary_image.url }})");
+			});
+			//$(document).ready(adding);
+		</script>
 
 	</body>
 </html>
