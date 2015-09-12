@@ -29,8 +29,15 @@ def logout_user(request):
 	return HttpResponseRedirect(reverse('home:landing'))
 
 #a function to get all the user addresses
-def get_addresses(requset):
-	user_addresses = UserAddress.objects.get(pk=request.user)
+def get_addresses(request):
+	user_address_info = UserAddress.objects.filter(user=request.user)
+	user_addresses=[]
+	for address in user_address_info:
+		user_address = {}
+		user_address['street_address'] = address.street_address
+		user_address['id'] = address.id
+		user_address['postcode'] = address.postcode
+		user_addresses.append(user_address)
 	response = { 'user_addresses': user_addresses}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 

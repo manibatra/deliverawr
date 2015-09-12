@@ -149,7 +149,7 @@
 				</div>
 				<hr class="center-block">
 				<div class="row">
-					<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#deliveryAddressModal">
+					<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" onclick="getAddresses('{{delivery_info}}','{% url "users:get_addresses" %}')">
 						{% if delivery_info == 'true' %}{{ street_address }}{% else %}Add an Address{% endif %}
 					</paper-button>
 				</div>
