@@ -67,6 +67,20 @@ def charge(request):
 		return HttpResponse("Illegal Post query")
 
 
+#function to get the user cards
+def get_cards(request):
+	stripe_id = request.GET['stripe_id']
+	customer = stripe.Customer.retrieve(stripe_id)
+	user_payment_methods = []
+	for card_object in customer['sources']['data']
+		payment_method = {}
+		payment_method['brand'] = card_object['brand']
+		payment_method['last4'] = card_object['last4']
+		user_payment_methods.append(payment_method)
+
+	response = {'status' : 1, 'user_payment_methods' : user_payment_methods}
+	return HttpResponse(json.dumps(response), content_type='application/json')
+
 #Add a new card to the customer
 def add_card(request):
 	if request.is_ajax() or request.method == 'POST':
