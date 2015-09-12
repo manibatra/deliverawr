@@ -55,6 +55,7 @@ function submitAddress(country, target_url, csrf_token) {
 // make a get call to get the the addresses
 
 function getAddresses(delivery_info, target_url) {
+    $("#panels").children().remove();
     if (delivery_info === 'true') {
         $.get(
             target_url,
