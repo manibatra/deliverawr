@@ -9,6 +9,7 @@ class UserAddress(models.Model):
 	postcode = models.CharField(max_length=8)
 	country = models.CharField(max_length=20)
 	phone_no = models.CharField(max_length=15)
+	default = models.BooleanField()
 
 
 

@@ -28,6 +28,12 @@ def logout_user(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('home:landing'))
 
+#a function to get all the user addresses
+def get_addresses(requset):
+	user_addresses = UserAddress.objects.get(pk=request.user)
+	response = { 'user_addresses': user_addresses}
+	return HttpResponse(json.dumps(response), content_type='application/json')
+
 #function to save the address of the user from the database
 def save_address(request):
 	if request.method == 'POST':

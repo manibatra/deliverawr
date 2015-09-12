@@ -15,9 +15,10 @@ stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
 
 
 # Create your views here.
-
+#returns the menu info, stripe_id, default address if any, default card info
 def detail(request, restaurant_id):
 
+	#sending the menu objects
 	all_items = MenuItem.objects.filter(restaurant=restaurant_id)
 	restaurant = Restaurant.objects.get(pk=restaurant_id)
 	all_categories = MenuItem.objects.order_by('category').values('category').distinct()
@@ -36,29 +37,29 @@ def detail(request, restaurant_id):
 		default_card = customer.sources.retrieve(customer['default_source'])
 		context['brand'] = default_card['brand']
 		context['last4'] = default_card['last4']
-		#setting the list of cards and brand names
-		user_payment_methods = []
-		for card_object in customer['sources']['data']:
-			payment_method = {}
-			payment_method['brand'] = card_object['brand']
-			payment_method['last4'] = card_object['last4']
-			user_payment_methods.append(payment_method)
 
-		context['user_payment_methods'] = user_payment_methods
+
+		#setting the list of cards and brand names
+		# user_payment_methods = []
+		# for card_object in customer['sources']['data']:
+		# 	payment_method = {}
+		# 	payment_method['brand'] = card_object['brand']
+		# 	payment_method['last4'] = card_object['last4']
+		# 	user_payment_methods.append(payment_method)
+
+		# context['user_payment_methods'] = user_payment_methods
 
 	else:
 		context['payment_info'] = 'false'
 
 
-	#getting user address info
-	user_address_info = UserAddress.objects.filter(user=request.user)
+	#getting user  default address info
+	user_address_info = UserAddress.objects.filter(user=request.user, default=True)
 	if len(user_address_info) > 0:
 		context['delivery_info'] = 'true'
 		#retrieving the user address object
 		current_user = user_address_info[0]
-
 		context['street_address'] = current_user.street_address
-		context['user_addresses'] = user_address_info
 		context['country'] = current_user.country
 	else:
 		context['delivery_info'] = 'false'

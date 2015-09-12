@@ -148,20 +148,16 @@
 					</paper-button>
 				</div>
 				<hr class="center-block">
-				{% if delivery_info == 'true' %}
-					<div class="row">
-						<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#deliveryAddressModal">
-							{{ street_address }}
-						</paper-button>
-					</div>
-				{% endif %}
-				{% if payment_info == 'true' %}
-					<div class="row">
-						<paper-button id="payButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#paymentInfoModal">
-							{{ brand }} : xxxx-{{ last4 }}
-						</paper-button>
-					</div>
-				{% endif %}
+				<div class="row">
+					<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#deliveryAddressModal">
+						{% if delivery_info == 'true' %}{{ street_address }}{% else %}Add an Address{% endif %}
+					</paper-button>
+				</div>
+				<div class="row">
+					<paper-button id="payButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#paymentInfoModal">
+						{% if payment_info == 'true' %}{{ brand }} : xxxx-{{ last4 }}{% else %}Add a Payment Method{% endif %}
+					</paper-button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -361,7 +357,6 @@
 						);
 						}
 					});
-
 				var add_handler = StripeCheckout.configure({
 						key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
 						image: '{% static "images/monster.png" %}',
@@ -381,7 +376,7 @@
 							function(data) {
 								if(data.status == 1) {
 									$("#cardPanels").last().append("<div class='panel panel-default'><div class='panel-body text-center'></div></div>");
-                        			$("#cardPanels").children().last().children().text(data.brand + " : " + data.last4);
+			$("#cardPanels").children().last().children().text(data.brand + " : " + data.last4);
 								}
 							}
 						);
@@ -389,7 +384,7 @@
 					});
 				var mail = "";
 				{% if request.user.is_authenticated %}
-						mail = "{{ request.user.email }}"
+							mail = "{{ request.user.email }}"
 				{% endif %}
 				$('#addCard').on('click', function(e) {
 						// Open Checkout with further options
