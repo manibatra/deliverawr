@@ -82,8 +82,31 @@ function getAddresses(delivery_info, target_url) {
     $("#deliveryAddressModal").modal('show');
 }
 
+//function to save the default address
+function setDefaultAddress(target_url, csrf_token) {
+    var id = $("#panels .mdl-shadow--4dp > .panel-body").attr('id');
+    $.post(
+        target_url, {
+            'address_id': id,
+            'csrfmiddlewaretoken': csrf_token
+        },
+        function(data) {
+            if (data.status == 1) {
+                $("#addressButton > paper-material").text(data.street_address);
+                $("#deliveryAddressModal").modal('hide');
+            } else {
+                alert("Address could not be used, Try again");
+            }
+        }
+
+    )
+
+}
+
+//function to add radio button functionality to the various addresses
 var selectDefault = $("#panels").on("click", "*", function() {
     $(this).closest(".address").addClass("mdl-shadow--4dp").siblings().removeClass("mdl-shadow--4dp");
+    $('#defaultAddress').prop('disabled', false);
 });
 
 $(document).ready(selectDefault);

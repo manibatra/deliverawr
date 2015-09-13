@@ -65,3 +65,15 @@ def save_address(request):
 		response = {'status' : 0}
 
 		return HttpResponse(json.dumps(response), content_type='application/json')
+
+#function to set the default address
+def setdefault_address(request):
+	if request.method == 'POST':
+		new_default = UserAddress.objects.get(pk=request.POST['address_id'])
+		new_default.default = True
+		new_default.save()
+		response = {'status' : 1, 'street_address' : new_default.street_address}
+	else:
+		response = {'status' : 0}
+
+	return HttpResponse(json.dumps(response), content_type='application/json')

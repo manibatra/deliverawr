@@ -35,6 +35,8 @@
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand brand-title">
 						<img alt="Brand" width="50vw" height="50vw" src="{% static "images/monster.png" %}" class="pull-left brand-image">
@@ -70,10 +72,13 @@
 									<div class="mdl-card__supporting-text">
 										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 										Aenan convallis.
+									</div>
 								</div></div>
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
 			<!--Menu start -->
 			<div class="container menu">
 				<div class = "row">
@@ -86,6 +91,7 @@
 							</li>
 						{% endfor %}
 					</ul>
+				</div>
 				<!--Menu items -->
 				<div class="col-md-8">
 					<!-- Tab panes -->
@@ -102,8 +108,10 @@
 											</div>
 											<div class="row text-center menu-item__description">
 												{{ item.description }}
+											</div>
 											<div class="row price text-center">
 												$ {{ item.price }}
+											</div>
 											<div class="row vcenter menu-item__actions">
 												<div class="col-md-6">
 													<!-- Mini FAB button -->
@@ -111,25 +119,46 @@
 														Customize
 													</paper-button>
 												</div>
+												<div class="col-md-6">
+													<!-- Mini FAB button -->
 													<paper-button name="{{ item.item_id }}" class="add_to_cart menu-item__button pull-right">
 														Add to Order
+													</paper-button>
+												</div>
+											</div>
 										</div>
 									{% endif %}
 								{% endfor %}
+							</div>
+						</div>
 					{% endfor %}
+				</div>
+			</div>
 			<div class="col-md-2">
+				<div class="row">
 					<paper-button id="#orderButton" class="sidebar__button top-button">
 						Order
 					</paper-button>
+				</div>
 				{% load carton_tags %}
 				{% get_cart as cart %}
+				<div class="row">
 					<paper-button id="payButton" class="sidebar__button" value="{{ cart.total }}">
 						Pay
+					</paper-button>
+				</div>
 				<hr class="center-block">
+				<div class="row">
 					<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" onclick="getAddresses('{{delivery_info}}','{% url "users:get_addresses" %}')">
 						{% if delivery_info == 'true' %}{{ street_address }}{% else %}Add an Address{% endif %}
+					</paper-button>
+				</div>
+				<div class="row">
 					<paper-button id="payButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#paymentInfoModal">
 						{% if payment_info == 'true' %}{{ brand }} : xxxx-{{ last4 }}{% else %}Add a Payment Method{% endif %}
+					</paper-button>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!--Site footer, remains constant across most pages-->
@@ -146,16 +175,33 @@
 							<li><a href="#">Partners</a></li>
 							<li><a href="#">Updates</a></li>
 						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
 						<h1 class="mdl-mega-footer__heading">Details</h1>
+						<ul class="mdl-mega-footer__link-list">
 							<li><a href="#">Specs</a></li>
 							<li><a href="#">Tools</a></li>
 							<li><a href="#">Resources</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
 						<h1 class="mdl-mega-footer__heading">Technology</h1>
+						<ul class="mdl-mega-footer__link-list">
 							<li><a href="#">How it works</a></li>
 							<li><a href="#">Patterns</a></li>
 							<li><a href="#">Usage</a></li>
 							<li><a href="#">Products</a></li>
 							<li><a href="#">Contracts</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 			<hr>
 			<div class="text-center center-block">
 				<br />
@@ -164,6 +210,8 @@
 				<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
 				<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
 				<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+			</div>
+		</div>
 	</footer>
 	<div class="modal fade" id="deliveryAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
@@ -171,38 +219,85 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
+				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12" id="panels" class="addressPanelsab">
+						</div>
+					</div>
 					<div class="address-input row" id="inputAddress">
 						<div class="col-md-5">
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" name="address_label" id="address_label" />
 								<label class="mdl-textfield__label address-form" for="address_label">Unit, Street Address</label>
 								<span class="mdl-textfield__error error-span">Invalid Address!</span>
+							</div>
+						</div>
 						<div class="col-md-4">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
 								<label class="mdl-textfield__label address-form" for="city_label">City</label>
 								<span class="mdl-textfield__error error-span">Invalid City!</span>
+							</div>
+						</div>
 						<div class="col-md-3">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" name="postcode_label" id="postcode_label" />
 								<label class="mdl-textfield__label address-form" for="postcode_label">PostCode</label>
 								<span class="mdl-textfield__error error-span">Invalid PostCode!</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
 						<div class="col-md-12">
 							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
 								Add an address
 							</paper-button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button class="sidebar__button text-center" id="defaultAddress" disabled onclick="setDefaultAddress('{% url "users:setdefault_address" %}', '{{csrf_token}}')">
+								Use address
+							</paper-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="modal fade" id="paymentInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title" id="myModalLabel">Payment Methods</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
 						<div class="col-md-12" id="cardPanels">
 							{% if payment_info == 'true' %}
 								{% for payment_method in user_payment_methods %}
 									<div class="panel panel-default">
 										<div class="panel-body text-center">
 											{{ payment_method.brand }} : {{ payment_method.last4 }}
+										</div>
+									</div>
+								{% endfor %}
 							{% endif %}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
 							<paper-button class="sidebar__button text-center" id="addCard" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
 								Add a payment method
+							</paper-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- JQUERY -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!--Stripe Checkout Script -->
@@ -255,18 +350,36 @@
 								}
 								else {
 									alert(responseText)
+								}
 							}
 						);
 						}
 					});
 				var add_handler = StripeCheckout.configure({
+						key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
+						image: '{% static "images/monster.png" %}',
+						locale: 'auto',
+						//shippingAddress: true,
 						panelLabel: 'Add card',
+						token: function(token, args) {
+						// Use the token to create the charge with a server-side script.
+						// You can access the token ID with `token.id`
+						var data = {}
+						data['csrfmiddlewaretoken'] = "{{ csrf_token }}";
+						data['stripeToken'] = token.id;
 						data['stripe_id'] = "{{ stripe_id }}"
+						$.post(
 							'{% url 'payments:add_card' %}',
+							data,
 							function(data) {
 								if(data.status == 1) {
 									$("#cardPanels").last().append("<div class='panel panel-default'><div class='panel-body text-center'></div></div>");
 			$("#cardPanels").children().last().children().text(data.brand + " : " + data.last4);
+								}
+							}
+						);
+						}
+					});
 				var mail = "";
 				{% if request.user.is_authenticated %}
 							mail = "{{ request.user.email }}"
@@ -279,15 +392,18 @@
 						description: 'Add the card',
 						});
 						e.preventDefault();
+					});
 				//Close Checkout on page navigation
 				$(window).on('popstate', function() {
 					add_handler.close();
 				});
 	</script>
+	<script type="text/javascript">
 	//hack to display the team image during development
 	$(document).ready(function() {
 		$('#team-image').css("background-image", "url({{ restaurant.secondary_image.url }})");
 	});
 	//$(document).ready(adding);
+	</script>
 </body>
 </html>
