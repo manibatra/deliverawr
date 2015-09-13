@@ -52,7 +52,7 @@ def save_address(request):
 
 		#creating a user address object from the delivery address
 		user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
-										phone_no='0414708810')
+										phone_no='0414708810',default=False)
 		user_address.save()
 
 		response = {'status' : 1}

@@ -14,7 +14,7 @@ function submitAddress(country, target_url, csrf_token) {
     } else {
         var address = $("#address_label").val();
         var city = $("#city_label").val();
-        var postcode = $("postcode_label").val();
+        var postcode = $("#postcode_label").val();
         console.log(postcode);
         if (address !== '' && city !== '' && postcode !== '') {
             var data = {}
@@ -39,6 +39,9 @@ function submitAddress(country, target_url, csrf_token) {
                         //change the properties back to the add address button
                         $("#addAddress").children('paper-material').text('Add an address');
                         toggle = 1;
+                        $("#address_label").val("");
+                        $("#city_label").val("");
+                        $("#postcode_label").val("");
 
                     } else {
                         alert('Could not save address');
