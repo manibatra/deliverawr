@@ -2,6 +2,7 @@
 
 
 var toggle = 1;
+var csrftoken;
 
 //script for creating a new address in the address modal
 function submitAddress(country, target_url, csrf_token) {
@@ -57,26 +58,28 @@ function submitAddress(country, target_url, csrf_token) {
 
 // make a get call to get the the addresses
 
-function getAddresses(delivery_info, target_url) {
+function getAddresses(delivery_info, target_url, csrf_token) {
+    csrftoken = csrf_token;
+    $('#defaultAddress').prop('disabled', true);
     $("#panels").children().remove();
-    if (delivery_info === 'true') {
-        $.get(
-            target_url,
-            function(data) {
 
-                for (var i = 0; i < data.user_addresses.length; i++) {
-                    $("#panels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons delete-address'>delete</i></div></div>");
-                    $("#panels").children().last().find(".panel-body").text(data.user_addresses[i].street_address);
-                    $("#panels").children().last().find(".panel-body").attr('id', String(data.user_addresses[i].id));
-                    if (data.user_addresses[i].default === true) {
-                        $("#panels").children().last().find(".panel-default").addClass("mdl-shadow--4dp");
-                    }
-                };
+    $.get(
+        target_url,
+        function(data) {
+
+            for (var i = 0; i < data.user_addresses.length; i++) {
+                $("#panels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons delete-address'>delete</i></div></div>");
+                $("#panels").children().last().find(".panel-body").text(data.user_addresses[i].street_address);
+                $("#panels").children().last().find(".panel-body").attr('id', String(data.user_addresses[i].id));
+                $("#panels").children().last().find("i").attr('onclick', "deleteAddress(this)");
+                if (data.user_addresses[i].default === true) {
+                    $("#panels").children().last().find(".panel-default").addClass("mdl-shadow--4dp");
+                }
+            };
 
 
-            }
-        )
-    };
+        }
+    )
 
     $("#deliveryAddressModal").modal('show');
 }
@@ -104,25 +107,32 @@ function setDefaultAddress(target_url, csrf_token) {
 }
 
 //function to delete the address
-function deleteAddress(target_url, csrf_token, element) {
+function deleteAddress(element) {
 
     var choice = confirm("Are you sure you want to delete this address ?")
 
     if (choice == true) {
         var id = $(element).parent().siblings().find('.panel-body').attr('id');
         $.post(
-            target_url, {
+            '/user/delete_address/', {
                 'address_id': id,
-                'csrfmiddlewaretoken': csrf_token
+                'csrfmiddlewaretoken': csrftoken
             },
             function(data) {
                 if (data.status === 1) {
                     $(element).parent().parent().remove();
-                } else if (data.status === 2) {
+                    $('#defaultAddress').prop('disabled', true);
+                } else if (data.status === 2) { //default address deleted
                     $(element).parent().parent().remove();
-                    $("#addressButton > paper-material").text("Add an address");
+                    $("#" + data.default_id).parent().addClass('mdl-shadow--4dp');
+                    $("#addressButton > paper-material").text($("#" + data.default_id).text());
+                    $('#defaultAddress').prop('disabled', true);
+                } else if (data.status === 3) {
+                    $(element).parent().parent().remove();
+                    $("#addressButton > paper-material").text('Add an address');
+                    $('#defaultAddress').prop('disabled', true);
                 } else {
-                    alert("Address could not be deleted")
+                    alert("Address could not be deleted");
                 }
             }
 

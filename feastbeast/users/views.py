@@ -66,6 +66,27 @@ def save_address(request):
 
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
+#function to delete a particular address
+def delete_address(request):
+	if request.method == 'POST':
+		address_id = request.POST['address_id']
+		user_address = UserAddress.objects.get(pk=address_id)
+		user_address.delete()
+		try:
+			default_address = UserAddress.objects.get(default=True)
+			response = {'status': 1}  # the address was deleted
+		except UserAddress.DoesNotExist:
+			try:
+				new_default_address = UserAddress.objects.latest('id')
+				new_default_address.default = True
+				new_default_address.save()
+				response = {'status' : 2, 'default_id' : new_default_address.id} #the address was delted and new default add_id is sent
+			except UserAddress.DoesNotExist:
+				response = {'status' : 3} #there are no more addresses left
+		return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+
 #function to set the default address
 def setdefault_address(request):
 	if request.method == 'POST':
