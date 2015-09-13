@@ -68,17 +68,25 @@ def charge(request):
 
 
 #function to get the user cards
-def get_cards(request):
-	stripe_id = request.GET['stripe_id']
-	customer = stripe.Customer.retrieve(stripe_id)
-	user_payment_methods = []
-	for card_object in customer['sources']['data']:
-		payment_method = {}
-		payment_method['brand'] = card_object['brand']
-		payment_method['last4'] = card_object['last4']
-		user_payment_methods.append(payment_method)
+def getCards(request):
+	try:
+		user_payment_details = UserPayment.objects.get(user=request.user)
+		customer = stripe.Customer.retrieve(user_payment_details.stripe_id)
+		user_payment_methods = []
+		default = ""
+		for card_object in customer['sources']['data']:
+			if(customer.default_source == card_object.id):
+				default = card_object.id
 
-	response = {'status' : 1, 'user_payment_methods' : user_payment_methods}
+			payment_method = {}
+			payment_method['brand'] = card_object['brand']
+			payment_method['last'] = card_object['last4']
+			payment_method['card_id'] = card_object['id']
+			user_payment_methods.append(payment_method)
+
+		response = {'status' : 1, 'user_payment_methods' : user_payment_methods, 'default' : default}
+	except UserPayment.DoesNotExist:
+		response = {'status' : 0}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 #Add a new card to the customer
@@ -88,7 +96,7 @@ def add_card(request):
 		token = request.POST['stripeToken']
 		customer = stripe.Customer.retrieve(stripe_id)
 		card = customer.sources.create(source=token)
-		response = {'status':1, 'brand': card.brand, 'last4': card.last4 }
+		response = {'status':1, 'brand': card.brand, 'last4': card.last4, 'card_id': card.id }
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
 

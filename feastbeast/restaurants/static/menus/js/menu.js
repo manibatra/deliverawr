@@ -101,6 +101,33 @@ function getAddresses(delivery_info, target_url, csrf_token) {
     $("#deliveryAddressModal").modal('show');
 }
 
+//function to retreive the cards of the customer, TODO : remove the class address from  the panel, add  a waiting symbol
+$("#paymentMethodsButton").on('click', function() {
+    $('#defaultCard').prop('disabled', true);
+    $("#cardPanels").children().remove();
+
+    $.get(
+        "/payments/get-cards/",
+        function(data) {
+
+            if (data.status === 1) {
+                for (var i = 0; i < data.user_payment_methods.length; i++) {
+                    $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons delete-address'>delete</i></div></div>");
+                    $("#cardPanels").children().last().find(".panel-body").text(data.user_payment_methods[i].brand + " : " + data.user_payment_methods[i].last);
+                    $("#cardPanels").children().last().find(".panel-body").attr('id', data.user_payment_methods[i].card_id);
+                    $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
+                    if (data.user_payment_methods[i].card_id === data.default) {
+                        $("#cardPanels").children().last().find(".panel-default").addClass("mdl-shadow--4dp");
+                    }
+                };
+            }
+
+            $("#paymentInfoModal").modal('show');
+        }
+    )
+
+});
+
 //function to save the default address
 function setDefaultAddress(target_url, csrf_token) {
     var id = $("#panels .mdl-shadow--4dp > .panel-body").attr('id');

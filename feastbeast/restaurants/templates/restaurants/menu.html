@@ -154,7 +154,7 @@
 					</paper-button>
 				</div>
 				<div class="row">
-					<paper-button id="payButton" class="sidebar__button mdl-shadow--3dp customer-data" data-toggle="modal" data-target="#paymentInfoModal">
+					<paper-button id="paymentMethodsButton" class="sidebar__button mdl-shadow--3dp customer-data">
 						{% if payment_info == 'true' %}{{ brand }} : xxxx-{{ last4 }}{% else %}Add a Payment Method{% endif %}
 					</paper-button>
 				</div>
@@ -272,23 +272,19 @@
 					<h4 class="modal-title" id="myModalLabel">Payment Methods</h4>
 				</div>
 				<div class="modal-body">
-					<div class="row">
-						<div class="col-md-12" id="cardPanels">
-							{% if payment_info == 'true' %}
-								{% for payment_method in user_payment_methods %}
-									<div class="panel panel-default">
-										<div class="panel-body text-center">
-											{{ payment_method.brand }} : {{ payment_method.last4 }}
-										</div>
-									</div>
-								{% endfor %}
-							{% endif %}
-						</div>
+					<div class="row" id="cardPanels">
 					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<paper-button class="sidebar__button text-center" id="addCard" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
 								Add a payment method
+							</paper-button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button class="sidebar__button text-center" id="defaultCard" disabled onclick="setDefaultAddress('{% url "users:setdefault_address" %}', '{{csrf_token}}')">
+								Use this card
 							</paper-button>
 						</div>
 					</div>

@@ -200,11 +200,13 @@ body {
 	cursor: pointer;
 }
 
-#panels {
+#panels,
+#cardPanels {
 	margin: auto 5px;
 }
 
-.panel {
+.panel,
+#cardPanels {
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
