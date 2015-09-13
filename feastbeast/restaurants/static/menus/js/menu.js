@@ -36,6 +36,7 @@ function submitAddress(country, target_url, csrf_token) {
                         //add a panel
                         //change the properties back to the add address button
                         $("#addAddress").children('paper-material').text('Add an address');
+                        $("#addressButton > paper-material").text(address);
                         toggle = 1;
                         $("#address_label").val("");
                         $("#city_label").val("");
@@ -64,7 +65,7 @@ function getAddresses(delivery_info, target_url) {
             function(data) {
 
                 for (var i = 0; i < data.user_addresses.length; i++) {
-                    $("#panels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons'>delete</i></div></div>");
+                    $("#panels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons delete-address'>delete</i></div></div>");
                     $("#panels").children().last().find(".panel-body").text(data.user_addresses[i].street_address);
                     $("#panels").children().last().find(".panel-body").attr('id', String(data.user_addresses[i].id));
                     if (data.user_addresses[i].default === true) {
@@ -89,7 +90,7 @@ function setDefaultAddress(target_url, csrf_token) {
             'csrfmiddlewaretoken': csrf_token
         },
         function(data) {
-            if (data.status == 1) {
+            if (data.status === 1) {
                 $("#addressButton > paper-material").text(data.street_address);
                 $("#deliveryAddressModal").modal('hide');
                 $('#defaultAddress').prop('disabled', true);
@@ -100,6 +101,33 @@ function setDefaultAddress(target_url, csrf_token) {
 
     )
 
+}
+
+//function to delete the address
+function deleteAddress(target_url, csrf_token, element) {
+
+    var choice = confirm("Are you sure you want to delete this address ?")
+
+    if (choice == true) {
+        var id = $(element).parent().siblings().find('.panel-body').attr('id');
+        $.post(
+            target_url, {
+                'address_id': id,
+                'csrfmiddlewaretoken': csrf_token
+            },
+            function(data) {
+                if (data.status === 1) {
+                    $(element).parent().parent().remove();
+                } else if (data.status === 2) {
+                    $(element).parent().parent().remove();
+                    $("#addressButton > paper-material").text("Add an address");
+                } else {
+                    alert("Address could not be deleted")
+                }
+            }
+
+        )
+    }
 }
 
 //function to add radio button functionality to the various addresses
