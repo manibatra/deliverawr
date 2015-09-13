@@ -37,6 +37,7 @@ def get_addresses(request):
 		user_address['street_address'] = address.street_address
 		user_address['id'] = address.id
 		user_address['postcode'] = address.postcode
+		user_address['default'] = address.default
 		user_addresses.append(user_address)
 	response = { 'user_addresses': user_addresses}
 	return HttpResponse(json.dumps(response), content_type='application/json')
@@ -52,7 +53,7 @@ def save_address(request):
 
 		#creating a user address object from the delivery address
 		user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
-										phone_no='0414708810',default=False)
+										phone_no='0414708810',default=True)
 		user_address.save()
 
 		response = {'status' : 1}

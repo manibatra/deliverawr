@@ -11,5 +11,16 @@ class UserAddress(models.Model):
 	phone_no = models.CharField(max_length=15)
 	default = models.BooleanField()
 
+	def save(self, *args, **kwargs):
+		if self.default:
+			try:
+				temp = UserAddress.objects.get(default=True, user=self.user)
+				if self != temp:
+					temp.default = False
+					temp.save()
+			except UserAddress.DoesNotExist:
+				pass
+		super(UserAddress, self).save(*args, **kwargs)
+
 
 

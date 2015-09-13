@@ -42,6 +42,7 @@ function submitAddress(country, target_url, csrf_token) {
                         $("#address_label").val("");
                         $("#city_label").val("");
                         $("#postcode_label").val("");
+                        $("#deliveryAddressModal").modal('hide');
 
                     } else {
                         alert('Could not save address');
@@ -65,9 +66,12 @@ function getAddresses(delivery_info, target_url) {
             function(data) {
 
                 for (var i = 0; i < data.user_addresses.length; i++) {
-                    $("#panels").last().append("<div class='panel panel-default'><div class='panel-body text-center'></div></div>");
+                    $("#panels").last().append("<div class='panel panel-default address'><div class='panel-body text-center'></div></div>");
                     $("#panels").children().last().children().text(data.user_addresses[i].street_address);
                     $("#panels").children().last().children().attr('id', String(data.user_addresses[i].id));
+                    if (data.user_addresses[i].default === true) {
+                        $("#panels").children().last().addClass("mdl-shadow--4dp");
+                    }
                 };
 
 
@@ -77,6 +81,12 @@ function getAddresses(delivery_info, target_url) {
 
     $("#deliveryAddressModal").modal('show');
 }
+
+var selectDefault = $("#panels").on("click", "*", function() {
+    $(this).closest(".address").addClass("mdl-shadow--4dp").siblings().removeClass("mdl-shadow--4dp");
+});
+
+$(document).ready(selectDefault);
 
 //script for adding to the cart
 $('.add_to_cart').click(function() {
