@@ -73,11 +73,11 @@ def delete_address(request):
 		user_address = UserAddress.objects.get(pk=address_id)
 		user_address.delete()
 		try:
-			default_address = UserAddress.objects.get(default=True)
+			default_address = UserAddress.objects.get(default=True, user=request.user)
 			response = {'status': 1}  # the address was deleted
 		except UserAddress.DoesNotExist:
 			try:
-				new_default_address = UserAddress.objects.latest('id')
+				new_default_address = UserAddress.objects.filter(user=request.user).latest('id')
 				new_default_address.default = True
 				new_default_address.save()
 				response = {'status' : 2, 'default_id' : new_default_address.id} #the address was delted and new default add_id is sent
