@@ -31,8 +31,6 @@ function submitAddress(country, target_url, csrf_token) {
                 function(response) {
                     //the object was saved in the database
                     if (response.status == 1) {
-                        $("#panels").last().append("<div class='panel panel-default'><div class='panel-body text-center'></div></div>");
-                        $("#panels").children().last().children().text(address);
 
                         $("#inputAddress").hide();
                         //add a panel
@@ -66,11 +64,11 @@ function getAddresses(delivery_info, target_url) {
             function(data) {
 
                 for (var i = 0; i < data.user_addresses.length; i++) {
-                    $("#panels").last().append("<div class='panel panel-default address'><div class='panel-body text-center'></div></div>");
-                    $("#panels").children().last().children().text(data.user_addresses[i].street_address);
-                    $("#panels").children().last().children().attr('id', String(data.user_addresses[i].id));
+                    $("#panels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons'>delete</i></div></div>");
+                    $("#panels").children().last().find(".panel-body").text(data.user_addresses[i].street_address);
+                    $("#panels").children().last().find(".panel-body").attr('id', String(data.user_addresses[i].id));
                     if (data.user_addresses[i].default === true) {
-                        $("#panels").children().last().addClass("mdl-shadow--4dp");
+                        $("#panels").children().last().find(".panel-default").addClass("mdl-shadow--4dp");
                     }
                 };
 
@@ -94,6 +92,7 @@ function setDefaultAddress(target_url, csrf_token) {
             if (data.status == 1) {
                 $("#addressButton > paper-material").text(data.street_address);
                 $("#deliveryAddressModal").modal('hide');
+                $('#defaultAddress').prop('disabled', true);
             } else {
                 alert("Address could not be used, Try again");
             }
@@ -105,7 +104,7 @@ function setDefaultAddress(target_url, csrf_token) {
 
 //function to add radio button functionality to the various addresses
 var selectDefault = $("#panels").on("click", "*", function() {
-    $(this).closest(".address").addClass("mdl-shadow--4dp").siblings().removeClass("mdl-shadow--4dp");
+    $(this).closest(".address").addClass("mdl-shadow--4dp").parent().parent().siblings().find(".panel").removeClass("mdl-shadow--4dp");
     $('#defaultAddress').prop('disabled', false);
 });
 

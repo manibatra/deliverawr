@@ -199,3 +199,12 @@ body {
 .address {
 	cursor: pointer;
 }
+
+#panels {
+	margin: auto 5px;
+}
+
+.panel {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
