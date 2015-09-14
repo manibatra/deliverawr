@@ -92,7 +92,7 @@ def getCards(request):
 #Add a new card to the customer
 def addCard(request):
 	if request.is_ajax() or request.method == 'POST':
-		stripe_id = request.POST['stripe_id']
+		stripe_id = UserPayment.objects.get(user=request.user).stripe_id
 		token = request.POST['stripeToken']
 		customer = stripe.Customer.retrieve(stripe_id)
 		if 'id' not in customer:  # checking if the customer exists
@@ -110,11 +110,29 @@ def addCard(request):
 #function to make the card default
 def makeDefault(request):
 	if request.is_ajax() or request.method == 'POST':
-		stripe_id = request.POST['stripe_id']
+		stripe_id = UserPayment.objects.get(user=request.user).stripe_id
 		customer = stripe.Customer.retrieve(stripe_id)
 		customer.default_source = request.POST['card_id']
 		customer.save()
 		response = {'status' : 1}
+	else:
+		response = {'status' : 0}
+	return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+#function to delete the card
+def deleteCard(request):
+	if request.is_ajax() or request.method == 'POST':
+		current_user = UserPayment.objects.get(user=request.user)
+		card_id = request.POST['card_id']
+		customer = stripe.Customer.retrieve(current_user.stripe_id)
+		customer.sources.retrieve(card_id).delete()
+		default_card_id = stripe.Customer.retrieve(current_user.stripe_id).default_source
+		if 'card' not in default_card_id: #all the cards have been deleted
+			response = {'status' : 2}
+		else:
+			default_card = customer.sources.retrieve(default_card_id)
+			response = {'status' : 1, 'brand' : default_card.brand, 'last' : default_card.last4, 'card_id' : default_card.id}
 	else:
 		response = {'status' : 0}
 	return HttpResponse(json.dumps(response), content_type='application/json')

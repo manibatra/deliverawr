@@ -3,7 +3,36 @@
 
 var toggle = 1;
 var configured = 0;
-var add_handler;
+var add_handler = StripeCheckout.configure({
+    key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
+    locale: 'auto',
+    //shippingAddress: true,
+    panelLabel: 'Add card',
+    token: function(token, args) {
+        // Use the token to create the charge with a server-side script.
+        // You can access the token ID with `token.id`
+        var data = {}
+        data['csrfmiddlewaretoken'] = csrftoken;
+        data['stripeToken'] = token.id;
+        $.post(
+            '/payments/add-card/',
+            data,
+            function(data) {
+                if (data.status == 1) {
+                    $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons'>delete</i></div></div>");
+                    $("#cardPanels").children().last().find(".panel-body").text(data.brand + " : " + data.last);
+                    $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
+                    $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
+                    $("#paymentMethodsButton > paper-material").text(token.card.brand + " : " + token.card.last4);
+                    $("#paymentMethodsButton").attr('id', token.card.id);
+                    $("#paymentInfoModal").modal('hide');
+                    setDefaultCard(token.card.id);
+                }
+            }
+        );
+    }
+});
+
 // using jQuery to get the csrf token
 function getCookie(name) {
     var cookieValue = null;
@@ -113,7 +142,7 @@ $("#paymentMethodsButton").on('click', function() {
 
             if (data.status === 1) {
                 for (var i = 0; i < data.user_payment_methods.length; i++) {
-                    $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons delete-address'>delete</i></div></div>");
+                    $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons dele'>delete</i></div></div>");
                     $("#cardPanels").children().last().find(".panel-body").text(data.user_payment_methods[i].brand + " : " + data.user_payment_methods[i].last);
                     $("#cardPanels").children().last().find(".panel-body").attr('id', data.user_payment_methods[i].card_id);
                     $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
@@ -206,35 +235,6 @@ $('.add_to_cart').click(function() {
 /////////Stripe related requests
 
 function addCard(stripe_id, mail, image_url) {
-    var add_handler = StripeCheckout.configure({
-        key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
-        image: image_url,
-        locale: 'auto',
-        //shippingAddress: true,
-        panelLabel: 'Add card',
-        token: function(token, args) {
-            // Use the token to create the charge with a server-side script.
-            // You can access the token ID with `token.id`
-            var data = {}
-            data['csrfmiddlewaretoken'] = csrftoken;
-            data['stripeToken'] = token.id;
-            data['stripe_id'] = stripe_id;
-            $.post(
-                '/payments/add-card/',
-                data,
-                function(data) {
-                    if (data.status == 1) {
-                        $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons delete-address'>delete</i></div></div>");
-                        $("#cardPanels").children().last().find(".panel-body").text(data.brand + " : " + data.last);
-                        $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
-                        $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
-                        setDefaultCard(stripe_id, data.brand, data.last, data.card_id);
-                    }
-                }
-            );
-        }
-    });
-
 
 
     add_handler.open({
@@ -250,21 +250,50 @@ function addCard(stripe_id, mail, image_url) {
 }
 
 //function to set the default card
-function setDefaultCard(stripe_id, brand, last, card_id) {
+function setDefaultCard(card_id) {
     $.post(
         '/payments/make-default/', {
-            'stripe_id': stripe_id,
             'card_id': card_id,
             'csrfmiddlewaretoken': csrftoken
         },
         function(data) {
             if (data.status == 1) {
-                $("#ppaymentMethodsButton > paper-material").text(brand + " : " + last);
-                $("#paymentMethodsButton").attr('id', card_id);
-                $("#paymentInfoModal").modal('hide');
+
             }
         }
 
     );
 
+}
+
+//function to delete the card
+function deleteCard(element) {
+
+    var choice = confirm("Are you sure you want to delete this card ?")
+
+    if (choice == true) {
+        var id = $(element).parent().siblings().find('.panel-body').attr('id');
+        $.post(
+            '/payments/delete-card/', {
+                'card_id': id,
+                'csrfmiddlewaretoken': csrftoken
+            },
+            function(data) {
+                if (data.status === 1) { //any card deleted
+                    $(element).parent().parent().remove();
+                    $("#" + data.card_id).parent().addClass('mdl-shadow--4dp');
+                    $("#paymentMethodsButton > paper-material").text(data.brand + " : " + data.last);
+                    $("#paymentMethodsButton").attr('id', 'pay' + data.card_id);
+                    $('#defaultCard').prop('disabled', true);
+                } else if (data.status === 2) {
+                    $(element).parent().parent().remove();
+                    $("#paymentMethodsButton > paper-material").text('Add a Card');
+                    $('#defaultCard').prop('disabled', true);
+                } else {
+                    alert("Card could not be deleted");
+                }
+            }
+
+        )
+    }
 }
