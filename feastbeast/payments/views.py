@@ -90,14 +90,34 @@ def getCards(request):
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 #Add a new card to the customer
-def add_card(request):
+def addCard(request):
 	if request.is_ajax() or request.method == 'POST':
 		stripe_id = request.POST['stripe_id']
 		token = request.POST['stripeToken']
 		customer = stripe.Customer.retrieve(stripe_id)
+		if 'id' not in customer:  # checking if the customer exists
+			customer = stripe.Customer.create(
+						source=token,
+						description="test description"
+					)
+
+			save_stripeid(request.user, customer.id)
+
 		card = customer.sources.create(source=token)
-		response = {'status':1, 'brand': card.brand, 'last4': card.last4, 'card_id': card.id }
+		response = {'status':1, 'brand': card.brand, 'last': card.last4, 'card_id': card.id }
 		return HttpResponse(json.dumps(response), content_type='application/json')
+
+#function to make the card default
+def makeDefault(request):
+	if request.is_ajax() or request.method == 'POST':
+		stripe_id = request.POST['stripe_id']
+		customer = stripe.Customer.retrieve(stripe_id)
+		customer.default_source = request.POST['card_id']
+		customer.save()
+		response = {'status' : 1}
+	else:
+		response = {'status' : 0}
+	return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 #method to save the stripe id of the current_user

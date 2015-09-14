@@ -2,7 +2,8 @@
 
 
 var toggle = 1;
-
+var configured = 0;
+var add_handler;
 // using jQuery to get the csrf token
 function getCookie(name) {
     var cookieValue = null;
@@ -201,3 +202,69 @@ $('.add_to_cart').click(function() {
         $('#payButton').attr("value", data);
     });
 });
+
+/////////Stripe related requests
+
+function addCard(stripe_id, mail, image_url) {
+    var add_handler = StripeCheckout.configure({
+        key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
+        image: image_url,
+        locale: 'auto',
+        //shippingAddress: true,
+        panelLabel: 'Add card',
+        token: function(token, args) {
+            // Use the token to create the charge with a server-side script.
+            // You can access the token ID with `token.id`
+            var data = {}
+            data['csrfmiddlewaretoken'] = csrftoken;
+            data['stripeToken'] = token.id;
+            data['stripe_id'] = stripe_id;
+            $.post(
+                '/payments/add-card/',
+                data,
+                function(data) {
+                    if (data.status == 1) {
+                        $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons delete-address'>delete</i></div></div>");
+                        $("#cardPanels").children().last().find(".panel-body").text(data.brand + " : " + data.last);
+                        $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
+                        $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
+                        setDefaultCard(stripe_id, data.brand, data.last, data.card_id);
+                    }
+                }
+            );
+        }
+    });
+
+
+
+    add_handler.open({
+        email: mail,
+        name: 'Feast Beast',
+        description: 'Add the card',
+    });
+
+    //Close Checkout on page navigation
+    $(window).on('popstate', function() {
+        add_handler.close();
+    });
+}
+
+//function to set the default card
+function setDefaultCard(stripe_id, brand, last, card_id) {
+    $.post(
+        '/payments/make-default/', {
+            'stripe_id': stripe_id,
+            'card_id': card_id,
+            'csrfmiddlewaretoken': csrftoken
+        },
+        function(data) {
+            if (data.status == 1) {
+                $("#ppaymentMethodsButton > paper-material").text(brand + " : " + last);
+                $("#paymentMethodsButton").attr('id', card_id);
+                $("#paymentInfoModal").modal('hide');
+            }
+        }
+
+    );
+
+}

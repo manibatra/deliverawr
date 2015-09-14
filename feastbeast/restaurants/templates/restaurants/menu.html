@@ -248,7 +248,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{stripe_id}}','{% url "users:save_address" %}', '{{csrf_token}}')">
 								Add an address
 							</paper-button>
 						</div>
@@ -276,7 +276,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<paper-button class="sidebar__button text-center" id="addCard" onclick="submitAddress('{{country}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+							<paper-button class="sidebar__button text-center" id="addCard" onclick="addCard('{{stripe_id}}','{{request.user.email}}', '{% static "images/monster.png" %}')">
 								Add a payment method
 							</paper-button>
 						</div>
@@ -349,7 +349,7 @@
 						);
 						}
 					});
-				var add_handler = StripeCheckout.configure({
+				/*var add_handler = StripeCheckout.configure({
 						key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
 						image: '{% static "images/monster.png" %}',
 						locale: 'auto',
@@ -373,11 +373,12 @@
 							}
 						);
 						}
-					});
+					});*/
 				var mail = "";
 				{% if request.user.is_authenticated %}
 							mail = "{{ request.user.email }}"
 				{% endif %}
+				/*
 				$('#addCard').on('click', function(e) {
 						// Open Checkout with further options
 						add_handler.open({
@@ -390,7 +391,7 @@
 				//Close Checkout on page navigation
 				$(window).on('popstate', function() {
 					add_handler.close();
-				});
+				});*/
 	</script>
 	<script type="text/javascript">
 	//hack to display the team image during development
