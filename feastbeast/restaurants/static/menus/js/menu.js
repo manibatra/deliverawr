@@ -185,9 +185,10 @@ function deleteAddress(element) {
 }
 
 //function to add radio button functionality to the various addresses
-var selectDefault = $("#panels").on("click", "*", function() {
+var selectDefault = $("#panels, #cardPanels").on("click", "*", function() {
     $(this).closest(".address").addClass("mdl-shadow--4dp").parent().parent().siblings().find(".panel").removeClass("mdl-shadow--4dp");
     $('#defaultAddress').prop('disabled', false);
+    $('#defaultCard').prop('disabled', false);
 });
 
 $(document).ready(selectDefault);
