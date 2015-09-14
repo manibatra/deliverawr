@@ -251,13 +251,21 @@ function addCard(stripe_id, mail, image_url) {
 
 //function to set the default card
 function setDefaultCard(card_id) {
+    var change_stuff = 0; //stupid hack, 0 means that the funciton is being called from add card
+    if (card_id == 0) {
+        card_id = $("#cardPanels .mdl-shadow--4dp > .panel-body").attr('id');
+        change_stuff = 1;
+    }
     $.post(
         '/payments/make-default/', {
             'card_id': card_id,
             'csrfmiddlewaretoken': csrftoken
         },
         function(data) {
-            if (data.status == 1) {
+            if (data.status == 1 && change_stuff == 1) {
+                $("#paymentMethodsButton > paper-material").text($("#" + card_id).text());
+                $("#paymentMethodsButton > paper-material").attr('id', card_id);
+                $("#paymentInfoModal").modal('hide');
 
             }
         }
