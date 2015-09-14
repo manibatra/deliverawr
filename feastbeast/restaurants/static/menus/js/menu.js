@@ -24,7 +24,7 @@ var add_handler = StripeCheckout.configure({
                     $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
                     $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
                     $("#paymentMethodsButton > paper-material").text(token.card.brand + " : " + token.card.last4);
-                    $("#paymentMethodsButton").attr('id', token.card.id);
+                    $("#paymentMethodsButton > paper-material").attr('id', token.card.id);
                     $("#paymentInfoModal").modal('hide');
                     setDefaultCard(token.card.id);
                 }
@@ -270,8 +270,10 @@ function setDefaultCard(card_id) {
 function deleteCard(element) {
 
     var choice = confirm("Are you sure you want to delete this card ?")
+    $('#defaultCard').prop('disabled', true);
 
     if (choice == true) {
+        $('#defaultCard').prop('disabled', true);
         var id = $(element).parent().siblings().find('.panel-body').attr('id');
         $.post(
             '/payments/delete-card/', {
@@ -283,7 +285,7 @@ function deleteCard(element) {
                     $(element).parent().parent().remove();
                     $("#" + data.card_id).parent().addClass('mdl-shadow--4dp');
                     $("#paymentMethodsButton > paper-material").text(data.brand + " : " + data.last);
-                    $("#paymentMethodsButton").attr('id', 'pay' + data.card_id);
+                    $("#paymentMethodsButton > paper-material").attr('id', data.card_id);
                     $('#defaultCard').prop('disabled', true);
                 } else if (data.status === 2) {
                     $(element).parent().parent().remove();

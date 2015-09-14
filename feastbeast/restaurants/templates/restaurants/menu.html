@@ -283,7 +283,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<paper-button class="sidebar__button text-center" id="defaultCard" disabled onclick="setDefaultAddress('{% url "users:setdefault_address" %}', '{{csrf_token}}')">
+							<paper-button class="sidebar__button text-center" id="defaultCard" disabled="disabled" onclick="setDefaultAddress('{% url "users:setdefault_address" %}', '{{csrf_token}}')">
 								Use this card
 							</paper-button>
 						</div>

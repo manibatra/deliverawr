@@ -128,7 +128,7 @@ def deleteCard(request):
 		customer = stripe.Customer.retrieve(current_user.stripe_id)
 		customer.sources.retrieve(card_id).delete()
 		default_card_id = stripe.Customer.retrieve(current_user.stripe_id).default_source
-		if 'card' not in default_card_id: #all the cards have been deleted
+		if default_card_id is None: #all the cards have been deleted
 			response = {'status' : 2}
 		else:
 			default_card = customer.sources.retrieve(default_card_id)
