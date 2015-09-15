@@ -12,6 +12,9 @@ class Restaurant(models.Model):
 	primary_image = models.ImageField(upload_to='restaurants/primary_image/')
 	secondary_image = models.ImageField(upload_to='restaurants/secondary_image/')
 
+	def __str__(self):              # __unicode__ on Python 2
+		return self.name
+
 #model for the restaurant delivery locations
 class DeliveryLocation(models.Model):
 	restaurant = models.ForeignKey('restaurants.Restaurant')
@@ -47,15 +50,21 @@ class MenuItem(models.Model):
 	item_id = models.AutoField(primary_key=True)
 	restaurant = models.ForeignKey('restaurants.Restaurant', related_name='menu_items')
 	name = models.CharField(max_length=30)
-	price = models.DecimalField(max_digits=3, decimal_places=2)
-	description = models.CharField(max_length=140, null=True)
-	category = models.CharField(max_length=30)
-	time_available = models.CharField(max_length=15)
-	option = models.ForeignKey('self', null=True, related_name='has_options')
+	price = models.DecimalField(max_digits=5, decimal_places=2)
+	description = models.CharField(max_length=140, blank=True, null=True)
+	category = models.CharField(max_length=30, blank=True, null=True)
+	time_available = models.CharField(max_length=15, blank=True, null=True)
+	option = models.ForeignKey('self', blank=True, related_name='has_options', null=True)
 	ingredient = models.BooleanField()
 	add_on = models.BooleanField()
 	removable = models.BooleanField()
+	choose_one = models.BooleanField()
 
+	def __str__(self):
+		if self.option:              # __unicode__ on Python 2
+			return (self.name + " - " + self.option.name)
+		else:
+			return self.name
 
 #model for the options available to add and remove from the menu item
 class Options(models.Model):
