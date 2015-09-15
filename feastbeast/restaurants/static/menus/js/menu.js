@@ -318,7 +318,27 @@ $(".cust-button").on('click', function() {
             'item_id': parseInt($(this).attr("id"))
         },
         function(data) {
+            if (data.status == 1) {
+                for (var i = 0; i < data.all_categories.length; i++) {
+                    $("#item-options").last().append('<div class="row"><div class="col-md-12"><span class="pull-left category-title"></span></div></div><div class="row"><div class="col-md-12"><hr></div></div>');
+                    var name = data.all_categories[i].name;
+                    $(".category-title").last().text(name);
+                    for (var j = 0; j < data.all_options.length; j++) {
+                        if (data.all_options[j].category === data.all_categories[i].name) {
+                            $("#item-options").last().append('<div class="row"><div class="col-md-12"><div class="input-group" ><input class="input-control" aria-label="option" name="extra toppings"><label class="add-on"></label></div></div></div>');
+                            $(".add-on").last().text(data.all_options[j].name + "      :     $" + data.all_options[j].price);
+                            $(".input-control").last().attr('aria-label', 'option');
+                            if (data.all_options[j].choose_one == true) {
+                                $(".input-control").last().attr('type', 'radio');
+                            } else {
+                                $(".input-control").last().attr('type', 'checkbox');
+                            }
+                        }
+                    }
+                    $("#item-options").last().append('<br><br>');
 
+                }
+            };
         }
     )
     $('#custMenuModal').modal('show');

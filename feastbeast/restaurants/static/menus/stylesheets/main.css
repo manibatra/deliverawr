@@ -210,3 +210,12 @@ body {
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
+
+.add-on {
+	margin-left: 10px;
+	font-size: 16px;
+}
+
+.category-title {
+	font-size: 20px;
+}

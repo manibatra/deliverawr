@@ -24,7 +24,7 @@ def detail(request, restaurant_id):
 	#sending the menu objects
 	all_items = MenuItem.objects.exclude(category__exact='').filter(restaurant=restaurant_id)
 	restaurant = Restaurant.objects.get(pk=restaurant_id)
-	all_categories = MenuItem.objects.exclude(category__exact='').order_by('category').values('category').distinct()
+	all_categories = MenuItem.objects.filter(restaurant=restaurant_id).exclude(category__exact='').order_by('category').values('category').distinct()
 	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant }
 
 	#getting the stored user payment info
@@ -88,12 +88,20 @@ def add(request, restaurant_id, item_id):
 def customOptions(request):
 	item_id = request.GET['item_id']
 	all_options = MenuItem.objects.exclude(option_category__exact='').filter(option=item_id)
+	all_option_categories = MenuItem.objects.exclude(option_category__exact='').filter(option=item_id).order_by('option_category').values('option_category').distinct()
+	all_categories = []
+	for category in all_option_categories:
+		current_category = {}
+		current_category['name'] = category['option_category']
+		all_categories.append(current_category)
 	menu_item_options = []
 	for option in all_options:
 		current_option = {}
 		current_option['item_id'] = option.item_id
 		current_option['category'] = option.option_category
 		current_option['name'] = option.name
+		current_option['choose_one'] = option.choose_one
+		current_option['price'] = str(option.price)
 		menu_item_options.append(current_option)
-	response = {'status' : 1, 'all_options' : menu_item_options}
+	response = {'status' : 1, 'all_options' : menu_item_options, 'all_categories' : all_categories}
 	return HttpResponse(json.dumps(response), content_type='application/json')
