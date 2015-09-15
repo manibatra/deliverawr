@@ -305,5 +305,13 @@ function deleteCard(element) {
             }
 
         )
+
+
     }
 }
+
+//function to for the cusomise button to launch the modal
+
+$(".cust-button").on('click', function() {
+    $('#custMenuModal').modal('show');
+});

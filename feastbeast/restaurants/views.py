@@ -19,9 +19,9 @@ stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
 def detail(request, restaurant_id):
 
 	#sending the menu objects
-	all_items = MenuItem.objects.filter(restaurant=restaurant_id, option= None)
+	all_items = MenuItem.objects.exclude(category__exact='').filter(restaurant=restaurant_id)
 	restaurant = Restaurant.objects.get(pk=restaurant_id)
-	all_categories = MenuItem.objects.order_by('category').values('category').distinct()
+	all_categories = MenuItem.objects.exclude(category__exact='').order_by('category').values('category').distinct()
 	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant }
 
 	#getting the stored user payment info
