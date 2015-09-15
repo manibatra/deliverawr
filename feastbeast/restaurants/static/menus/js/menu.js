@@ -313,5 +313,13 @@ function deleteCard(element) {
 //function to for the cusomise button to launch the modal
 
 $(".cust-button").on('click', function() {
+    $.get(
+        '/restuarant/custom-options/', {
+            'item_id': $(this).id
+        },
+        function(data) {
+
+        }
+    )
     $('#custMenuModal').modal('show');
 });

@@ -71,7 +71,7 @@ def detail(request, restaurant_id):
 
 	return render(request, 'restaurants/menu.html', context)
 
-
+#function to add the product to the cart
 def add(request, restaurant_id, item_id):
 	cart = Cart(request.session)
 	if request.is_ajax() or request.method == 'GET':
@@ -81,3 +81,7 @@ def add(request, restaurant_id, item_id):
 		return HttpResponse(str(cart.total))
 	else:
 		return HttpResponse("Not Added")
+
+def customOptions(request):
+
+	return HttpResponse('')
