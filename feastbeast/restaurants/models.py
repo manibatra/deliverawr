@@ -45,12 +45,17 @@ class DeliveryHours(models.Model):
 #model for the menu items in the restaurant
 class MenuItem(models.Model):
 	item_id = models.AutoField(primary_key=True)
-	restaurant = models.ForeignKey('restaurants.Restaurant')
+	restaurant = models.ForeignKey('restaurants.Restaurant', related_name='menu_items')
 	name = models.CharField(max_length=30)
 	price = models.DecimalField(max_digits=3, decimal_places=2)
-	description = models.CharField(max_length=140)
+	description = models.CharField(max_length=140, null=True)
 	category = models.CharField(max_length=30)
 	time_available = models.CharField(max_length=15)
+	option = models.ForeignKey('self', null=True, related_name='has_options')
+	ingredient = models.BooleanField()
+	add_on = models.BooleanField()
+	removable = models.BooleanField()
+
 
 #model for the options available to add and remove from the menu item
 class Options(models.Model):

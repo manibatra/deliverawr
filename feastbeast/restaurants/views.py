@@ -19,7 +19,7 @@ stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
 def detail(request, restaurant_id):
 
 	#sending the menu objects
-	all_items = MenuItem.objects.filter(restaurant=restaurant_id)
+	all_items = MenuItem.objects.filter(restaurant=restaurant_id, option= None)
 	restaurant = Restaurant.objects.get(pk=restaurant_id)
 	all_categories = MenuItem.objects.order_by('category').values('category').distinct()
 	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant }
