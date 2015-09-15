@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
+from django.core import serializers
 
 from carton.cart import Cart
 
@@ -10,6 +12,7 @@ from users.models import UserAddress
 from restaurants.models import MenuItem
 
 import stripe
+import json
 
 stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
 
@@ -83,5 +86,14 @@ def add(request, restaurant_id, item_id):
 		return HttpResponse("Not Added")
 
 def customOptions(request):
-
-	return HttpResponse('')
+	item_id = request.GET['item_id']
+	all_options = MenuItem.objects.exclude(option_category__exact='').filter(option=item_id)
+	menu_item_options = []
+	for option in all_options:
+		current_option = {}
+		current_option['item_id'] = option.item_id
+		current_option['category'] = option.option_category
+		current_option['name'] = option.name
+		menu_item_options.append(current_option)
+	response = {'status' : 1, 'all_options' : menu_item_options}
+	return HttpResponse(json.dumps(response), content_type='application/json')

@@ -314,8 +314,8 @@ function deleteCard(element) {
 
 $(".cust-button").on('click', function() {
     $.get(
-        '/restuarant/custom-options/', {
-            'item_id': $(this).id
+        '/restaurant/custom-options/', {
+            'item_id': parseInt($(this).attr("id"))
         },
         function(data) {
 
