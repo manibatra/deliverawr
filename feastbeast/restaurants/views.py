@@ -85,6 +85,19 @@ def add(request, restaurant_id, item_id):
 	else:
 		return HttpResponse("Not Added")
 
+#function to add  product and its custom options to the cart
+def addCustom(request):
+	cart = Cart(request.session)
+	if request.is_ajax() or request.method == 'GET':
+		#item_id = request.GET['item_id']
+		items_to_add = json.loads(request.GET['data'])
+		for item in items_to_add:
+			product = MenuItem.objects.get(pk=item['item_id'])
+			cart.add(product, price=product.price)
+		return HttpResponse(str(cart.total))
+	else:
+		return HttpResponse("Not Added")
+
 def customOptions(request):
 	item_id = request.GET['item_id']
 	all_options = MenuItem.objects.exclude(option_category__exact='').filter(option=item_id)

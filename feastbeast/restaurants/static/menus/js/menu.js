@@ -351,12 +351,29 @@ $(".cust-button").on('click', function() {
             };
         }
     )
+    $('#custMenuModal').attr('name', $(this).attr('id'));
     $('#custMenuModal').modal('show');
 });
 
 //function to add checked items in modal to the cart
 $("#addToCartModal").on('click', function() {
+    data = [];
     $("input:checked").filter(".input-control").each(function() {
-        console.log($(this).val());
+        item = {};
+        item['item_id'] = $(this).val();
+        data.push(item);
     });
+    item = {}
+    item['item_id'] = $('#custMenuModal').attr('name');
+    data.push(item);
+    data = JSON.stringify(data);
+    $.get(
+        "/restaurant/add-custom/", {
+            'data': data
+        },
+        function(response, status) {
+            alert("Data: " + response + "\nStatus: " + status);
+            $('#payButton').attr("value", response);
+        });
+    $('#custMenuModal').modal('hide');
 });
