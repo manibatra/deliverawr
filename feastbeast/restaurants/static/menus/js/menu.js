@@ -227,8 +227,7 @@ $(document).ready(selectDefault);
 $('.add_to_cart').click(function() {
     var $id = $(this).attr("name");
     $.get("add/" + $id, function(data, status) {
-        alert("Data: " + data + "\nStatus: " + status);
-        $('#payButton').attr("value", data);
+        $(".order-badge").text(data);
     });
 });
 
@@ -372,8 +371,7 @@ $("#addToCartModal").on('click', function() {
             'data': data
         },
         function(response, status) {
-            alert("Data: " + response + "\nStatus: " + status);
-            $('#payButton').attr("value", response);
+            $(".order-badge").text(response);
         });
     $('#custMenuModal').modal('hide');
 });

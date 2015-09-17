@@ -134,14 +134,14 @@
 					{% endfor %}
 				</div>
 			</div>
+			{% load carton_tags %}
+			{% get_cart as cart %}
 			<div class="col-md-2">
 				<div class="row">
 					<paper-button id="#orderButton" class="sidebar__button top-button">
-						Order
+						Order<span class="badge order-badge">{{cart.total}}</span>
 					</paper-button>
 				</div>
-				{% load carton_tags %}
-				{% get_cart as cart %}
 				<div class="row">
 					<paper-button id="payButton" class="sidebar__button" value="{{ cart.total }}">
 						Pay

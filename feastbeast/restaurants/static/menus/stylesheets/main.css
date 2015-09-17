@@ -230,3 +230,9 @@ body {
 .category-title {
 	font-size: 20px;
 }
+
+.order-badge {
+	background-color: white;
+	margin-left: 10px;
+	color: rgba(0, 0, 0, .5);
+}
