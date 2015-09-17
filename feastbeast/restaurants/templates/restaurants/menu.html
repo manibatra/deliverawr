@@ -297,11 +297,15 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Payment Methods</h4>
+					<h4 class="modal-title" id="myModalLabel">Options</h4>
 				</div>
 				<div class="modal-body" id="item-options">
-					
 				</div>
+				<div class="modal-footer">
+        			<paper-button class="options-modal__button text-center" id="addToCartModal">
+								Add to Order
+					</paper-button>
+      			</div>
 			</div>
 		</div>
 	</div>
@@ -389,7 +393,7 @@
 					});*/
 				var mail = "";
 				{% if request.user.is_authenticated %}
-							mail = "{{ request.user.email }}"
+								mail = "{{ request.user.email }}"
 				{% endif %}
 				/*
 				$('#addCard').on('click', function(e) {

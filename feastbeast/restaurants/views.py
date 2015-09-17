@@ -101,6 +101,7 @@ def customOptions(request):
 		current_option['category'] = option.option_category
 		current_option['name'] = option.name
 		current_option['choose_one'] = option.choose_one
+		current_option['removable'] = option.removable
 		current_option['price'] = str(option.price)
 		menu_item_options.append(current_option)
 	response = {'status' : 1, 'all_options' : menu_item_options, 'all_categories' : all_categories}

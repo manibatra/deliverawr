@@ -313,6 +313,7 @@ function deleteCard(element) {
 //function to for the cusomise button to launch the modal
 
 $(".cust-button").on('click', function() {
+    $("#item-options").children().remove();
     $.get(
         '/restaurant/custom-options/', {
             'item_id': parseInt($(this).attr("id"))
@@ -323,11 +324,18 @@ $(".cust-button").on('click', function() {
                     $("#item-options").last().append('<div class="row"><div class="col-md-12"><span class="pull-left category-title"></span></div></div><div class="row"><div class="col-md-12"><hr></div></div>');
                     var name = data.all_categories[i].name;
                     $(".category-title").last().text(name);
-                    for (var j = 0; j < data.all_options.length; j++) {
+                    for (var j = 0; j < data.all_options.length; j++) { //adding all the options to their respective categories
                         if (data.all_options[j].category === data.all_categories[i].name) {
-                            $("#item-options").last().append('<div class="row"><div class="col-md-12"><div class="input-group" ><input class="input-control" aria-label="option" name="extra toppings"><label class="add-on"></label></div></div></div>');
-                            $(".add-on").last().text(data.all_options[j].name + "      :     $" + data.all_options[j].price);
+                            $("#item-options").last().append('<div class="row"><div class="col-md-12"><div class="input-group" ><input class="input-control" aria-label="option"><label class="add-on"></label></div></div></div>');
+                            if (data.all_options[j].removable == false) {
+                                $(".add-on").last().text(data.all_options[j].name + "      :     $" + data.all_options[j].price);
+                            } else {
+                                $(".add-on").last().text(data.all_options[j].name);
+
+                            }
                             $(".input-control").last().attr('aria-label', 'option');
+                            $(".input-control").last().attr('name', data.all_options[j].category);
+                            $(".input-control").last().attr('value', data.all_options[j].item_id);
                             if (data.all_options[j].choose_one == true) {
                                 $(".input-control").last().attr('type', 'radio');
                             } else {
@@ -337,9 +345,18 @@ $(".cust-button").on('click', function() {
                     }
                     $("#item-options").last().append('<br><br>');
 
+
                 }
+
             };
         }
     )
     $('#custMenuModal').modal('show');
+});
+
+//function to add checked items in modal to the cart
+$("#addToCartModal").on('click', function() {
+    $("input:checked").filter(".input-control").each(function() {
+        console.log($(this).val());
+    });
 });
