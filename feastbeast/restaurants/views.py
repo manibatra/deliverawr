@@ -5,6 +5,8 @@ from django.core import serializers
 
 from carton.cart import Cart
 
+from .mycart import ModifiedCart
+
 #gettting various models required for passing info to the view
 from .models import Restaurant
 from payments.models import UserPayment
@@ -87,13 +89,23 @@ def add(request, restaurant_id, item_id):
 
 #function to add  product and its custom options to the cart
 def addCustom(request):
-	cart = Cart(request.session)
+	cart = ModifiedCart(request.session)
 	if request.is_ajax() or request.method == 'GET':
 		#item_id = request.GET['item_id']
 		items_to_add = json.loads(request.GET['data'])
+		add_ons = []
+		removed = []
 		for item in items_to_add:
-			product = MenuItem.objects.get(pk=item['item_id'])
-			cart.add(product, price=product.price)
+			if 'main_item_id' in item:
+				product = MenuItem.objects.get(pk=item['main_item_id'])
+			else:
+				custom_option = MenuItem.objects.get(pk=item['item_id'])
+				if custom_option.price == 0:
+					removed.append(custom_option)
+				else:
+					add_ons.append(custom_option)
+
+		cart.add(product, add_ons, removed, price=product.price)
 		return HttpResponse(str(cart.total))
 	else:
 		return HttpResponse("Not Added")

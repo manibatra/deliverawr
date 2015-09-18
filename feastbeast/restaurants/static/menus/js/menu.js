@@ -363,7 +363,7 @@ $("#addToCartModal").on('click', function() {
         data.push(item);
     });
     item = {}
-    item['item_id'] = $('#custMenuModal').attr('name');
+    item['main_item_id'] = $('#custMenuModal').attr('name');
     data.push(item);
     data = JSON.stringify(data);
     $.get(

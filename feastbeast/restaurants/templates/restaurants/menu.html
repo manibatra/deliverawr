@@ -134,11 +134,11 @@
 					{% endfor %}
 				</div>
 			</div>
-			{% load carton_tags %}
-			{% get_cart as cart %}
+			{% load modifiedcart_tags %}
+			{% get_modifiedcart as cart %}
 			<div class="col-md-2">
 				<div class="row">
-					<paper-button id="#orderButton" class="sidebar__button top-button">
+					<paper-button id="#orderButton" class="sidebar__button top-button" data-toggle="modal" data-target="#orderModal">
 						Order<span class="badge order-badge">{{cart.total}}</span>
 					</paper-button>
 				</div>
@@ -300,6 +300,26 @@
 					<h4 class="modal-title" id="myModalLabel">Options</h4>
 				</div>
 				<div class="modal-body" id="item-options">
+				</div>
+				<div class="modal-footer">
+        			<paper-button class="options-modal__button text-center" id="addToCartModal">
+								Add to Order
+					</paper-button>
+      			</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				</div>
+				<div class="modal-body" id="item-options">
+				{% for item in cart.items %}
+					<div class="row">
+						{{item.product.name}}
+					</div>
+				{% endfor %}
 				</div>
 				<div class="modal-footer">
         			<paper-button class="options-modal__button text-center" id="addToCartModal">

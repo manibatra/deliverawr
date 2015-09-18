@@ -16,7 +16,7 @@ from carton.cart import Cart
 
 
 
-# Create your views here.
+# Create your views here. 
 
 def place(request):
 
