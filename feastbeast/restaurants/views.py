@@ -145,6 +145,7 @@ def getCart(request):
 		product_object = {} #inlcudes the data to be sent back
 		item_object = serialised_cart[key]
 		product = MenuItem.objects.get(pk=item_object['product_pk'])
+		product_object['item_id'] = str(key)
 		product_object['name'] = product.name
 		product_object['price'] = str(product.price)
 
