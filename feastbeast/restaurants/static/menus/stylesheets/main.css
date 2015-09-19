@@ -237,8 +237,10 @@ body {
 	color: rgba(0, 0, 0, .5);
 }
 
-#orderPanels {
+#orderPanels,
+.order-footer {
 	font-size: 18px;
 	margin-right: 10px;
 	margin-left: 10px;
 }
+
