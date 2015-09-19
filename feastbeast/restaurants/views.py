@@ -165,7 +165,7 @@ def getCart(request):
 				all_add_ons.append(add_on)
 
 		if len(removed_list) > 0:  #iterate through the list of removed items
-			for remove_item in add_ons_list:
+			for remove_item in removed_list:
 				remove = {}
 				removed_product = MenuItem.objects.get(pk=remove_item['product_pk'])
 				remove['name'] = removed_product.name

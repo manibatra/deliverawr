@@ -406,15 +406,40 @@ $("#payButton").on('click', function() {
 
 //function to get the cart to show what is in it so far
 $("#orderButton").on('click', function() {
+    $("#orderPanels").children().remove();
     $.get(
         '/restaurant/get-cart/',
         function(data) {
-            for (var key in data) {
-                console.log(data[key]);
-                $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons'>delete</i></div></div>");
-                $("#cardPanels").children().last().find(".panel-body").text(data.brand + " : " + data.last);
-                $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
-                $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
+            for (var i = 0; i < data.length; i++) {
+                console.log(data[i]);
+                $("#orderPanels").last().append('\
+                	<div class="row">\
+						<div class="col-md-9 pull-left"><strong>' + data[i].name + '</strong></div>\
+						<div class="col-md-2">$' + data[i].price + '</div>\
+						<div class="col-md-1 pull-right">\
+							<button type="button" class="close" id="' + data[i].item_id + '" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+						</div>\
+					</div>');
+
+                for (var j = 0; j < data[i].add_ons.length; j++) {
+                    $("#orderPanels").last().append('\
+					<div class="row">\
+						<div class="col-md-1"></div>\
+						<div class="col-md-3 pull-left"><small>+ $' + data[i].add_ons[j].name + '</small></div>\
+						<div class="col-md-8 pull-left"><small>' + data[i].add_ons[j].price + '</small></div>\
+					</div>');
+                }
+
+                for (var j = 0; j < data[i].removed.length; j++) {
+                    $("#orderPanels").last().append('\
+					<div class="row">\
+						<div class="col-md-1"></div>\
+						<div class="col-md-3 pull-left"><small>- ' + data[i].removed[j].name + '</small></div>\
+						<div class="col-md-8"></div>\
+					</div>');
+                }
+
+                $("#orderPanels").last().append('<br><br>')
             }
         }
     )
