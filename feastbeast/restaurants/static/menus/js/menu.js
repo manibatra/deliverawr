@@ -231,7 +231,7 @@ $(document).ready(selectDefault);
 $('.add_to_cart').click(function() {
     var $id = $(this).attr("name");
     $.get("add/" + $id, function(data, status) {
-        $(".order-badge").text(data);
+        $(".order-badge").text('$' + data);
     });
 });
 
@@ -403,18 +403,12 @@ $("#payButton").on('click', function() {
     }
 })
 
-
-//function to get the cart to show what is in it so far
-$("#orderButton").on('click', function() {
-    $("#orderPanels").children().remove();
-    $.get(
-        '/restaurant/get-cart/',
-        function(data) {
-            var total_price = 0;
-            for (var i = 0; i < data.length; i++) {
-                console.log(data[i]);
-                total_price += parseFloat(data[i].price);
-                $("#orderPanels").last().append('\
+function refreshOrders(data) {
+    var total_price = 0;
+    for (var i = 0; i < data.length; i++) {
+        console.log(data[i]);
+        total_price += parseFloat(data[i].price);
+        $("#orderPanels").last().append('\
                 	<div class="row  item-' + data[i].item_id + '">\
 						<div class="col-md-9 pull-left"><strong>' + data[i].name + '</strong></div>\
 						<div class="col-md-2"><strong>$' + data[i].price + '</strong></div>\
@@ -422,30 +416,40 @@ $("#orderButton").on('click', function() {
 							<button type="button" class="close" onclick="deleteItem(this);" id="' + data[i].item_id + '" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
 						</div>\
 					</div>');
-                //adding the addons
-                for (var j = 0; j < data[i].add_ons.length; j++) {
-                    total_price += parseFloat(data[i].add_ons[j].price);
-                    $("#orderPanels").last().append('\
+        //adding the addons
+        for (var j = 0; j < data[i].add_ons.length; j++) {
+            total_price += parseFloat(data[i].add_ons[j].price);
+            $("#orderPanels").last().append('\
 					<div class="row item-' + data[i].item_id + '">\
 						<div class="col-md-1"></div>\
 						<div class="col-md-3 pull-left"><small>+ ' + data[i].add_ons[j].name + '</small></div>\
 						<div class="col-md-8 pull-left"><small>$' + data[i].add_ons[j].price + '</small></div>\
 					</div>');
-                }
-                //adding the removed items  --> irony in the sentance ??
-                for (var j = 0; j < data[i].removed.length; j++) {
-                    $("#orderPanels").last().append('\
+        }
+        //adding the removed items  --> irony in the sentance ??
+        for (var j = 0; j < data[i].removed.length; j++) {
+            $("#orderPanels").last().append('\
 					<div class="row item-' + data[i].item_id + '">\
 						<div class="col-md-1"></div>\
 						<div class="col-md-3 pull-left"><small> -  ' + data[i].removed[j].name + '</small></div>\
 						<div class="col-md-8"></div>\
 					</div>');
-                }
+        }
 
-                $("#orderPanels").last().append('<br class="item-' + data[i].item_id + '"><br class="item-' + data[i].item_id + '>');
-            }
+        $("#orderPanels").last().append('<br class="item-' + data[i].item_id + '"><br class="item-' + data[i].item_id + '>');
+    }
 
-            $("#basketTotal").text('$' + total_price.toFixed(2));
+    $("#basketTotal").text('$' + total_price.toFixed(2));
+    $(".order-badge").text('$' + total_price.toFixed(2))
+}
+
+//function to get the cart to show what is in it so far
+$("#orderButton").on('click', function() {
+    $("#orderPanels").children().remove();
+    $.get(
+        '/restaurant/get-cart/',
+        function(data) {
+            refreshOrders(data);
         }
     )
 });
@@ -458,9 +462,15 @@ function deleteItem(element) {
         '/restaurant/delete-item/', {
             'item_id': item_id
         },
-        function(data) {
-            if (data.status == 1) {
-                $("#orderButton").trigger('click');
+        function(response) {
+            if (response.status == 1) {
+                $("#orderPanels").children().remove();
+                $.get(
+                    '/restaurant/get-cart/',
+                    function(data) {
+                        refreshOrders(data);
+                    }
+                )
             }
         }
     )

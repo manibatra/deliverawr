@@ -183,9 +183,6 @@ def getCart(request):
 def deleteItem(request):
 	item_id = request.GET['item_id']
 	cart = ModifiedCart(request.session)
-
 	cart.remove(int(item_id))
-
 	response = {'status' : 1}
-
 	return HttpResponse(json.dumps(response), content_type="application/json")
