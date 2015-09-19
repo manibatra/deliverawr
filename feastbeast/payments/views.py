@@ -1,10 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import revers
+
+
 import stripe
-from carton.cart import Cart
+from restaurants.mycart import ModifiedCart
 from django.contrib.auth.models import User
 from .models import UserPayment
 import json
+
+from users.models import UserAddress
 # Set your secret key: remember to change this to your live secret key in production
 # See your keys here https://dashboard.stripe.com/account/apikeys
 stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
@@ -15,18 +20,22 @@ stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
 def charge(request):
 	# Get the credit card details submitted by the form
 	if request.is_ajax() or request.method == 'POST':
+		current_user = request.user
 
-		if 'oldCard' in request.POST:  #using the card that is already saved
+		#get the delivery address, will be saved later in order history
+		delivery_address = UserAddress.objects.filter(user=current_user, default=True)
+		#get the stripe id to charge the customer
+		stripe_id = get_stripeid(current_user)
 
-			#getting the stripe_id from UserPayment model
-			customer_id = get_stripeid(request.user)
+		cart = ModifiedCart(request.session)
+		amount = cart.total * 100
 
-			#charging the customer
+		#charging the customer
 			try:
 				stripe.charge.create(
 					amount=amount,
 					currency="aud",
-					customer=customer_id
+					customer=stripe_id
 
 				)
 
@@ -34,37 +43,13 @@ def charge(request):
 				# The card has been declined
 				return HttpResponse("Charge Failed")
 
-		else:
 
-			token = request.POST['stripeToken']
-			cart = Cart(request.session)
-			amount = int(cart.total*100)
-
-			#create a customer : todo : add checks
-			customer = stripe.Customer.create(
-							source=token,
-							description="test description"
-						)
-
-			try:
-				stripe.Charge.create(
-				  amount=amount,
-				  currency="aud",
-				  customer=customer.id
-
-				)
-
-			except stripe.error.CardError as e:
-				# The card has been declined
-				return HttpResponse("Charge Failed")
-
-			save_stripeid(request.user, customer.id)
-
-			return HttpResponse("success")
+		return HttpResponseRedirect(reverse('orders:sucess'))
 
 	else:
+		HttpResponse("invalid request - 404")
 
-		return HttpResponse("Illegal Post query")
+
 
 
 #function to get the user cards
