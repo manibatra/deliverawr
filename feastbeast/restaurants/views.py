@@ -133,3 +133,47 @@ def customOptions(request):
 		menu_item_options.append(current_option)
 	response = {'status' : 1, 'all_options' : menu_item_options, 'all_categories' : all_categories}
 	return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+#function to get the serialised representation of the cart
+def getCart(request):
+	cart = ModifiedCart(request.session)
+	serialised_cart = cart.cart_serializable
+	item_keys = serialised_cart.keys()
+	response = []
+	for key in item_keys:
+		product_object = {} #inlcudes the data to be sent back
+		item_object = serialised_cart[key]
+		product = MenuItem.objects.get(pk=item_object['product_pk'])
+		product_object['name'] = product.name
+		product_object['price'] = str(product.price)
+
+		#get the add ons and items removed
+		add_ons_list = json.loads(item_object['add_ons'])
+		removed_list = json.loads(item_object['removed'])
+
+		all_add_ons = []
+		all_removed = []
+
+		if len(add_ons_list) > 0: #iterate trhought the list of addons
+			for add_item in add_ons_list:
+				add_on = {}
+				add_on_product = MenuItem.objects.get(pk=add_item['product_pk'])
+				add_on['name'] = add_on_product.name
+				add_on['price'] = str(add_on_product.price)
+				all_add_ons.append(add_on)
+
+		if len(removed_list) > 0:  #iterate through the list of removed items
+			for remove_item in add_ons_list:
+				remove = {}
+				removed_product = MenuItem.objects.get(pk=remove_item['product_pk'])
+				remove['name'] = removed_product.name
+				remove['price'] = str(removed_product.price)
+				all_removed.append(remove)
+
+		product_object['add_ons'] = all_add_ons
+		product_object['removed'] = all_removed
+
+		#appending every object to the response
+		response.append(product_object)
+	return HttpResponse(json.dumps(response), content_type="application/json")

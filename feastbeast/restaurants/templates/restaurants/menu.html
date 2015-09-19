@@ -138,7 +138,7 @@
 			{% get_modifiedcart as cart %}
 			<div class="col-md-2">
 				<div class="row">
-					<paper-button id="#orderButton" class="sidebar__button top-button" data-toggle="modal" data-target="#orderModal">
+					<paper-button id="orderButton" class="sidebar__button top-button" data-toggle="modal" data-target="#orderModal">
 						Order<span class="badge order-badge">{{cart.total}}</span>
 					</paper-button>
 				</div>
@@ -314,18 +314,10 @@
 			<div class="modal-content">
 				<div class="modal-header">
 				</div>
-				<div class="modal-body" id="item-options">
-				{% for item in cart.items %}
-					<div class="row">
-						{{item.product.name}}
+				<div class="modal-body">
+					<div class="row" id="orderPanels">
 					</div>
-				{% endfor %}
 				</div>
-				<div class="modal-footer">
-        			<paper-button class="options-modal__button text-center" id="addToCartModal">
-								Add to Order
-					</paper-button>
-      			</div>
 			</div>
 		</div>
 	</div>

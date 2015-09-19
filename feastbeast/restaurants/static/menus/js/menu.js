@@ -402,3 +402,20 @@ $("#payButton").on('click', function() {
         )
     }
 })
+
+
+//function to get the cart to show what is in it so far
+$("#orderButton").on('click', function() {
+    $.get(
+        '/restaurant/get-cart/',
+        function(data) {
+            for (var key in data) {
+                console.log(data[key]);
+                $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons'>delete</i></div></div>");
+                $("#cardPanels").children().last().find(".panel-body").text(data.brand + " : " + data.last);
+                $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
+                $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
+            }
+        }
+    )
+})
