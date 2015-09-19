@@ -132,12 +132,12 @@ class ModifiedCart(Cart):
         self.item_no += 1
         self.update_session()
 
-    def remove(self, product):
+    def remove(self, item_id):
         """
         Removes the product.
         """
-        if product in self.products:
-            del self._items_dict[product.pk]
+        if item_id in self._items_dict.keys():
+            del self._items_dict[item_id]
             self.update_session()
 
     def remove_single(self, product):
@@ -227,9 +227,9 @@ class ModifiedCart(Cart):
     @property
     def products(self):
         """
-        The list of associated products.
+        The list of associated products numbers i.e. item ids.
         """
-        return [item.product for item in self.items]
+        return [item.item_place for item in self.items]
 
     @property
     def total(self):

@@ -415,18 +415,18 @@ $("#orderButton").on('click', function() {
                 console.log(data[i]);
                 total_price += parseFloat(data[i].price);
                 $("#orderPanels").last().append('\
-                	<div class="row">\
+                	<div class="row  item-' + data[i].item_id + '">\
 						<div class="col-md-9 pull-left"><strong>' + data[i].name + '</strong></div>\
 						<div class="col-md-2"><strong>$' + data[i].price + '</strong></div>\
 						<div class="col-md-1 pull-right">\
-							<button type="button" class="close" id="' + data[i].item_id + '" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+							<button type="button" class="close" onclick="deleteItem(this);" id="' + data[i].item_id + '" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
 						</div>\
 					</div>');
                 //adding the addons
                 for (var j = 0; j < data[i].add_ons.length; j++) {
                     total_price += parseFloat(data[i].add_ons[j].price);
                     $("#orderPanels").last().append('\
-					<div class="row">\
+					<div class="row item-' + data[i].item_id + '">\
 						<div class="col-md-1"></div>\
 						<div class="col-md-3 pull-left"><small>+ ' + data[i].add_ons[j].name + '</small></div>\
 						<div class="col-md-8 pull-left"><small>$' + data[i].add_ons[j].price + '</small></div>\
@@ -435,17 +435,35 @@ $("#orderButton").on('click', function() {
                 //adding the removed items  --> irony in the sentance ??
                 for (var j = 0; j < data[i].removed.length; j++) {
                     $("#orderPanels").last().append('\
-					<div class="row">\
+					<div class="row item-' + data[i].item_id + '">\
 						<div class="col-md-1"></div>\
 						<div class="col-md-3 pull-left"><small> -  ' + data[i].removed[j].name + '</small></div>\
 						<div class="col-md-8"></div>\
 					</div>');
                 }
 
-                $("#orderPanels").last().append('<br><br>');
+                $("#orderPanels").last().append('<br class="item-' + data[i].item_id + '"><br class="item-' + data[i].item_id + '>');
             }
 
             $("#basketTotal").text('$' + total_price.toFixed(2));
         }
     )
-})
+});
+
+function deleteItem(element) {
+    var item_id = $(element).attr('id');
+    $(".item-" + item_id).remove();
+
+    $.get(
+        '/restaurant/delete-item/', {
+            'item_id': item_id
+        },
+        function(data) {
+            if (data.status == 1) {
+                $("#orderButton").trigger('click');
+            }
+        }
+    )
+
+
+};

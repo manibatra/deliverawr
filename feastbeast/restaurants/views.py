@@ -178,3 +178,14 @@ def getCart(request):
 		#appending every object to the response
 		response.append(product_object)
 	return HttpResponse(json.dumps(response), content_type="application/json")
+
+#function to delete an item from the cart
+def deleteItem(request):
+	item_id = request.GET['item_id']
+	cart = ModifiedCart(request.session)
+
+	cart.remove(int(item_id))
+
+	response = {'status' : 1}
+
+	return HttpResponse(json.dumps(response), content_type="application/json")
