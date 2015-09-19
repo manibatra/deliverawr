@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import revers
+from django.core.urlresolvers import reverse
 
 
 import stripe
@@ -31,17 +31,17 @@ def charge(request):
 		amount = cart.total * 100
 
 		#charging the customer
-			try:
-				stripe.charge.create(
-					amount=amount,
-					currency="aud",
-					customer=stripe_id
+		try:
+			stripe.charge.create(
+				amount=amount,
+				currency="aud",
+				customer=stripe_id
 
-				)
+			)
 
-			except stripe.error.CardError as e:
-				# The card has been declined
-				return HttpResponse("Charge Failed")
+		except stripe.error.CardError as e:
+			# The card has been declined
+			return HttpResponse("Charge Failed")
 
 
 		return HttpResponseRedirect(reverse('orders:sucess'))

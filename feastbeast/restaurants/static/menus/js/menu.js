@@ -24,7 +24,7 @@ var add_handler = StripeCheckout.configure({
                     $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
                     $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
                     $("#paymentMethodsButton > paper-material").text(token.card.brand + " : " + token.card.last4);
-                    $("#paymentMethodsButton > paper-material").attr('id', token.card.id);
+                    $("#paymentMethodsButton").attr('name', 'yes');
                     $("#paymentInfoModal").modal('hide');
                     setDefaultCard(token.card.id);
                 }
@@ -86,6 +86,7 @@ function submitAddress(country, target_url, csrf_token) {
                         //change the properties back to the add address button
                         $("#addAddress").children('paper-material').text('Add an address');
                         $("#addressButton > paper-material").text(address);
+                        $("#addressButton").attr('name', 'yes');
                         toggle = 1;
                         $("#address_label").val("");
                         $("#city_label").val("");
@@ -169,6 +170,7 @@ function setDefaultAddress(target_url, csrf_token) {
         function(data) {
             if (data.status === 1) {
                 $("#addressButton > paper-material").text(data.street_address);
+                $("#addressButton > paper-material").attr('id', '');
                 $("#deliveryAddressModal").modal('hide');
                 $('#defaultAddress').prop('disabled', true);
             } else {
@@ -194,16 +196,18 @@ function deleteAddress(element) {
             },
             function(data) {
                 if (data.status === 1) {
-                    $(element).parent().parent().remove();
+                    $(element).parent().parent().remove(); //non default address deleted
                     $('#defaultAddress').prop('disabled', true);
                 } else if (data.status === 2) { //default address deleted
                     $(element).parent().parent().remove();
                     $("#" + data.default_id).parent().addClass('mdl-shadow--4dp');
                     $("#addressButton > paper-material").text($("#" + data.default_id).text());
+                    $("#addressButton").attr('name', 'yes')
                     $('#defaultAddress').prop('disabled', true);
                 } else if (data.status === 3) {
-                    $(element).parent().parent().remove();
+                    $(element).parent().parent().remove(); //all addresses deleted
                     $("#addressButton > paper-material").text('Add an address');
+                    $("#addressButton").attr('name', 'no');
                     $('#defaultAddress').prop('disabled', true);
                 } else {
                     alert("Address could not be deleted");
@@ -263,7 +267,7 @@ function setDefaultCard(card_id) {
         function(data) {
             if (data.status == 1 && change_stuff == 1) {
                 $("#paymentMethodsButton > paper-material").text($("#" + card_id).text());
-                $("#paymentMethodsButton > paper-material").attr('id', card_id);
+                $("#paymentMethodsButton").attr('name', 'yes');
                 $("#paymentInfoModal").modal('hide');
 
             }
@@ -297,6 +301,7 @@ function deleteCard(element) {
                 } else if (data.status === 2) {
                     $(element).parent().parent().remove();
                     $("#paymentMethodsButton > paper-material").text('Add a Card');
+                    $("#paymentMethodsButton").attr('name', 'no')
                     $('#defaultCard').prop('disabled', true);
                 } else {
                     alert("Card could not be deleted");
@@ -375,3 +380,5 @@ $("#addToCartModal").on('click', function() {
         });
     $('#custMenuModal').modal('hide');
 });
+
+//functon to charge the customer
