@@ -78,11 +78,13 @@ def detail(request, restaurant_id):
 
 #function to add the product to the cart
 def add(request, restaurant_id, item_id):
-	cart = Cart(request.session)
+	cart = ModifiedCart(request.session)
 	if request.is_ajax() or request.method == 'GET':
 		#item_id = request.GET['item_id']
 		product = MenuItem.objects.get(pk=item_id)
-		cart.add(product, price=product.price)
+		add_ons = []
+		removed = []
+		cart.add(product, add_ons, removed, price=product.price)
 		return HttpResponse(str(cart.total))
 	else:
 		return HttpResponse("Not Added")
