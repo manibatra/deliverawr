@@ -382,3 +382,23 @@ $("#addToCartModal").on('click', function() {
 });
 
 //functon to charge the customer
+$("#payButton").on('click', function() {
+    if ($("#addressButton").attr('id') == 'no') {
+        alert("Please enter a delivery address")
+    } else if ($("#paymentMethodsButton").attr('id') == 'no') {
+        alert("Please enter a payment method")
+    } else {
+        $.post(
+            '/payments/charge/', {
+                'csrfmiddlewaretoken': csrftoken
+            },
+            function(data) {
+                if (data.status == 1) {
+                    window.location.replace('/orders/success/');
+                } else {
+                    alert("Charge failed");
+                }
+            }
+        )
+    }
+})

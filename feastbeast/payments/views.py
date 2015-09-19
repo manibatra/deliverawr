@@ -28,24 +28,27 @@ def charge(request):
 		stripe_id = get_stripeid(current_user)
 
 		cart = ModifiedCart(request.session)
-		amount = cart.total * 100
+		amount = int(cart.total * 100)
 
 		#charging the customer
 		try:
-			stripe.charge.create(
+			stripe.Charge.create(
 				amount=amount,
 				currency="aud",
 				customer=stripe_id
 
 			)
 
+			cart.clear() #empty out the cart after successful payment
+
 		except stripe.error.CardError as e:
 			# The card has been declined
-			return HttpResponse("Charge Failed")
+			response = { 'status' : 0}
+			return HttpResponse(json.dumps(response), content_type="application/json")
 
 
-		return HttpResponseRedirect(reverse('orders:sucess'))
-
+		response = {'status' : 1}
+		return HttpResponse(json.dumps(response), content_type="application/json")
 	else:
 		HttpResponse("invalid request - 404")
 
