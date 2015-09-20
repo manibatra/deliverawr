@@ -394,7 +394,16 @@ $("#payButton").on('click', function() {
             },
             function(data) {
                 if (data.status == 1) {
-                    window.location.replace('/orders/success/');
+
+                    var url = window.location.href
+                    var url_split = url.split('/')
+                    var restaurant_id = url_split[4]
+                    $.post(
+                        '/orders/place/', {
+                            'csrfmiddlewaretoken': csrftoken,
+                            'restaurant_id': restaurant_id
+                        }
+                    )
                 } else {
                     alert("Charge failed");
                 }

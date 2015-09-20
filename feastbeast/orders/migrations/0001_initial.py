@@ -8,53 +8,39 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('restaurants', '0007_auto_20150915_0354'),
+        ('users', '0002_useraddress_default'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='OrderDetail',
+            name='Detail',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
-                ('add_ons', models.ManyToManyField(to='restaurants.MenuItem', related_name='add_ons')),
-                ('menu_item', models.ForeignKey(to='restaurants.MenuItem', related_name='menu_item')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('add_ons', models.ManyToManyField(related_name='added_items', to='restaurants.MenuItem')),
+                ('menu_item', models.ForeignKey(related_name='menu_item', to='restaurants.MenuItem')),
             ],
         ),
         migrations.CreateModel(
-            name='Orders',
+            name='UserOrder',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
-                ('total', models.DecimalField(max_digits=10, decimal_places=2)),
-                ('completed_datetime', models.DateTimeField(auto_now_add=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='OrderStatus',
-            fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
-                ('is_completed', models.BooleanField()),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('order_id', models.AutoField(serialize=False, primary_key=True)),
+                ('order_time', models.DateTimeField(auto_now_add=True)),
+                ('total_price', models.DecimalField(decimal_places=2, max_digits=10)),
+                ('delivery_address', models.ForeignKey(related_name='delivered_to', to='users.UserAddress')),
+                ('restaurant', models.ForeignKey(related_name='ordered_from', to='restaurants.Restaurant')),
+                ('user', models.ForeignKey(related_name='ordered_by', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
-            model_name='orders',
+            model_name='detail',
             name='order',
-            field=models.ForeignKey(to='orders.OrderStatus', related_name='order'),
+            field=models.ForeignKey(related_name='order_number', to='orders.UserOrder'),
         ),
         migrations.AddField(
-            model_name='orders',
-            name='restaurant',
-            field=models.ForeignKey(to='restaurants.Restaurant', related_name='restaurant_order'),
-        ),
-        migrations.AddField(
-            model_name='orderdetail',
-            name='order',
-            field=models.ForeignKey(to='orders.OrderStatus', related_name='order_number'),
-        ),
-        migrations.AddField(
-            model_name='orderdetail',
+            model_name='detail',
             name='removed',
-            field=models.ManyToManyField(to='restaurants.MenuItem', related_name='removed_items'),
+            field=models.ManyToManyField(related_name='removed_items', to='restaurants.MenuItem'),
         ),
     ]

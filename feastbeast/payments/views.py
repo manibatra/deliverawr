@@ -39,7 +39,7 @@ def charge(request):
 
 			)
 
-			cart.clear() #empty out the cart after successful payment
+			#cart.clear() #empty out the cart after successful payment => not clearing it here anymore as need to save order history
 
 		except stripe.error.CardError as e:
 			# The card has been declined
