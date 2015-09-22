@@ -1,0 +1,54 @@
+<!--Modal to present the login form to the user-->
+<div class="modal fade" id="loginModal" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="container-fluid">
+					<div class="row">
+						<a class="btn btn-block btn-social btn-facebook text-center">
+							<i class="fa fa-facebook"></i>
+							<label class="facebook-label">Log In with Facebook</label>
+						</a>
+					</div>
+					<div class="row decoration vcenter">
+						<div class="col-md-5 col-xs-5 decoration-hr">
+							<hr>
+						</div>
+						<div class="col-md-2 col-xs-2">
+							or
+						</div>
+						<div class="col-md-5 col-xs-5 decoration-hr">
+							<hr>
+						</div>
+					</div>
+					<div class="row text-center">
+						<h5>Log In with Email</h5>
+					</div>
+					<form id="loginForm" action="{% url 'users:login_user' %}" method="post">
+						{% csrf_token %}
+						<div class="row">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="email" name="email" id="email" />
+								<label class="mdl-textfield__label signup-form" for="email">Email</label>
+								<span class="mdl-textfield__error error-span">Invalid Email!</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="password" name="password" id="password" />
+								<label class="mdl-textfield__label signup-form" for="password">Password</label>
+								<span class="mdl-textfield__error error-span">Invalid Password!</span>
+							</div>
+							<input type="hidden" name="orgpath" value="{{ request.path }}">
+						</div>
+						<div class="row">
+							<paper-button onclick="submitloginForm()" class="signup-button text-center">
+								Log In
+							</paper-button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
