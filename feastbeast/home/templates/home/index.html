@@ -256,7 +256,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<paper-button onclick="submitForm()" class="signup-button text-center">
+									<paper-button id="signupButton" onclick="submitForm()" class="signup-button text-center">
 										Sign Up
 									</paper-button>
 								</div>
@@ -320,6 +320,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="{% static "home/js/home.js" %}"></script>
 		<script type="text/javascript">
 			function submitForm() {
 				document.getElementById('signupForm').submit();
