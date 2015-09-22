@@ -13,11 +13,6 @@ db.sqlite3
 
 *.rdb
 
-bower_components/
-
-*.png
-
-media/
 
 
 
