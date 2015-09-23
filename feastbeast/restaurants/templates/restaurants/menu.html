@@ -29,32 +29,9 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	</head>
 	<body>
-		<!-- Site header , remains constant across most pages -->
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand brand-title">
-						<img alt="Brand" width="50vw" height="50vw" src="{% static "images/monster.png" %}" class="pull-left brand-image">
-						<span class="pull-right brand-text">feast beast</span>
-					</a>
-				</div>
-				<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
-					{% if request.user.is_authenticated %}
-						<li role="presentation"><a href="#signupModal"><paper-button noink>Hello, {{request.user.first_name }} !</paper-button></a></li>
-						<li role="presentation"><a href="#"><paper-button noink>Logout</paper-button></a></li>
-					{% else %}
-						<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
-						<li role="presentation"><a href="#"><paper-button noink>Login</paper-button></a></li>
-					{% endif %}
-					<li role="presentation"><a href="#"><paper-button class="list-cafe">START YOUR CAFE</paper-button></a></li>
-				</ul>
-			</div>
-		</nav>
+		{% include "navbar.html" %}
+		{% include "signup.html" %}
+		{% include "login.html" %}
 		<!--Banner of the restuarant -->
 		<div class="row">
 			<div class="jumbotron">
@@ -429,6 +406,7 @@
 					add_handler.close();
 				});*/
 	</script>
+	<script src="{% static "js/common.js" %}"></script>
 	<script type="text/javascript">
 	//hack to display the team image during development
 	$(document).ready(function() {
