@@ -1,5 +1,9 @@
 from django.shortcuts import render
+
+#auth related imports
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+
 from django.http import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers import reverse
 import json
@@ -8,7 +12,29 @@ import json
 from .models import UserAddress
 
 
+
+
+
 # Create your views here.
+#method to signup the user and login at the same time
+def signupUser(request):
+	if request.method == "POST":
+		first_name = request.POST['firstName']
+		last_name = request.POST['lastName']
+		email = request.POST['email']
+		password = request.POST['password']
+		current_page = request.POST['orgpath']
+		user = User.objects.create_user(email, email, password)
+		user.first_name = first_name
+		user.last_name = last_name
+		user.save()
+		user = authenticate(username=email, password=password)
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect(current_page)
+
+#method to login the user
 def login_user(request):
 	email = request.POST['email']
 	password = request.POST['password']

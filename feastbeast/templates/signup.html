@@ -24,7 +24,7 @@
 					<div class="row text-center">
 						<h5>Sign up with Email</h5>
 					</div>
-					<form id="signupForm" action="{{ request.path }}" method="post">
+					<form id="signupForm" action="{% url 'users:signup_user' %}" method="post">
 						{% csrf_token %}
 						<div class="row">
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -33,7 +33,7 @@
 								<span class="mdl-textfield__error error-span">Invalid First Name!</span>
 
 							</div>
-						</div>
+						</div
 						<div class="row">
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" name="lastName" id="lastName" />
@@ -55,6 +55,7 @@
 								<span class="mdl-textfield__error error-span">Invalid Password!</span>
 							</div>
 						</div>
+						<input type="hidden" name="orgpath" value="{{ request.path }}">
 						<div class="row">
 							<paper-button id="signupButton" onclick="submitForm()" class="signup-button text-center">
 								Sign Up
