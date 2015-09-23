@@ -32,15 +32,15 @@ def signupUser(request):
 			if len(last_name) > 30 or len(last_name) < 2:
 				raise ValidationError("Invalid length of last name")
 
-		except ValidationError as e:
-			response = {'status' : 0, 'msg' : e.message}
+		except (KeyError, ValidationError) as e:
+			response = {'status' : 0, 'msg' : str(e)}
 			return HttpResponse(json.dumps(response), content_type='application/json')
 
 		try: #checking the validity of email
 			email = request.POST['email']
 			validate_email(email)
-		except ValidationError as e:
-			response = {'status' : 0, 'msg' : e.message}
+		except (KeyError, ValidationError) as e:
+			response = {'status' : 0, 'msg' : str(e)}
 			return HttpResponse(json.dumps(response), content_type='application/json')
 
 
@@ -49,8 +49,8 @@ def signupUser(request):
 			if len(password) < 6:
 				raise ValidationError("Minimum password length should be 6")
 
-		except ValidationError as e:
-			response = {'status' : 0, 'msg' : e.message}
+		except (KeyError, ValidationError) as e:
+			response = {'status' : 0, 'msg' : str(e)}
 			return HttpResponse(json.dumps(response), content_type='application/json')
 
 		user = User.objects.create_user(email, email, password)
