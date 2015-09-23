@@ -23,10 +23,36 @@ from .models import UserAddress
 #method to signup the user and login at the same time
 def signupUser(request):
 	if request.method == "POST":
-		first_name = request.POST['firstName']
-		last_name = request.POST['lastName']
-		email = request.POST['email']
-		password = request.POST['password']
+		try: #checking the validity of first / last name
+			first_name = request.POST['firstName']
+			last_name = request.POST['lastName']
+			if len(first_name) > 30 or len(first_name) < 2:
+				raise ValidationError("Invalid length of first name")
+
+			if len(last_name) > 30 or len(last_name) < 2:
+				raise ValidationError("Invalid length of last name")
+
+		except ValidationError as e:
+			response = {'status' : 0, 'msg' : e.message}
+			return HttpResponse(json.dumps(response), content_type='application/json')
+
+		try: #checking the validity of email
+			email = request.POST['email']
+			validate_email(email)
+		except ValidationError as e:
+			response = {'status' : 0, 'msg' : e.message}
+			return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+		try: #checking min pasword length
+			password = request.POST['password']
+			if len(password) < 6:
+				raise ValidationError("Minimum password length should be 6")
+
+		except ValidationError as e:
+			response = {'status' : 0, 'msg' : e.message}
+			return HttpResponse(json.dumps(response), content_type='application/json')
+
 		user = User.objects.create_user(email, email, password)
 		user.first_name = first_name
 		user.last_name = last_name
