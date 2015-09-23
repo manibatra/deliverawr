@@ -49,8 +49,8 @@ def signupUser(request):
 
 #method to login the user
 def login_user(request):
-	email = request.POST['email']
-	password = request.POST['password']
+	email = request.POST['emailLogIn']
+	password = request.POST['passwordLogIn']
 	current_page = request.POST['orgpath']
 	user = authenticate(username=email, password=password)
 	if user is not None:
