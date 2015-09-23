@@ -201,15 +201,8 @@
 		{% include "signup.html" %}
 		{% include "login.html" %}
 		<script src="{% static "home/js/home.js" %}"></script>
+		<script src="{% static "js/common.js" %}"></script>
 		<script type="text/javascript">
-			function submitForm() {
-				document.getElementById('signupForm').submit();
-			};
-
-			function submitloginForm() {
-				document.getElementById('loginForm').submit();
-			};
-
 			function getListing() {
 				document.getElementById('postcodeForm').submit();
 			};
