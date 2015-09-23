@@ -4,6 +4,10 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
+#imports for validation
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
 from django.http import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers import reverse
 import json
@@ -23,16 +27,25 @@ def signupUser(request):
 		last_name = request.POST['lastName']
 		email = request.POST['email']
 		password = request.POST['password']
-		current_page = request.POST['orgpath']
 		user = User.objects.create_user(email, email, password)
 		user.first_name = first_name
 		user.last_name = last_name
 		user.save()
+		response = {}
 		user = authenticate(username=email, password=password)
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect(current_page)
+				response = {'status' : 1}
+
+			else:
+				response = {'status' : 0, 'msg' : 'user could not be looged in! try again'}
+		else:
+			response = {'status' : 0, 'msg' : 'user could not be looged in! try again'}
+	else:
+		response = {'status' : 0, 'msg' : 'invalid request'}
+
+	return HttpResponse(json.dumps(response), content_type='application/json')
 
 #method to login the user
 def login_user(request):

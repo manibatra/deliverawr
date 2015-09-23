@@ -1,6 +1,18 @@
 function submitForm() {
-    document.getElementById('signupForm').submit();
-};
+
+    $.ajax({
+        type: "POST",
+        url: $('#signupForm').attr('action'), // or whatever
+        data: $('#signupForm').serialize(),
+        success: function(data) {
+            if (data.status == 1) {
+                window.location.reload();
+            } else if (data.status == 0) {
+                alert(data.msg);
+            }
+        }
+    });
+}
 
 function submitloginForm() {
     document.getElementById('loginForm').submit();
