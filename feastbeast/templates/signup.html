@@ -30,7 +30,7 @@
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" name="firstName" id="firstName" />
 								<label class="mdl-textfield__label signup-form" for="firstName">First Name</label>
-								<span class="mdl-textfield__error error-span firstName-error">Invalid First Name!</span>
+								<span class="mdl-textfield__error error-span">Invalid First Name!</span>
 
 							</div>
 						</div>
@@ -38,23 +38,24 @@
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" name="lastName" id="lastName" />
 								<label class="mdl-textfield__label signup-form" for="lastName">Last Name</label>
-								<span class="mdl-textfield__error error-span lastName-error">Invalid Last Name!</span>
+								<span class="mdl-textfield__error error-span">Invalid Last Name!</span>
 							</div>
 						</div>
 						<div class="row">
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="email" name="email" id="email" />
 								<label class="mdl-textfield__label signup-form" for="email">Email</label>
-								<span class="mdl-textfield__error error-span email-error">Invalid Email!</span>
+								<span class="mdl-textfield__error error-span">Invalid Email!</span>
 							</div>
 						</div>
 						<div class="row">
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="password" name="password" id="password" />
 								<label class="mdl-textfield__label signup-form" for="password">Password</label>
-								<span class="mdl-textfield__error error-span password-error">Invalid Password!</span>
+								<span class="mdl-textfield__error error-span">Invalid Password!</span>
 							</div>
 						</div>
+						<input type="hidden" name="orgpath" value="{{ request.path }}">
 						<div class="row">
 							<paper-button id="signupButton" onclick="submitForm()" class="signup-button text-center">
 								Sign Up
