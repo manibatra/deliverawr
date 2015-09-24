@@ -20,7 +20,7 @@ $(document).ready(function() {
 
             password: {
                 required: true,
-                rangelength: [6, 30]
+                minLength: 6
             }
         },
 
@@ -34,12 +34,12 @@ $(document).ready(function() {
             },
 
             password: {
-                rangelength: "Required length : Between 6 and 30"
+                minlength: "Required length : Atleast 6"
             }
         },
 
         showErrors: function(errorMap, errorList) {
-            $(".error-span").css('visibility', 'hidden');
+            $("#signupForm .error-span").css('visibility', 'hidden');
             $.each(errorMap, function(key, value) {
                 $('.' + key + '-error').css('visibility', 'visible');
                 $('.' + key + '-error').text(value);
@@ -61,6 +61,43 @@ $(document).ready(function() {
             });
         }
     });
+
+    $("#loginForm").validate({
+
+        rules: {
+            emailLogIn: {
+                required: true,
+                email: true
+            },
+
+            passwordLogIn: {
+                required: true,
+            }
+        },
+
+        showErrors: function(errorMap, errorList) {
+            $("#loginForm .error-span").css('visibility', 'hidden');
+            $.each(errorMap, function(key, value) {
+                $('.' + key + '-error').css('visibility', 'visible');
+                $('.' + key + '-error').text(value);
+            });
+        },
+
+        submitHandler: function(form) {
+            $.ajax({
+                type: "POST",
+                url: $('#loginForm').attr('action'), // or whatever
+                data: $('#loginForm').serialize(),
+                success: function(data) {
+                    if (data.status == 1) {
+                        window.location.reload();
+                    } else if (data.status == 0) {
+                        alert(data.msg);
+                    }
+                }
+            });
+        }
+    });
 });
 
 function submitForm() {
@@ -68,12 +105,19 @@ function submitForm() {
 }
 
 function submitloginForm() {
-    document.getElementById('loginForm').submit();
+    $('#loginForm').submit();
 };
 
 //function to click the signup button on pressing enter
 $("#signupForm input").keyup(function(event) {
     if (event.keyCode == 13) {
         $("#signupButton").click();
+    }
+});
+
+//function to click the signup button on pressing enter
+$("#loginForm input").keyup(function(event) {
+    if (event.keyCode == 13) {
+        $("#loginButton").click();
     }
 });
