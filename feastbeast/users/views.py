@@ -103,7 +103,12 @@ def logout_user(request):
 
 #a function to get all the user addresses
 def get_addresses(request):
-	user_address_info = UserAddress.objects.filter(user=request.user)
+
+	if request.user.is_authenticated():
+		user_address_info = UserAddress.objects.filter(user=request.user)
+	else:
+		return HttpResponse("Invalid request - 404")
+
 	user_addresses=[]
 	for address in user_address_info:
 		user_address = {}
@@ -118,20 +123,24 @@ def get_addresses(request):
 #function to save the address of the user from the database
 def save_address(request):
 	if request.method == 'POST':
-		current_user = request.user
-		street_address = request.POST['street_address']
-		postcode = request.POST['postcode']
-		country = request.POST['country']
-		#TODO : add the city field to the database
 
-		#creating a user address object from the delivery address
-		user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
-										phone_no='0414708810',default=True)
-		user_address.save()
+		if request.user.is_authenticated():
+			current_user = request.user
+			street_address = request.POST['street_address']
+			postcode = request.POST['postcode']
+			country = request.POST['country']
+			#TODO : add the city field to the database
 
-		response = {'status' : 1}
+			#creating a user address object from the delivery address
+			user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
+											phone_no='0414708810',default=True)
+			user_address.save()
 
-		return HttpResponse(json.dumps(response), content_type='application/json')
+			response = {'status' : 1}
+
+			return HttpResponse(json.dumps(response), content_type='application/json')
+		else:
+			return HttpResponse("Invalid request - 404")
 
 
 	else:
