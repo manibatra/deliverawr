@@ -47,13 +47,19 @@ def charge(request):
 			)
 
 			#cart.clear() #empty out the cart after successful payment => not clearing it here anymore as need to save order history
-
+		#checking for card errors
 		except stripe.error.CardError as e:
 			# The card has been declined
 			response = { 'status' : 0, 'msg' : e.code}
 			return HttpResponse(json.dumps(response), content_type="application/json")
 
+		#checking for all other stripe errors
+		except stripe.error as e:
+			# The card has been declined
+			response = { 'status' : 0, 'msg' : 'Payment did not go through, please try again'}
+			return HttpResponse(json.dumps(response), content_type="application/json")
 
+		#no error found so far
 		response = {'status' : 1, 'msg' : 'card successfully charged'}
 		return HttpResponse(json.dumps(response), content_type="application/json")
 	else:
@@ -105,15 +111,29 @@ def addCard(request):
 				save_stripeid(request.user, customer.id)
 				response = {'status':1, 'brand': customer.sources.data[0].brand, 'last': customer.sources.data[0].last4, 'card_id': customer.sources.data[0].id }
 
+			#checking for card errors
 			except stripe.error.CardError as e:
 				# The card has been declined
 				response = { 'status' : 0, 'msg' : e.code}
 				return HttpResponse(json.dumps(response), content_type="application/json")
 
+			#checking for all other stripe errors
+			except stripe.error as e:
+				# The card has been declined
+				response = { 'status' : 0, 'msg' : 'Card could not be added, please try again'}
+				return HttpResponse(json.dumps(response), content_type="application/json")
+
+		#checking for card errors
 		except stripe.error.CardError as e:
 			# The card has been declined
 			response = { 'status' : 0, 'msg' : e.code}
 			return HttpResponse(json.dumps(response), content_type="application/json")
+
+		#checking for all other stripe errors
+			except stripe.error as e:
+				# The card has been declined
+				response = { 'status' : 0, 'msg' : 'Card could not be added, please try again'}
+				return HttpResponse(json.dumps(response), content_type="application/json")
 
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
