@@ -114,3 +114,10 @@ $("#signupForm input").keyup(function(event) {
         $("#signupButton").click();
     }
 });
+
+//function to click the signup button on pressing enter
+$("#loginForm input").keyup(function(event) {
+    if (event.keyCode == 13) {
+        $("#loginButton").click();
+    }
+});
