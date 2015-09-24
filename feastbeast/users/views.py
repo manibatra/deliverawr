@@ -74,7 +74,7 @@ def signupUser(request):
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 #method to login the user
-def login_user(request):
+def loginUser(request):
 	if request.method == "POST":
 		try: #checking the validity of email
 			email = request.POST['emailLogIn']
