@@ -21,3 +21,64 @@
 	background-color: rgb(255, 64, 129) !important;
 	color: white;
 }
+
+.modal-dialog-signup {
+	width: 20%;
+}
+
+.decoration {
+	margin: 5px 0;
+	padding: 0;
+
+}
+
+.decoration-hr {
+	padding: 0;
+}
+
+.vcenter {
+	display: flex;
+	align-items: center;
+}
+
+.signup-form {
+	font-weight: 200;
+	margin-bottom: 22px;
+}
+
+.error-span {
+	position: static;
+}
+
+.signup-button {
+	width: 100%;
+	background-color: rgb(255, 64, 129) !important;
+	color: white;
+
+}
+
+h5 {
+	margin: 0 auto 5px;
+	color: rgb(255, 64, 129);
+}
+
+.facebook-label {
+	width: 100%;
+	font-weight: 400;
+	padding-left: 8%;
+}
+
+
+@media screen and (max-width : 1024px) {
+	.modal-dialog-signup {
+		width: 35%;
+		margin: 50px auto;
+	}
+}
+
+@media screen and (max-width: 737px) {
+	.modal-dialog-signup {
+		width: 95%;
+		margin: 50px auto;
+	}
+}
