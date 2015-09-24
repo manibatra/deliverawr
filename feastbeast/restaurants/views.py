@@ -29,49 +29,56 @@ def detail(request, restaurant_id):
 	all_categories = MenuItem.objects.filter(restaurant=restaurant_id).exclude(category__exact='').order_by('category').values('category').distinct()
 	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant }
 
+	#This ensures that the user is allowed to see the restaurants without logging in
 	#getting the stored user payment info
-	user_payment_info = UserPayment.objects.filter(user=request.user)
-	if len(user_payment_info) > 0:
-		context['payment_info'] = 'true'
-		#retrieving the customer info from stripe
-		stripe_id = user_payment_info[0].stripe_id
-		customer = stripe.Customer.retrieve(stripe_id)
-		context['stripe_id'] = stripe_id
-		default_card_id = customer.default_source
-		#have to put this whole thing under an additional check to see if there are any cards associated with this customer
-		#retreving and sending the last4 digits and brand of the default card to the template
-		if default_card_id is None:
-			context['payment_info'] = 'false'
+	if request.user.is_authenticated():
+		user_payment_info = UserPayment.objects.filter(user=request.user)
+		if len(user_payment_info) > 0:
+			context['payment_info'] = 'true'
+			#retrieving the customer info from stripe
+			stripe_id = user_payment_info[0].stripe_id
+			customer = stripe.Customer.retrieve(stripe_id)
+			context['stripe_id'] = stripe_id
+			default_card_id = customer.default_source
+			#have to put this whole thing under an additional check to see if there are any cards associated with this customer
+			#retreving and sending the last4 digits and brand of the default card to the template
+			if default_card_id is None:
+				context['payment_info'] = 'false'
+			else:
+				default_card = customer.sources.retrieve(default_card_id)
+				context['brand'] = default_card['brand']
+				context['last4'] = default_card['last4']
+
+
+			#setting the list of cards and brand names
+			# user_payment_methods = []
+			# for card_object in customer['sources']['data']:
+			# 	payment_method = {}
+			# 	payment_method['brand'] = card_object['brand']
+			# 	payment_method['last4'] = card_object['last4']
+			# 	user_payment_methods.append(payment_method)
+
+			# context['user_payment_methods'] = user_payment_methods
+
 		else:
-			default_card = customer.sources.retrieve(default_card_id)
-			context['brand'] = default_card['brand']
-			context['last4'] = default_card['last4']
-
-
-		#setting the list of cards and brand names
-		# user_payment_methods = []
-		# for card_object in customer['sources']['data']:
-		# 	payment_method = {}
-		# 	payment_method['brand'] = card_object['brand']
-		# 	payment_method['last4'] = card_object['last4']
-		# 	user_payment_methods.append(payment_method)
-
-		# context['user_payment_methods'] = user_payment_methods
-
+			context['payment_info'] = 'false'
 	else:
-		context['payment_info'] = 'false'
+			context['payment_info'] = 'false'
 
-
-	#getting user  default address info
-	user_address_info = UserAddress.objects.filter(user=request.user, default=True)
-	if len(user_address_info) > 0:
-		context['delivery_info'] = 'true'
-		#retrieving the user address object
-		current_user = user_address_info[0]
-		context['street_address'] = current_user.street_address
-		context['country'] = current_user.country
+	#This ensures that the user is allowed to see the restaurants without logging in
+	if request.user.is_authenticated():
+		#getting user  default address info
+		user_address_info = UserAddress.objects.filter(user=request.user, default=True)
+		if len(user_address_info) > 0:
+			context['delivery_info'] = 'true'
+			#retrieving the user address object
+			current_user = user_address_info[0]
+			context['street_address'] = current_user.street_address
+			context['country'] = current_user.country
+		else:
+			context['delivery_info'] = 'false'
 	else:
-		context['delivery_info'] = 'false'
+			context['delivery_info'] = 'false'
 
 
 	return render(request, 'restaurants/menu.html', context)
