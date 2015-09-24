@@ -27,6 +27,8 @@ var add_handler = StripeCheckout.configure({
                     $("#paymentMethodsButton").attr('name', 'yes');
                     $("#paymentInfoModal").modal('hide');
                     setDefaultCard(token.card.id);
+                } else {
+                    alert(data.msg);
                 }
             }
         );
