@@ -30,14 +30,14 @@
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="email" name="emailLogIn" id="emailLogIn" />
 								<label class="mdl-textfield__label signup-form" for="emailLogIn">Email</label>
-								<span class="mdl-textfield__error error-span">Invalid Email!</span>
+								<span class="mdl-textfield__error error-span emailLogIn-error">Invalid Email!</span>
 							</div>
 						</div>
 						<div class="row">
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="password" name="passwordLogIn" id="passwordLogIn" />
 								<label class="mdl-textfield__label signup-form" for="passwordLogIn">Password</label>
-								<span class="mdl-textfield__error error-span">Invalid Password!</span>
+								<span class="mdl-textfield__error error-span passwordLogIn-error">Invalid Password!</span>
 							</div>
 							<input type="hidden" name="orgpath" value="{{ request.path }}">
 						</div>

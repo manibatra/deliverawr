@@ -39,7 +39,7 @@ $(document).ready(function() {
         },
 
         showErrors: function(errorMap, errorList) {
-            $(".error-span").css('visibility', 'hidden');
+            $("#signupForm .error-span").css('visibility', 'hidden');
             $.each(errorMap, function(key, value) {
                 $('.' + key + '-error').css('visibility', 'visible');
                 $('.' + key + '-error').text(value);
@@ -61,6 +61,43 @@ $(document).ready(function() {
             });
         }
     });
+
+    $("#loginForm").validate({
+
+        rules: {
+            emailLogIn: {
+                required: true,
+                email: true
+            },
+
+            passwordLogIn: {
+                required: true,
+            }
+        },
+
+        showErrors: function(errorMap, errorList) {
+            $("#loginForm .error-span").css('visibility', 'hidden');
+            $.each(errorMap, function(key, value) {
+                $('.' + key + '-error').css('visibility', 'visible');
+                $('.' + key + '-error').text(value);
+            });
+        },
+
+        submitHandler: function(form) {
+            $.ajax({
+                type: "POST",
+                url: $('#loginForm').attr('action'), // or whatever
+                data: $('#loginForm').serialize(),
+                success: function(data) {
+                    if (data.status == 1) {
+                        window.location.reload();
+                    } else if (data.status == 0) {
+                        alert(data.msg);
+                    }
+                }
+            });
+        }
+    });
 });
 
 function submitForm() {
@@ -68,7 +105,7 @@ function submitForm() {
 }
 
 function submitloginForm() {
-    document.getElementById('loginForm').submit();
+    $('#loginForm').submit();
 };
 
 //function to click the signup button on pressing enter

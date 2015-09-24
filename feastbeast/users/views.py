@@ -75,18 +75,19 @@ def signupUser(request):
 
 #method to login the user
 def login_user(request):
-	email = request.POST['emailLogIn']
-	password = request.POST['passwordLogIn']
-	current_page = request.POST['orgpath']
-	user = authenticate(username=email, password=password)
-	if user is not None:
-		if user.is_active:
-			login(request, user)
-			return HttpResponseRedirect(current_page)
+	if request.method == "POST":
+		email = request.POST['emailLogIn']
+		password = request.POST['passwordLogIn']
+		current_page = request.POST['orgpath']
+		user = authenticate(username=email, password=password)
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect(current_page)
+			else:
+				return HttpResponse('Invalid User')
 		else:
-			return HttpResponse('Invalid User')
-	else:
-		return HttpResponse('Invalid Credentials')
+			return HttpResponse('Invalid Credentials')
 
 
 def logout_user(request):
