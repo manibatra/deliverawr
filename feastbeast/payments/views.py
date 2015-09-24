@@ -130,10 +130,10 @@ def addCard(request):
 			return HttpResponse(json.dumps(response), content_type="application/json")
 
 		#checking for all other stripe errors
-			except stripe.error as e:
-				# The card has been declined
-				response = { 'status' : 0, 'msg' : 'Card could not be added, please try again'}
-				return HttpResponse(json.dumps(response), content_type="application/json")
+		except stripe.error as e:
+			# The card has been declined
+			response = { 'status' : 0, 'msg' : 'Card could not be added, please try again'}
+			return HttpResponse(json.dumps(response), content_type="application/json")
 
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
