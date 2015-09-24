@@ -22,13 +22,20 @@ def charge(request):
 	if request.is_ajax() or request.method == 'POST':
 		current_user = request.user
 
+		cart = ModifiedCart(request.session)
+		amount = int(cart.total * 100)
+
+		#do not charge if the amount is zero
+		if amount == 0:
+			response = { 'status' : 0, 'msg' : 'You have nothing in your cart :( '}
+			return HttpResponse(json.dumps(response), content_type="application/json")
+
+
 		#get the delivery address, will be saved later in order history
 		delivery_address = UserAddress.objects.filter(user=current_user, default=True)
 		#get the stripe id to charge the customer
 		stripe_id = get_stripeid(current_user)
 
-		cart = ModifiedCart(request.session)
-		amount = int(cart.total * 100)
 
 		#charging the customer
 		try:

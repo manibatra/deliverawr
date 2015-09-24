@@ -411,7 +411,7 @@ $("#payButton").on('click', function() {
                         }
                     )
                 } else {
-                    alert("Charge failed");
+                    alert(data.msg);
                 }
             }
         )
