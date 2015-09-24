@@ -20,7 +20,7 @@ $(document).ready(function() {
 
             password: {
                 required: true,
-                rangelength: [6, 30]
+                minLength: 6
             }
         },
 
@@ -34,7 +34,7 @@ $(document).ready(function() {
             },
 
             password: {
-                rangelength: "Required length : Between 6 and 30"
+                minlength: "Required length : Atleast 6"
             }
         },
 

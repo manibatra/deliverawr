@@ -65,9 +65,9 @@ def signupUser(request):
 				response = {'status' : 1}
 
 			else:
-				response = {'status' : 0, 'msg' : 'user could not be looged in! try again'}
+				response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
 		else:
-			response = {'status' : 0, 'msg' : 'user could not be looged in! try again'}
+			response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
 	else:
 		response = {'status' : 0, 'msg' : 'invalid request'}
 
@@ -76,18 +76,36 @@ def signupUser(request):
 #method to login the user
 def login_user(request):
 	if request.method == "POST":
-		email = request.POST['emailLogIn']
-		password = request.POST['passwordLogIn']
-		current_page = request.POST['orgpath']
+		try: #checking the validity of email
+			email = request.POST['emailLogIn']
+			validate_email(email)
+		except (KeyError, ValidationError) as e:
+			response = {'status' : 0, 'msg' : str(e)}
+			return HttpResponse(json.dumps(response), content_type='application/json')
+
+		try: #checking the validity of password
+			password = request.POST['passwordLogIn']
+			if len(password) < 6:
+				raise ValidationError("Minimum password length should be 6")
+
+		except (KeyError, ValidationError) as e:
+			response = {'status' : 0, 'msg' : str(e)}
+			return HttpResponse(json.dumps(response), content_type='application/json')
+
 		user = authenticate(username=email, password=password)
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect(current_page)
+				response = {'status' : 1}
 			else:
-				return HttpResponse('Invalid User')
+				response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
 		else:
-			return HttpResponse('Invalid Credentials')
+			response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
+
+	else:
+		response = {'status' : 0, 'msg' : 'invalid request'}
+
+	return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def logout_user(request):
