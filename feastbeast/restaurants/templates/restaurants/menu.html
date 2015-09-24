@@ -121,20 +121,38 @@
 					</paper-button>
 				</div>
 				<div class="row">
+				{% if request.user.is_authenticated %}
 					<paper-button id="payButton" class="sidebar__button" value="">
 						Pay
 					</paper-button>
+				{% else %}
+					<paper-button id="not_payButton" class="sidebar__button" data-target="#loginModal" data-toggle="modal">
+						Pay
+					</paper-button>
+				{% endif %}
 				</div>
 				<hr class="center-block">
 				<div class="row">
+				{% if request.user.is_authenticated %}
 					<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" onclick="getAddresses('{{delivery_info}}','{% url "users:get_addresses" %}', '{{csrf_token}}')" name="{% if delivery_info == 'true' %}yes{% else %}no{% endif %}">
 						{% if delivery_info == 'true' %}{{ street_address }}{% else %}Add an Address{% endif %}
 					</paper-button>
+				{% else %}
+					<paper-button id="not_addressButton" class="sidebar__button mdl-shadow--3dp customer-data" data-target="#loginModal" data-toggle="modal">
+							Add an Address
+					</paper-button>
+				{% endif %}
 				</div>
 				<div class="row">
+				{% if request.user.is_authenticated %}
 					<paper-button id="paymentMethodsButton" class="sidebar__button mdl-shadow--3dp customer-data" name="{% if payment_info == 'true' %}yes{% else %}no{% endif %}">
 						{% if payment_info == 'true' %}{{ brand }} : xxxx-{{ last4 }}{% else %}Add a Payment Method{% endif %}
 					</paper-button>
+				{% else %}
+					<paper-button id="not_paymentMethodsButton" class="sidebar__button mdl-shadow--3dp customer-data" data-target="#loginModal" data-toggle="modal">
+						Add a Payment Method
+					</paper-button>
+				{% endif %}
 				</div>
 			</div>
 		</div>
