@@ -20,7 +20,7 @@ $(document).ready(function() {
 
             password: {
                 required: true,
-                minLength: 6
+                minlength: 6
             }
         },
 
