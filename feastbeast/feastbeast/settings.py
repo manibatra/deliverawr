@@ -144,6 +144,6 @@ EMAIL_HOST_USER = 'manibatra2002@gmail.com'
 EMAIL_HOST_PASSWORD = ''
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except:
     pass
