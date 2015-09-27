@@ -27,6 +27,8 @@ var add_handler = StripeCheckout.configure({
                     $("#paymentMethodsButton").attr('name', 'yes');
                     $("#paymentInfoModal").modal('hide');
                     setDefaultCard(token.card.id);
+                } else {
+                    alert(data.msg);
                 }
             }
         );
@@ -388,6 +390,7 @@ $("#payButton").on('click', function() {
     } else if ($("#paymentMethodsButton").attr('id') == 'no') {
         alert("Please enter a payment method")
     } else {
+        $("#payButton").prop("disabled", true);
         $.post(
             '/payments/charge/', {
                 'csrfmiddlewaretoken': csrftoken
@@ -411,7 +414,8 @@ $("#payButton").on('click', function() {
                         }
                     )
                 } else {
-                    alert("Charge failed");
+                    $("#payButton").prop("disabled", false);
+                    alert(data.msg);
                 }
             }
         )

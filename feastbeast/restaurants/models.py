@@ -67,14 +67,6 @@ class MenuItem(models.Model):
 		else:
 			return self.name
 
-#model for the options available to add and remove from the menu item
-class Options(models.Model):
-	item = models.ForeignKey('restaurants.MenuItem')
-	name = models.CharField(max_length=35)
-	ingredient = models.BooleanField()
-	add_on = models.BooleanField()
-	removable = models.BooleanField()
-	price = models.DecimalField(max_digits=3, decimal_places=2)
 
 
 

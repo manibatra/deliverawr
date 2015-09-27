@@ -32,19 +32,11 @@ def signupUser(request):
 			if len(last_name) > 30 or len(last_name) < 2:
 				raise ValidationError("Invalid length of last name")
 
-		except (KeyError, ValidationError) as e:
-			response = {'status' : 0, 'msg' : str(e)}
-			return HttpResponse(json.dumps(response), content_type='application/json')
-
-		try: #checking the validity of email
+		    #checking the validity of email
 			email = request.POST['email']
 			validate_email(email)
-		except (KeyError, ValidationError) as e:
-			response = {'status' : 0, 'msg' : str(e)}
-			return HttpResponse(json.dumps(response), content_type='application/json')
 
-
-		try: #checking min pasword length
+		    #checking min pasword length
 			password = request.POST['password']
 			if len(password) < 6:
 				raise ValidationError("Minimum password length should be 6")
@@ -79,11 +71,8 @@ def loginUser(request):
 		try: #checking the validity of email
 			email = request.POST['emailLogIn']
 			validate_email(email)
-		except (KeyError, ValidationError) as e:
-			response = {'status' : 0, 'msg' : str(e)}
-			return HttpResponse(json.dumps(response), content_type='application/json')
 
-		try: #checking the validity of password
+		 	#checking the validity of password
 			password = request.POST['passwordLogIn']
 			if len(password) < 6:
 				raise ValidationError("Minimum password length should be 6")
@@ -114,7 +103,12 @@ def logout_user(request):
 
 #a function to get all the user addresses
 def get_addresses(request):
-	user_address_info = UserAddress.objects.filter(user=request.user)
+
+	if request.user.is_authenticated():
+		user_address_info = UserAddress.objects.filter(user=request.user)
+	else:
+		return HttpResponse("Invalid request - 404")
+
 	user_addresses=[]
 	for address in user_address_info:
 		user_address = {}
@@ -129,20 +123,24 @@ def get_addresses(request):
 #function to save the address of the user from the database
 def save_address(request):
 	if request.method == 'POST':
-		current_user = request.user
-		street_address = request.POST['street_address']
-		postcode = request.POST['postcode']
-		country = request.POST['country']
-		#TODO : add the city field to the database
 
-		#creating a user address object from the delivery address
-		user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
-										phone_no='0414708810',default=True)
-		user_address.save()
+		if request.user.is_authenticated():
+			current_user = request.user
+			street_address = request.POST['street_address']
+			postcode = request.POST['postcode']
+			country = request.POST['country']
+			#TODO : add the city field to the database
 
-		response = {'status' : 1}
+			#creating a user address object from the delivery address
+			user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
+											phone_no='0414708810',default=True)
+			user_address.save()
 
-		return HttpResponse(json.dumps(response), content_type='application/json')
+			response = {'status' : 1}
+
+			return HttpResponse(json.dumps(response), content_type='application/json')
+		else:
+			return HttpResponse("Invalid request - 404")
 
 
 	else:

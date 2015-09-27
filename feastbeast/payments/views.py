@@ -22,13 +22,20 @@ def charge(request):
 	if request.is_ajax() or request.method == 'POST':
 		current_user = request.user
 
+		cart = ModifiedCart(request.session)
+		amount = int(cart.total * 100)
+
+		#do not charge if the amount is zero
+		if amount == 0:
+			response = { 'status' : 0, 'msg' : 'You have nothing in your cart :( '}
+			return HttpResponse(json.dumps(response), content_type="application/json")
+
+
 		#get the delivery address, will be saved later in order history
 		delivery_address = UserAddress.objects.filter(user=current_user, default=True)
 		#get the stripe id to charge the customer
 		stripe_id = get_stripeid(current_user)
 
-		cart = ModifiedCart(request.session)
-		amount = int(cart.total * 100)
 
 		#charging the customer
 		try:
@@ -40,14 +47,20 @@ def charge(request):
 			)
 
 			#cart.clear() #empty out the cart after successful payment => not clearing it here anymore as need to save order history
-
+		#checking for card errors
 		except stripe.error.CardError as e:
 			# The card has been declined
-			response = { 'status' : 0}
+			response = { 'status' : 0, 'msg' : e.code}
 			return HttpResponse(json.dumps(response), content_type="application/json")
 
+		#checking for all other stripe errors
+		except stripe.error as e:
+			# The card has been declined
+			response = { 'status' : 0, 'msg' : 'Payment did not go through, please try again'}
+			return HttpResponse(json.dumps(response), content_type="application/json")
 
-		response = {'status' : 1}
+		#no error found so far
+		response = {'status' : 1, 'msg' : 'card successfully charged'}
 		return HttpResponse(json.dumps(response), content_type="application/json")
 	else:
 		HttpResponse("invalid request - 404")
@@ -87,13 +100,40 @@ def addCard(request):
 			customer = stripe.Customer.retrieve(stripe_id)
 			card = customer.sources.create(source=token)
 			response = {'status':1, 'brand': card.brand, 'last': card.last4, 'card_id': card.id }
+
 		except UserPayment.DoesNotExist:
-			customer = stripe.Customer.create(
-						source=token,
-						description="test description"
-					)
-			save_stripeid(request.user, customer.id)
-			response = {'status':1, 'brand': customer.sources.data[0].brand, 'last': customer.sources.data[0].last4, 'card_id': customer.sources.data[0].id }
+
+			try: #its a new user and she is entering the payment method for the first time
+				customer = stripe.Customer.create(
+							source=token,
+							description="test description"
+						)
+				save_stripeid(request.user, customer.id)
+				response = {'status':1, 'brand': customer.sources.data[0].brand, 'last': customer.sources.data[0].last4, 'card_id': customer.sources.data[0].id }
+
+			#checking for card errors
+			except stripe.error.CardError as e:
+				# The card has been declined
+				response = { 'status' : 0, 'msg' : e.code}
+				return HttpResponse(json.dumps(response), content_type="application/json")
+
+			#checking for all other stripe errors
+			except stripe.error as e:
+				# The card has been declined
+				response = { 'status' : 0, 'msg' : 'Card could not be added, please try again'}
+				return HttpResponse(json.dumps(response), content_type="application/json")
+
+		#checking for card errors
+		except stripe.error.CardError as e:
+			# The card has been declined
+			response = { 'status' : 0, 'msg' : e.code}
+			return HttpResponse(json.dumps(response), content_type="application/json")
+
+		#checking for all other stripe errors
+		except stripe.error as e:
+			# The card has been declined
+			response = { 'status' : 0, 'msg' : 'Card could not be added, please try again'}
+			return HttpResponse(json.dumps(response), content_type="application/json")
 
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
