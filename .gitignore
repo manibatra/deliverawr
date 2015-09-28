@@ -1,9 +1,9 @@
 
-settings.py 
+local_settings.py
 
-*.json 
+*.json
 
-*~ 
+*~
 
 *.pyc
 
@@ -12,6 +12,8 @@ env/
 db.sqlite3
 
 *.rdb
+
+staticfiles
 
 
 
