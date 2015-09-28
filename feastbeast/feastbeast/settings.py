@@ -125,15 +125,6 @@ try:
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
 
-    AWS_HEADERS = {
-        "Cache-Control": "public, max-age=86400",
-    }
-
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_QUERYSTRING_AUTH = False
-    AWS_S3_SECURE_URLS = False
-    AWS_REDUCED_REDUNDANCY = False
-    AWS_IS_GZIPPED = False
 
     STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
     MEDIA_URL = STATIC_URL + 'media/'
