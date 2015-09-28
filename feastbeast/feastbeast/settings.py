@@ -131,7 +131,7 @@ try:
 
     AWS_S3_FILE_OVERWRITE = False
     AWS_QUERYSTRING_AUTH = False
-    AWS_S3_SECURE_URLS = True
+    AWS_S3_SECURE_URLS = False
     AWS_REDUCED_REDUNDANCY = False
     AWS_IS_GZIPPED = False
 
