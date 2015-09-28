@@ -130,6 +130,7 @@ try:
     MEDIA_URL = STATIC_URL + 'media/'
     STATICFILES_DIRS = ( os.path.join(BASE_DIR, "static"), )
     STATIC_ROOT = 'staticfiles'
+    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 except:
     pass
