@@ -142,3 +142,10 @@ h5 {
 
 ul { list-style: none; padding-right: 40px; }
 
+.reset-password span {
+	color: #337ab7;
+	margin-top: 10px;
+}
+
+
+

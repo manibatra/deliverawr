@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^payments/', include('payments.urls', namespace="payments")),
     url(r'^user/', include('users.urls', namespace="users")),
     url(r'^orders/', include('orders.urls', namespace="orders")),
-    url(r'^password/reset-password/$', auth_views.password_reset, {'template_name': 'password.html'}),
+    url(r'^password/reset-password/$', auth_views.password_reset, {'template_name': 'password.html'}, name='password_reset'),
     url(r'^password/reset-password-done/$', auth_views.password_reset_done, {'template_name': 'password_reset_done.html'}, name="password_reset_done"),
     url(r'^password/reset-password-confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'template_name': 'password_reset_confirm.html'}, name="password_reset_confirm"),
     url(r'^password/reset-password-complete/$', auth_views.password_reset_complete, {'template_name': 'password_reset_complete.html'}, name="password_reset_complete"),
