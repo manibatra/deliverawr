@@ -118,7 +118,36 @@ $(document).ready(function() {
         }
 
     });
+
+    $("#changeForm").validate({
+
+        rules: {
+            new_password1: {
+                required: true,
+                minlength: 6
+            },
+
+            new_password2: {
+                required: true,
+                minlength: 6,
+            }
+
+        },
+
+        showErrors: function(errorMap, errorList) {
+            $("#changeForm .error-span").css('visibility', 'hidden');
+            $.each(errorMap, function(key, value) {
+                $('.' + key + '-error').css('visibility', 'visible');
+                $('.' + key + '-error').text(value);
+            });
+        }
+
+    });
 });
+
+function submitchangeForm() {
+    $('#changeForm').submit();
+}
 
 function submitresetForm() {
     $('#resetForm').submit();
