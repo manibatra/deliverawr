@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -26,4 +27,8 @@ urlpatterns = [
     url(r'^payments/', include('payments.urls', namespace="payments")),
     url(r'^user/', include('users.urls', namespace="users")),
     url(r'^orders/', include('orders.urls', namespace="orders")),
+    url(r'^password/reset-password/$', auth_views.password_reset, {'template_name': 'password.html'}),
+    url(r'^password/reset-password-done/$', auth_views.password_reset_done, name="password_reset_done"),
+    url(r'^password/reset-password-confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, name="password_reset_confirm"),
+    url(r'^password/reset-password-complete/$', auth_views.password_reset_complete, name="password_reset_complete"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

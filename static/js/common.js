@@ -98,7 +98,31 @@ $(document).ready(function() {
             });
         }
     });
+
+    $("#resetForm").validate({
+
+        rules: {
+            email: {
+                required: true,
+                email: true
+            },
+
+        },
+
+        showErrors: function(errorMap, errorList) {
+            $("#resetForm .error-span").css('visibility', 'hidden');
+            $.each(errorMap, function(key, value) {
+                $('.' + key + '-error').css('visibility', 'visible');
+                $('.' + key + '-error').text(value);
+            });
+        }
+
+    });
 });
+
+function submitresetForm() {
+    $('#resetForm').submit();
+}
 
 function submitForm() {
     $('#signupForm').submit();
