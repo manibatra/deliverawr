@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 #imports for validation
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 from django.http import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers import reverse
@@ -45,11 +46,17 @@ def signupUser(request):
 			response = {'status' : 0, 'msg' : str(e)}
 			return HttpResponse(json.dumps(response), content_type='application/json')
 
-		user = User.objects.create_user(email, email, password)
-		user.first_name = first_name
-		user.last_name = last_name
-		user.save()
 		response = {}
+
+		try:
+			user = User.objects.create_user(email, email, password)
+			user.first_name = first_name
+			user.last_name = last_name
+			user.save()
+		except IntegrityError:
+			response = {'status' : 0, 'msg' : 'User with the entered email already exists'}
+			return HttpResponse(json.dumps(response), content_type='application/json')
+
 		user = authenticate(username=email, password=password)
 		if user is not None:
 			if user.is_active:
