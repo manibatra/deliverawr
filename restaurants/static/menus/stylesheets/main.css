@@ -63,6 +63,7 @@ body {
 	padding: 0.38rem;  /* Needs prefixing */
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
+	margin: 20px auto;
 }
 
 .center-text {
@@ -146,7 +147,7 @@ body {
 
 .sidebar__button.customer-data {
 	background-color: white !important;
-	color: rgb(51, 51, 51);;
+	color: rgb(51, 51, 51);
 }
 
 .demo-card-wide.mdl-card {

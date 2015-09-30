@@ -32,9 +32,20 @@ def charge(request):
 
 
 		#get the delivery address, will be saved later in order history
-		delivery_address = UserAddress.objects.filter(user=current_user, default=True)
+		try:
+			delivery_address = UserAddress.objects.get(user=current_user, default=True)
+
+		except UserAddress.DoesNotExist:
+			response = { 'status' : 0, 'msg' : 'Please enter a delivery address'}
+			return HttpResponse(json.dumps(response), content_type="application/json")
+
+
 		#get the stripe id to charge the customer
 		stripe_id = get_stripeid(current_user)
+
+		if stripe_id == -1:
+			response = { 'status' : 0, 'msg' : 'Please enter a payment method'}
+			return HttpResponse(json.dumps(response), content_type="application/json")
 
 
 		#charging the customer
@@ -54,7 +65,7 @@ def charge(request):
 			return HttpResponse(json.dumps(response), content_type="application/json")
 
 		#checking for all other stripe errors
-		except stripe.error as e:
+		except:
 			# The card has been declined
 			response = { 'status' : 0, 'msg' : 'Payment did not go through, please try again'}
 			return HttpResponse(json.dumps(response), content_type="application/json")
@@ -177,7 +188,10 @@ def save_stripeid(user, stripe_id):
 
 #method to retrieve the stripe id of the current_user
 def get_stripeid(user):
-	current_user = UserPayment.objects.get(user=user)
+	try:
+		current_user = UserPayment.objects.get(user=user)
+	except UserPayment.DoesNotExist:
+		return -1
 	return current_user.stripe_id
 
 

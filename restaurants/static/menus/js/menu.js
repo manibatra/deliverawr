@@ -297,7 +297,7 @@ function deleteCard(element) {
                 if (data.status === 1) { //any card deleted
                     $(element).parent().parent().remove();
                     $("#" + data.card_id).parent().addClass('mdl-shadow--4dp');
-                    $("#paymentMethodsButton > paper-material").text(data.brand + " : " + data.last);
+                    $("#paymentMethodsButton > paper-material").text(data.brand + " : XXXX-" + data.last);
                     $("#paymentMethodsButton > paper-material").attr('id', data.card_id);
                     $('#defaultCard').prop('disabled', true);
                 } else if (data.status === 2) {
@@ -385,9 +385,9 @@ $("#addToCartModal").on('click', function() {
 
 //functon to charge the customer
 $("#payButton").on('click', function() {
-    if ($("#addressButton").attr('id') == 'no') {
+    if ($("#addressButton").attr('name') == 'no') {
         alert("Please enter a delivery address")
-    } else if ($("#paymentMethodsButton").attr('id') == 'no') {
+    } else if ($("#paymentMethodsButton").attr('name') == 'no') {
         alert("Please enter a payment method")
     } else {
         $("#payButton").prop("disabled", true);
