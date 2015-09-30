@@ -119,8 +119,7 @@ def send_simple_message(emailHTML):
         auth=("api", "key-37d788bd314bf02a7fbb52dfe24efe4a"),
         data={"from": "Excited User <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
               "to": ["manibatra2002@gmail.com"],
-              "subject": "Hello",
-              "text": "Testing some Mailgun awesomness!",
+              "subject": "Thank you for ordering",
               "html": emailHTML
 	})
 
