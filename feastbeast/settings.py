@@ -27,7 +27,10 @@ except:
     pass
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG']
+try:
+    DEBUG = os.environ['DEBUG']
+except:
+    pass
 
 ALLOWED_HOSTS = ['*']
 
@@ -146,8 +149,11 @@ except:
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+try:
+    EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+    EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+except:
+    pass
 
 try:
     from .local_settings import *
