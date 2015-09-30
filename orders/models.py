@@ -16,3 +16,4 @@ class Detail(models.Model):
 	menu_item = models.ForeignKey('restaurants.MenuItem', related_name='menu_item')
 	add_ons = models.ManyToManyField('restaurants.MenuItem', related_name='added_items')
 	removed = models.ManyToManyField('restaurants.MenuItem', related_name='removed_items')
+	subtotal = models.DecimalField(max_digits=10, decimal_places=2)

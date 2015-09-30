@@ -406,8 +406,7 @@ $("#payButton").on('click', function() {
                     $.post(
                         '/orders/place/', {
                             'csrfmiddlewaretoken': csrftoken,
-                            'restaurant_id': restaurant_id,
-                            'emailHTML': emailHTML
+                            'restaurant_id': restaurant_id
                         },
                         function(data) {
                             if (data.status == 1) {
@@ -498,4 +497,3 @@ function deleteItem(element) {
 
 
 };
-});
