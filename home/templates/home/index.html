@@ -1,0 +1,198 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+		<title></title>
+		<!-- JQUERY -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<!-- Include Font Awesome Stylesheet in Header -->
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Social Buttons -->
+		<link rel="stylesheet" href="{% static "stylesheets/bootstrap-social.css" %}">
+		<!-- Material Design -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,500,700">
+		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
+		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<!-- Local Stylesheets -->
+		<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
+		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
+		<!-- Polymer Elements -->
+		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
+		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+	</head>
+	<body>
+		{% include "navbar.html" %}
+		<!-- Home page main body -->
+		<div class="container-fluid works works-hidden" id="working">
+			<div class="row">
+				<div class="col-md-12">
+					<i class="material-icons md-36 pull-right works-button" id="closeWorks">clear</i>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="jumbotron">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<h1 class="text-center home-heading">FEAST BEAST</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button raised class="main-button center-block" id="howItWorks">
+								HOW IT WORKS
+							</paper-button>
+						</div>
+					</div>
+					<div class="row">
+						<form id="postcodeForm" action="{% url 'home:listings' %}" method="get">
+							<div class="col-md-12 jumbo-foot">
+								<div class="row">
+									<div class="col-md-7 col-xs-6">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label pull-right">
+										    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="postcode" id="postcode" />
+										    <label class="mdl-textfield__label signup-form" for="postcode">Postcode</label>
+										    <span class="mdl-textfield__error postcode-error">Invalid postcode!</span>
+										</div>
+									</div>
+									<div class="col-md-5 col-xs-6">
+										<paper-button onClick="getListing()" raised class="main-button pull-left">
+										GET SOME FOOD
+										</paper-button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="row home-sub">
+				<div class="col-md-12">
+					<h3 class="text-center home-sub">TRY SOME LOCAL DELICACIES</h3>
+				</div>
+			</div>
+			<div class="row steps">
+				<div class="col-md-4 cards">
+					<div class="mdl-card mdl-shadow--2dp demo-card-square">
+						<div class="mdl-card__title mdl-card--expand">
+							<h2 class="mdl-card__title-text">IMAGE 1</h2>
+						</div>
+						<div class="mdl-card__supporting-text">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Aenan convallis.
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 cards">
+					<div class="mdl-card mdl-shadow--2dp demo-card-square">
+						<div class="mdl-card__title mdl-card--expand">
+							<h2 class="mdl-card__title-text">IMAGE 2</h2>
+						</div>
+						<div class="mdl-card__supporting-text">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Aenan convallis.
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 cards">
+					<div class="mdl-card mdl-shadow--2dp demo-card-square">
+						<div class="mdl-card__title mdl-card--expand">
+							<h2 class="mdl-card__title-text">IMAGE 3</h2>
+						</div>
+						<div class="mdl-card__supporting-text">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Aenan convallis.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--Site footer, remains constant across most pages-->
+		<footer class="mdl-mega-footer">
+			<div class="container">
+				<div class="mdl-mega-footer__middle-section">
+					<div class="col-md-4">
+						<div class="mdl-mega-footer__drop-down-section center-this">
+							<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+							<h1 class="mdl-mega-footer__heading">Features</h1>
+							<ul class="mdl-mega-footer__link-list">
+								<li><a href="#">About</a></li>
+								<li><a href="#">Terms</a></li>
+								<li><a href="#">Partners</a></li>
+								<li><a href="#">Updates</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="mdl-mega-footer__drop-down-section center-this">
+							<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+							<h1 class="mdl-mega-footer__heading">Details</h1>
+							<ul class="mdl-mega-footer__link-list">
+								<li><a href="#">Specs</a></li>
+								<li><a href="#">Tools</a></li>
+								<li><a href="#">Resources</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="mdl-mega-footer__drop-down-section center-this">
+							<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+							<h1 class="mdl-mega-footer__heading">Technology</h1>
+							<ul class="mdl-mega-footer__link-list">
+								<li><a href="#">How it works</a></li>
+								<li><a href="#">Patterns</a></li>
+								<li><a href="#">Usage</a></li>
+								<li><a href="#">Products</a></li>
+								<li><a href="#">Contracts</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="text-center center-block">
+					<br />
+					<p class="social-text">Join Us</p>
+					<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
+					<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
+					<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
+					<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+				</div>
+			</div>
+		</footer>
+		{% include "signup.html" %}
+		{% include "login.html" %}
+		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+		<script src="{% static "home/js/home.js" %}"></script>
+		<script src="{% static "js/common.js" %}"></script>
+		<script type="text/javascript">
+			function getListing() {
+				document.getElementById('postcodeForm').submit();
+			};
+
+			var slider = function() {
+				$("#howItWorks").click(function() {
+					$("#working").slideDown("slow");
+				});
+				$("#closeWorks").click(function() {
+					$("#working").slideUp("slow");
+				});
+			};
+			$(document).ready(slider);
+
+		</script>
+	</body>
+</html>

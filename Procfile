@@ -1,0 +1,1 @@
+web: gunicorn feastbeast.wsgi --log-file -

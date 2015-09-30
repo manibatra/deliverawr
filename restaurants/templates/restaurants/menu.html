@@ -1,0 +1,350 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+		<title></title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{% static "stylesheets/bootstrap-social.css" %}">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<!-- Include Font Awesome Stylesheet in Header -->
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Material Design -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,700">
+		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
+		<!-- Local Stylesheets -->
+		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
+		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
+		<!-- Polymer Elements -->
+		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	</head>
+	<body>
+		{% include "navbar.html" %}
+		{% include "signup.html" %}
+		{% include "login.html" %}
+		<!--Banner of the restuarant -->
+		<div class="row">
+			<div class="jumbotron">
+				<div class="row">
+					<div class="col-md-12">
+						<img alt="Banner" src="{{ restaurant.primary_image.url }}" class="banner-img img-responsive">
+						<div class="row overlay-container">
+							<div class="col-md-4 col-xs-12 text-center"><h2 class="restaurant-name"><span>{{ restaurant.name }}</span></h2></div>
+							<div class="col-md-4 hidden-xs"></div>
+							<div class="col-md-4 hidden-xs">
+								<div class="mdl-card mdl-shadow--3dp demo-card-square ">
+									<div class="row">
+										<div class="col-md-12">
+											<img alt="Banner" src="{{ restaurant.secondary_image.url }}" class="img-responsive">
+										</div>
+									</div>
+									<div class="row" id="team-image">
+										<div class="col-md-12">
+											<h2 class="mdl-card__title-text"><span class="team-name center-block">The Team</span></h2>
+										</div>
+									</div>
+									<div class="row card-footer">
+										<div class="col-md-12 text-center">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+										Aenan convallis.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			<!--Menu start -->
+			<div class="container menu">
+				<div class = "row">
+					<!--Menu categories -->
+					<div class="col-md-2">
+						<ul class="nav nav-pills nav-stacked red" role="tablist">
+							{% for category in categories %}
+								<li role="presentation" {% if category == categories|first %}class="active"{% endif %}>
+								<a href="#{{ category.category }}" aria-controls="{{ category.category }}" role="tab" data-toggle="tab">{{ category.category }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<!--Menu items -->
+				<div class="col-md-8">
+					<!-- Tab panes -->
+					<div class="tab-content">
+						{% for category in categories %}
+							<div role="tabpanel" class="tab-pane {% if category == categories|first %}active{% endif %}" id="{{ category.category }}">
+							<div class="menu-items">
+								<!-- A single menu item with edit and add to cart button -->
+								{% for item in items %}
+									{% if category.category == item.category %}
+										<div class="demo-card-wide mdl-card menu-item">
+											<div class="row text-center menu-item__heading">
+												{{ item.name }}
+											</div>
+											<div class="row text-center menu-item__description">
+												{{ item.description }}
+											</div>
+											<div class="row price text-center">
+												$ {{ item.price }}
+											</div>
+											<div class="row vcenter menu-item__actions">
+												<div class="col-md-6">
+													<!-- Mini FAB button -->
+													<paper-button class="menu-item__button pull-left cust-button" id="{{item.item_id}}" >
+														Customize
+													</paper-button>
+												</div>
+												<div class="col-md-6">
+													<!-- Mini FAB button -->
+													<paper-button name="{{ item.item_id }}" class="add_to_cart menu-item__button pull-right">
+														Add to Order
+													</paper-button>
+												</div>
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			{% load modifiedcart_tags %}
+			{% get_modifiedcart as cart %}
+			<div class="col-md-2">
+				<div class="row">
+					<paper-button id="orderButton" class="sidebar__button top-button" data-toggle="modal" data-target="#orderModal">
+						Order<span class="badge order-badge">{{cart.total}}</span>
+					</paper-button>
+				</div>
+				<div class="row">
+				{% if request.user.is_authenticated %}
+					<paper-button id="payButton" class="sidebar__button" value="">
+						Pay
+					</paper-button>
+				{% else %}
+					<paper-button id="not_payButton" class="sidebar__button" data-target="#loginModal" data-toggle="modal">
+						Pay
+					</paper-button>
+				{% endif %}
+				</div>
+				<hr class="center-block">
+				<div class="row">
+				{% if request.user.is_authenticated %}
+					<paper-button id="addressButton" class="sidebar__button mdl-shadow--3dp customer-data" onclick="getAddresses('{{delivery_info}}','{% url "users:get_addresses" %}', '{{csrf_token}}')" name="{% if delivery_info == 'true' %}yes{% else %}no{% endif %}">
+						{% if delivery_info == 'true' %}{{ street_address }}{% else %}Add an Address{% endif %}
+					</paper-button>
+				{% else %}
+					<paper-button id="not_addressButton" class="sidebar__button mdl-shadow--3dp customer-data" data-target="#loginModal" data-toggle="modal">
+							Add an Address
+					</paper-button>
+				{% endif %}
+				</div>
+				<div class="row">
+				{% if request.user.is_authenticated %}
+					<paper-button id="paymentMethodsButton" class="sidebar__button mdl-shadow--3dp customer-data" name="{% if payment_info == 'true' %}yes{% else %}no{% endif %}">
+						{% if payment_info == 'true' %}{{ brand }} : xxxx-{{ last4 }}{% else %}Add a Payment Method{% endif %}
+					</paper-button>
+				{% else %}
+					<paper-button id="not_paymentMethodsButton" class="sidebar__button mdl-shadow--3dp customer-data" data-target="#loginModal" data-toggle="modal">
+						Add a Payment Method
+					</paper-button>
+				{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Site footer, remains constant across most pages-->
+	<footer class="mdl-mega-footer">
+		<div class="container">
+			<div class="mdl-mega-footer__middle-section">
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Features</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">About</a></li>
+							<li><a href="#">Terms</a></li>
+							<li><a href="#">Partners</a></li>
+							<li><a href="#">Updates</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Details</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">Specs</a></li>
+							<li><a href="#">Tools</a></li>
+							<li><a href="#">Resources</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="mdl-mega-footer__drop-down-section center-this">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading">Technology</h1>
+						<ul class="mdl-mega-footer__link-list">
+							<li><a href="#">How it works</a></li>
+							<li><a href="#">Patterns</a></li>
+							<li><a href="#">Usage</a></li>
+							<li><a href="#">Products</a></li>
+							<li><a href="#">Contracts</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="text-center center-block">
+				<br />
+				<p class="social-text">Join Us</p>
+				<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
+				<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
+				<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
+				<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+			</div>
+		</div>
+	</footer>
+	<div class="modal fade" id="deliveryAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row" id="panels">
+					</div>
+					<div class="address-input row" id="inputAddress">
+						<div class="col-md-5">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="address_label" id="address_label" />
+								<label class="mdl-textfield__label address-form" for="address_label">Unit, Street Address</label>
+								<span class="mdl-textfield__error error-span">Invalid Address!</span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
+								<label class="mdl-textfield__label address-form" for="city_label">City</label>
+								<span class="mdl-textfield__error error-span">Invalid City!</span>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="postcode_label" id="postcode_label" />
+								<label class="mdl-textfield__label address-form" for="postcode_label">PostCode</label>
+								<span class="mdl-textfield__error error-span">Invalid PostCode!</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{stripe_id}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+								Add an address
+							</paper-button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button class="sidebar__button text-center" id="defaultAddress" disabled onclick="setDefaultAddress('{% url "users:setdefault_address" %}', '{{csrf_token}}')">
+								Use address
+							</paper-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="paymentInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Payment Methods</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row" id="cardPanels">
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button class="sidebar__button text-center" id="addCard" onclick="addCard('{{stripe_id}}','{{request.user.email}}', '{% static "images/monster.png" %}')">
+								Add a payment method
+							</paper-button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<paper-button class="sidebar__button text-center" id="defaultCard" disabled="disabled" onclick="setDefaultCard(0)">
+								Use this card
+							</paper-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="custMenuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Options</h4>
+				</div>
+				<div class="modal-body" id="item-options">
+				</div>
+				<div class="modal-footer">
+        			<paper-button class="options-modal__button text-center" id="addToCartModal">
+								Add to Order
+					</paper-button>
+      			</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">BASKET</h4>
+				</div>
+				<div class="modal-body" id="orderPanels">
+				</div>
+				<div class="modal-footer order-footer">
+					<div class="row">
+						<div class="col-md-9"><strong class="pull-left">TOTAL</strong></div>
+						<div class="col-md-2"><strong class="pull-left" id="basketTotal"></strong></div>
+						<div class="col-md-1"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- JQUERY -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!--Stripe Checkout Script -->
+	<script src="https://checkout.stripe.com/checkout.js"></script>
+	<!--Custom Script -->
+	<script src="{% static "menus/js/menu.js" %}"></script>
+	<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
+	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+	<script src="{% static "js/common.js" %}"></script>
+	<script type="text/javascript">
+	//hack to display the team image during development
+	//$(document).ready(adding);
+	</script>
+</body>
+</html>
