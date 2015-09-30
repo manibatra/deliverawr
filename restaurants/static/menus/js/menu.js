@@ -385,8 +385,7 @@ $("#addToCartModal").on('click', function() {
 
 //functon to charge the customer
 $("#payButton").on('click', function() {
-    $("#orderModal").inlineStyler();
-    var emailHTML = $("#orderModal").html();
+
     if ($("#addressButton").attr('name') == 'no') {
         alert("Please enter a delivery address")
     } else if ($("#paymentMethodsButton").attr('name') == 'no') {
@@ -428,7 +427,7 @@ $("#payButton").on('click', function() {
 function refreshOrders(data) {
     var total_price = 0;
     for (var i = 0; i < data.length; i++) {
-        console.log(data[i]);
+        //console.log(data[i]);
         total_price += parseFloat(data[i].price);
         $("#orderPanels").last().append('\
                 	<div class="row  item-' + data[i].item_id + '">\
@@ -472,8 +471,8 @@ $("#orderButton").on('click', function() {
         '/restaurant/get-cart/',
         function(data) {
             refreshOrders(data);
-        }
-    )
+
+        });
 });
 
 function deleteItem(element) {
@@ -499,3 +498,4 @@ function deleteItem(element) {
 
 
 };
+});
