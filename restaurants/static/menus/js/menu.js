@@ -385,6 +385,8 @@ $("#addToCartModal").on('click', function() {
 
 //functon to charge the customer
 $("#payButton").on('click', function() {
+    $("#orderModal").inlineStyler();
+    var emailHTML = $("#orderModal").html();
     if ($("#addressButton").attr('name') == 'no') {
         alert("Please enter a delivery address")
     } else if ($("#paymentMethodsButton").attr('name') == 'no') {
@@ -393,7 +395,7 @@ $("#payButton").on('click', function() {
         $("#payButton").prop("disabled", true);
         $.post(
             '/payments/charge/', {
-                'csrfmiddlewaretoken': csrftoken
+                'csrfmiddlewaretoken': csrftoken,
             },
             function(data) {
                 if (data.status == 1) {
@@ -405,7 +407,8 @@ $("#payButton").on('click', function() {
                     $.post(
                         '/orders/place/', {
                             'csrfmiddlewaretoken': csrftoken,
-                            'restaurant_id': restaurant_id
+                            'restaurant_id': restaurant_id,
+                            'emailHTML': emailHTML
                         },
                         function(data) {
                             if (data.status == 1) {

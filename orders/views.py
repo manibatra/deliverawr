@@ -16,6 +16,9 @@ from .models import UserOrder, Detail
 #importing the cart
 from restaurants.mycart import ModifiedCart
 
+#importing requests lib to send mail
+import requests
+
 
 
 # Create your views here.
@@ -63,7 +66,7 @@ def place(request):
 			order_item_detail.removed.add(*all_removed)
 
 
-		send_mail('Thank you for ordering', str(serialised_cart), 'manibatra2002@gmail.com', [current_user.email], fail_silently=False)
+		send_simple_message(request.POST['emailHTML'])
 
 		cart.clear()
 
@@ -80,3 +83,28 @@ def success(request):
 		restaurant = request.POST['restaurant_id']
 
 	return render(request, 'orders/ordered.html', {})
+
+def send_simple_message(emailHTML):
+    return requests.post(
+        "https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
+        auth=("api", "key-37d788bd314bf02a7fbb52dfe24efe4a"),
+        data={"from": "Excited User <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
+              "to": ["manibatra2002@gmail.com"],
+              "subject": "Hello",
+              "text": "Testing some Mailgun awesomness!",
+              "html": "\
+  <!DOCTYPE html> <html>\
+	<head>\
+		<meta charset='utf-8'>\
+		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>\
+		<meta name='viewport' content='width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes'>\
+	</head>\
+	<body>" +
+	emailHTML +
+	"</body>\
+</html>"})
+
+
+
+
+
