@@ -98,7 +98,60 @@ $(document).ready(function() {
             });
         }
     });
+
+    $("#resetForm").validate({
+
+        rules: {
+            email: {
+                required: true,
+                email: true
+            },
+
+        },
+
+        showErrors: function(errorMap, errorList) {
+            $("#resetForm .error-span").css('visibility', 'hidden');
+            $.each(errorMap, function(key, value) {
+                $('.' + key + '-error').css('visibility', 'visible');
+                $('.' + key + '-error').text(value);
+            });
+        }
+
+    });
+
+    $("#changeForm").validate({
+
+        rules: {
+            new_password1: {
+                required: true,
+                minlength: 6
+            },
+
+            new_password2: {
+                required: true,
+                minlength: 6,
+            }
+
+        },
+
+        showErrors: function(errorMap, errorList) {
+            $("#changeForm .error-span").css('visibility', 'hidden');
+            $.each(errorMap, function(key, value) {
+                $('.' + key + '-error').css('visibility', 'visible');
+                $('.' + key + '-error').text(value);
+            });
+        }
+
+    });
 });
+
+function submitchangeForm() {
+    $('#changeForm').submit();
+}
+
+function submitresetForm() {
+    $('#resetForm').submit();
+}
 
 function submitForm() {
     $('#signupForm').submit();
