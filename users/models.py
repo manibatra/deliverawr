@@ -6,6 +6,7 @@ from django.conf import settings
 class UserAddress(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	street_address = models.CharField(max_length=100)
+	city = models.CharField(max_length=20)
 	postcode = models.CharField(max_length=8)
 	country = models.CharField(max_length=20)
 	default = models.BooleanField()
