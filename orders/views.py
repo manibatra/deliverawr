@@ -70,20 +70,6 @@ def place(request):
 			order_item_detail.add_ons.add(*all_add_ons)
 			order_item_detail.removed.add(*all_removed)
 
-		# #adding user name to context
-		# email_context['user'] = request.user.first_name + " " + request.user.last_name
-
-		# #adding user address to context
-		# email_context['street_address'] = delivery_address.street_address
-		# email_context['postcode'] = delivery_address.postcode
-
-		# #adding the order to the context
-		# items = Detail.objects.filter(order=current_order)
-		# email_context['items'] = items
-
-		# #adding the total price to the context
-		# email_context['total'] = cart.total
-
 		#getting the template
 		template = loader.get_template("billing.html")
 
@@ -104,6 +90,15 @@ def place(request):
 
 		#show the success page for ordering
 		return HttpResponse(json.dumps(response), content_type="application/json")
+
+
+
+#function to show the order on page
+def order_invoice(request, order_id):
+	current_order =  UserOrder.objects.get(id=order_id)
+	context = generate_order_request(current_order)
+	return render(request, "order_invoice.html", context)
+
 
 #function takes the current delivery object, and creates a context out of it
 def generate_order_request(current_order):
