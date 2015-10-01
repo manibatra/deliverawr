@@ -163,7 +163,7 @@ def send_sms_customer(domain, order_id):
     'password': 'lostrume2sm',
     'from': 'FeastBeast',
     'to' : '0414708810',
-    'message' : 'Thank you for ordering. We are on our way. Check your invoice :'+ domain + '/orders/invoice/' + str(order_id)
+    'message' : 'Thank you for ordering. We are on our way. Check your invoice : '+ domain + '/orders/invoice/' + str(order_id)
 	}
 
 	r = requests.post(URL, data=payload)
