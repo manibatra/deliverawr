@@ -30,7 +30,6 @@ def place(request):
 
 	if request.method == 'POST':
 		cart = ModifiedCart(request.session)
-		email_context = {}
 		current_user = request.user
 
 		restaurant_id = request.POST['restaurant_id']
@@ -71,25 +70,16 @@ def place(request):
 			order_item_detail.add_ons.add(*all_add_ons)
 			order_item_detail.removed.add(*all_removed)
 
-		#adding user name to context
-		email_context['user'] = request.user.first_name + " " + request.user.last_name
-
-		#adding user address to context
-		email_context['street_address'] = delivery_address.street_address
-		email_context['postcode'] = delivery_address.postcode
-
-		#adding the order to the context
-		items = Detail.objects.filter(order=current_order)
-		email_context['items'] = items
-
-		#adding the total price to the context
-		email_context['total'] = cart.total
-
 		#getting the template
 		template = loader.get_template("billing.html")
 
 		#creating the context
-		context = Context(email_context)
+		order_dict = generate_order_dict(current_order)
+
+
+		#creating the context
+		context = Context(order_dict)
+
 
 		#rendering the template
 		emailHTML = template.render(context)
@@ -97,15 +87,56 @@ def place(request):
 
 		send_simple_message(emailHTML)
 
+
+		send_sms_customer(request.META['HTTP_HOST'], current_order.order_id)
+
 		cart.clear()
 
 
 		response = {'status' : 1}
 
 
-			#show the success page for ordering
+		#show the success page for ordering
 		return HttpResponse(json.dumps(response), content_type="application/json")
 
+
+
+#function to show the order on page
+def order_invoice(request, order_id):
+	current_order =  UserOrder.objects.get(order_id=order_id)
+	if current_order.user.id == request.user.id:
+		context_dict = generate_order_dict(current_order)
+		return render(request, "orders/order_invoice.html", context_dict)
+
+	else:
+	    HttpResponse("404 page")
+
+
+#function takes the current delivery object, and creates a context out of it
+def generate_order_dict(current_order):
+
+	order_dict = {}
+	#adding user name to context
+	order_dict['user'] = current_order.user.first_name + " " + current_order.user.first_name
+
+	#adding the restaurant name
+	order_dict['restaurant'] = current_order.restaurant.name
+
+	#adding user address to context
+	order_dict['street_address'] = current_order.delivery_address.street_address
+	order_dict['postcode'] = current_order.delivery_address.postcode
+
+	#adding the order to the context
+	items = Detail.objects.filter(order=current_order)
+	order_dict['items'] = items
+
+	#adding the total price to the context
+	order_dict['total'] = current_order.total_price
+
+
+	return order_dict
+
+#shows the succes page after succesful placement of order
 def success(request):
 	if request.method == 'POST':
 		current_user = request.user
@@ -113,6 +144,7 @@ def success(request):
 
 	return render(request, 'orders/ordered.html', {})
 
+#method to send the mail to the customer
 def send_simple_message(emailHTML):
     return requests.post(
         "https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
@@ -123,6 +155,18 @@ def send_simple_message(emailHTML):
               "html": emailHTML
 	})
 
+
+def send_sms_customer(domain, order_id):
+	URL = "https://api.smsbroadcast.com.au/api.php"
+	payload = {
+    'username': 'manibatra',
+    'password': 'lostrume2sm',
+    'from': 'FeastBeast',
+    'to' : '0414708810',
+    'message' : 'Thank you for ordering. We are on our way. Check your invoice : '+ domain + '/orders/invoice/' + str(order_id)
+	}
+
+	r = requests.post(URL, data=payload)
 
 
 

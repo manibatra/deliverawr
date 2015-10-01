@@ -38,17 +38,21 @@
 		{% include "navbar.html" %}
 		{% include "signup.html" %}
 		{% include "login.html" %}
-		<!-- Home page main body -->
+		<!-- Order Invoice page page main body -->
+		{% if request.user.is_authenticated %}
+		{% include "billing.html" %}
+		{% else %}
 		<div class="container main-body">
 			<div class="row">
 				<img class="center-block custom-icon" src="{% static "images/monster.png" %}" alt="The Monster" height="300" width="290">
 			</div>
 			<div class="row text-center pretty-text center-block">
 				<span class="sorry-text">
-					Sweet! We are on our way! 
+					Please login to view your order
 				</span>
 			</div>
 		</div>
+		{% endif %}
 		<!--Site footer, remains constant across most pages-->
 		<footer class="mdl-mega-footer">
 			<div class="container">
