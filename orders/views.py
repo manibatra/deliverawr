@@ -82,6 +82,8 @@ def place(request):
 
 		send_simple_message(emailHTML)
 
+		send_sms_customer()
+
 		cart.clear()
 
 
@@ -145,6 +147,18 @@ def send_simple_message(emailHTML):
               "html": emailHTML
 	})
 
+
+def send_sms_customer():
+	URL = "https://api.smsbroadcast.com.au/api.php"
+	payload = {
+    'username': 'manibatra',
+    'password': 'lostrume2sm',
+    'from': 'FeastBeast',
+    'to' : '0414708810',
+    'message' : 'Thank you for ordering. We are on our way. Check your invoice : http://www.feastbeast.com/orders/124124412'
+	}
+
+	r = requests.post(URL, data=payload)
 
 
 
