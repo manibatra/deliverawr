@@ -37,6 +37,11 @@ def signupUser(request):
 			email = request.POST['email']
 			validate_email(email)
 
+			#checking validity of phoneNo
+			phoneNo = request.POST['phoneNo']
+			if len(phoneNo) != 10:
+				raise ValidationError("Phone no length should be 10")
+
 		    #checking min pasword length
 			password = request.POST['password']
 			if len(password) < 6:
