@@ -40,6 +40,8 @@
 		{% include "login.html" %}
 		<!-- Order Invoice page page main body -->
 		{% if request.user.is_authenticated %}
+		{% include "billing.html" %}
+		{% else %}
 		<div class="container main-body">
 			<div class="row">
 				<img class="center-block custom-icon" src="{% static "images/monster.png" %}" alt="The Monster" height="300" width="290">
@@ -50,8 +52,6 @@
 				</span>
 			</div>
 		</div>
-		{% else %}
-		{% include "billing.htm" %}
 		{% endif %}
 		<!--Site footer, remains constant across most pages-->
 		<footer class="mdl-mega-footer">

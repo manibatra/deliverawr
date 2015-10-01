@@ -74,7 +74,12 @@ def place(request):
 		template = loader.get_template("billing.html")
 
 		#creating the context
-		context = generate_order_request(current_order)
+		order_dict = generate_order_dict(current_order)
+
+
+		#creating the context
+		context = Context(order_dict)
+
 
 		#rendering the template
 		emailHTML = template.render(context)
@@ -82,7 +87,8 @@ def place(request):
 
 		send_simple_message(emailHTML)
 
-		send_sms_customer()
+
+		send_sms_customer(request.META['HTTP_HOST'], current_order.order_id)
 
 		cart.clear()
 
@@ -97,36 +103,38 @@ def place(request):
 
 #function to show the order on page
 def order_invoice(request, order_id):
-	current_order =  UserOrder.objects.get(id=order_id)
-	context = generate_order_request(current_order)
-	return render(request, "order_invoice.html", context)
+	current_order =  UserOrder.objects.get(order_id=order_id)
+	if current_order.user.id == request.user.id:
+		context_dict = generate_order_dict(current_order)
+		return render(request, "orders/order_invoice.html", context_dict)
+
+	else:
+	    HttpResponse("404 page")
 
 
 #function takes the current delivery object, and creates a context out of it
-def generate_order_request(current_order):
+def generate_order_dict(current_order):
 
-	email_context = {}
+	order_dict = {}
 	#adding user name to context
-	email_context['user'] = current_order.user.first_name + " " + current_order.user.first_name
+	order_dict['user'] = current_order.user.first_name + " " + current_order.user.first_name
 
 	#adding the restaurant name
-	email_context['restaurant'] = current_order.restaurant.name
+	order_dict['restaurant'] = current_order.restaurant.name
 
 	#adding user address to context
-	email_context['street_address'] = current_order.delivery_address.street_address
-	email_context['postcode'] = current_order.delivery_address.postcode
+	order_dict['street_address'] = current_order.delivery_address.street_address
+	order_dict['postcode'] = current_order.delivery_address.postcode
 
 	#adding the order to the context
 	items = Detail.objects.filter(order=current_order)
-	email_context['items'] = items
+	order_dict['items'] = items
 
 	#adding the total price to the context
-	email_context['total'] = current_order.total_price
+	order_dict['total'] = current_order.total_price
 
-	#creating the context
-	context = Context(email_context)
 
-	return context
+	return order_dict
 
 #shows the succes page after succesful placement of order
 def success(request):
@@ -148,14 +156,14 @@ def send_simple_message(emailHTML):
 	})
 
 
-def send_sms_customer():
+def send_sms_customer(domain, order_id):
 	URL = "https://api.smsbroadcast.com.au/api.php"
 	payload = {
     'username': 'manibatra',
     'password': 'lostrume2sm',
     'from': 'FeastBeast',
     'to' : '0414708810',
-    'message' : 'Thank you for ordering. We are on our way. Check your invoice : http://www.feastbeast.com/orders/124124412'
+    'message' : 'Thank you for ordering. We are on our way. Check your invoice :'+ domain + '/orders/invoice/' + str(order_id)
 	}
 
 	r = requests.post(URL, data=payload)
