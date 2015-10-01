@@ -15,6 +15,7 @@ import json
 
 #importing the models
 from .models import UserAddress
+from .models import UserPhoneNo
 
 
 
@@ -58,6 +59,10 @@ def signupUser(request):
 			user.first_name = first_name
 			user.last_name = last_name
 			user.save()
+
+			user_phoneNo = UserPhoneNo(user=user, phone_no=phoneNo)
+			user_phoneNo.save()
+
 		except IntegrityError:
 			response = {'status' : 0, 'msg' : 'User with the entered email already exists'}
 			return HttpResponse(json.dumps(response), content_type='application/json')
