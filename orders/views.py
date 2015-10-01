@@ -8,7 +8,7 @@ import json
 from django.contrib.auth import authenticate, login
 
 #importing the required models
-from users.models import UserAddress
+from users.models import UserAddress, UserPhoneNo
 from django.contrib.auth.models import User
 from restaurants.models import Restaurant, MenuItem
 from .models import UserOrder, Detail
@@ -85,10 +85,10 @@ def place(request):
 		emailHTML = template.render(context)
 
 
-		send_simple_message(emailHTML)
+		send_simple_message(current_user.email, emailHTML)
 
-
-		send_sms_customer(request.META['HTTP_HOST'], current_order.order_id)
+		phoneNo_object = UserPhoneNo.objects.get(user=current_user)
+		send_sms_customer(request.META['HTTP_HOST'], current_order.order_id, phoneNo_object.phone_no)
 
 		cart.clear()
 
@@ -117,13 +117,14 @@ def generate_order_dict(current_order):
 
 	order_dict = {}
 	#adding user name to context
-	order_dict['user'] = current_order.user.first_name + " " + current_order.user.first_name
+	order_dict['user'] = current_order.user.first_name + " " + current_order.user.last_name
 
 	#adding the restaurant name
 	order_dict['restaurant'] = current_order.restaurant.name
 
 	#adding user address to context
 	order_dict['street_address'] = current_order.delivery_address.street_address
+	order_dict['city'] = current_order.delivery_address.city
 	order_dict['postcode'] = current_order.delivery_address.postcode
 
 	#adding the order to the context
@@ -145,24 +146,24 @@ def success(request):
 	return render(request, 'orders/ordered.html', {})
 
 #method to send the mail to the customer
-def send_simple_message(emailHTML):
+def send_simple_message(customer_email, emailHTML):
     return requests.post(
         "https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
         auth=("api", "key-37d788bd314bf02a7fbb52dfe24efe4a"),
-        data={"from": "Excited User <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
-              "to": ["manibatra2002@gmail.com"],
+        data={"from": "FeastBeast <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
+              "to": [customer_email],
               "subject": "Thank you for ordering",
               "html": emailHTML
 	})
 
 
-def send_sms_customer(domain, order_id):
+def send_sms_customer(domain, order_id, customer_phoneNo):
 	URL = "https://api.smsbroadcast.com.au/api.php"
 	payload = {
     'username': 'manibatra',
     'password': 'lostrume2sm',
     'from': 'FeastBeast',
-    'to' : '0414708810',
+    'to' : customer_phoneNo,
     'message' : 'Thank you for ordering. We are on our way. Check your invoice : '+ domain + '/orders/invoice/' + str(order_id)
 	}
 
