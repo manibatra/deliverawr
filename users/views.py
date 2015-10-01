@@ -145,11 +145,12 @@ def save_address(request):
 			current_user = request.user
 			street_address = request.POST['street_address']
 			postcode = request.POST['postcode']
-			country = request.POST['country']
+			country = 'Australia'
+			city = request.POST['city']
 			#TODO : add the city field to the database
 
 			#creating a user address object from the delivery address
-			user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
+			user_address = UserAddress(user=current_user, street_address=street_address,city=city , country=country, postcode=postcode,
 											default=True)
 			user_address.save()
 

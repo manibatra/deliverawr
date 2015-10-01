@@ -236,8 +236,8 @@
 						<div class="col-md-4">
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
-								<label class="mdl-textfield__label address-form" for="city_label">City</label>
-								<span class="mdl-textfield__error error-span">Invalid City!</span>
+								<label class="mdl-textfield__label address-form" for="city_label">Suburb</label>
+								<span class="mdl-textfield__error error-span">Invalid Suburb!</span>
 							</div>
 						</div>
 						<div class="col-md-3">
@@ -250,7 +250,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{stripe_id}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{% url "users:save_address" %}', '{{csrf_token}}')">
 								Add an address
 							</paper-button>
 						</div>
