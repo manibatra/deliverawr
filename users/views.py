@@ -15,6 +15,7 @@ import json
 
 #importing the models
 from .models import UserAddress
+from .models import UserPhoneNo
 
 
 
@@ -37,6 +38,11 @@ def signupUser(request):
 			email = request.POST['email']
 			validate_email(email)
 
+			#checking validity of phoneNo
+			phoneNo = request.POST['phoneNo']
+			if len(phoneNo) != 10:
+				raise ValidationError("PhoneNo length should be 10")
+
 		    #checking min pasword length
 			password = request.POST['password']
 			if len(password) < 6:
@@ -53,6 +59,10 @@ def signupUser(request):
 			user.first_name = first_name
 			user.last_name = last_name
 			user.save()
+
+			user_phoneNo = UserPhoneNo(user=user, phone_no=phoneNo)
+			user_phoneNo.save()
+
 		except IntegrityError:
 			response = {'status' : 0, 'msg' : 'User with the entered email already exists'}
 			return HttpResponse(json.dumps(response), content_type='application/json')
@@ -140,7 +150,7 @@ def save_address(request):
 
 			#creating a user address object from the delivery address
 			user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
-											phone_no='0414708810',default=True)
+											default=True)
 			user_address.save()
 
 			response = {'status' : 1}

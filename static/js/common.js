@@ -21,6 +21,13 @@ $(document).ready(function() {
             password: {
                 required: true,
                 minlength: 6
+            },
+
+            phoneNo: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
             }
         },
 
@@ -35,6 +42,11 @@ $(document).ready(function() {
 
             password: {
                 minlength: "Required length : Atleast 6"
+            },
+
+            phoneNo: {
+                minlength: "Required length : At least 10",
+                maxlength: "Required length : At most 10"
             }
         },
 
