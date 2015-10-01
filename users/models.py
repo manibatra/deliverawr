@@ -8,7 +8,6 @@ class UserAddress(models.Model):
 	street_address = models.CharField(max_length=100)
 	postcode = models.CharField(max_length=8)
 	country = models.CharField(max_length=20)
-	phone_no = models.CharField(max_length=15)
 	default = models.BooleanField()
 
 	def save(self, *args, **kwargs):
@@ -22,5 +21,7 @@ class UserAddress(models.Model):
 				pass
 		super(UserAddress, self).save(*args, **kwargs)
 
-
-
+#model for saving the phone no of the user
+class UserPhoneNo(models.Model):
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
+	phone_no = models.CharField(max_length=15)

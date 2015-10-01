@@ -40,7 +40,7 @@ def signupUser(request):
 			#checking validity of phoneNo
 			phoneNo = request.POST['phoneNo']
 			if len(phoneNo) != 10:
-				raise ValidationError("Phone no length should be 10")
+				raise ValidationError("PhoneNo length should be 10")
 
 		    #checking min pasword length
 			password = request.POST['password']
@@ -145,7 +145,7 @@ def save_address(request):
 
 			#creating a user address object from the delivery address
 			user_address = UserAddress(user=current_user, street_address=street_address, country=country, postcode=postcode,
-											phone_no='0414708810',default=True)
+											default=True)
 			user_address.save()
 
 			response = {'status' : 1}
