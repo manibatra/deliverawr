@@ -37,7 +37,8 @@ class ModifiedCartItem(CartItem):
 			'price': str(self.price),
 			'add_ons' : json.dumps(add_on_dict),
 			'removed' : json.dumps(removed_dict),
-			'item_no' : self.item_place
+			'item_no' : self.item_place,
+            'subtotal' : str(self.subtotal)
 		}
 
 	@property
