@@ -30,7 +30,6 @@ def place(request):
 
 	if request.method == 'POST':
 		cart = ModifiedCart(request.session)
-		email_context = {}
 		current_user = request.user
 
 		restaurant_id = request.POST['restaurant_id']
@@ -71,25 +70,25 @@ def place(request):
 			order_item_detail.add_ons.add(*all_add_ons)
 			order_item_detail.removed.add(*all_removed)
 
-		#adding user name to context
-		email_context['user'] = request.user.first_name + " " + request.user.last_name
+		# #adding user name to context
+		# email_context['user'] = request.user.first_name + " " + request.user.last_name
 
-		#adding user address to context
-		email_context['street_address'] = delivery_address.street_address
-		email_context['postcode'] = delivery_address.postcode
+		# #adding user address to context
+		# email_context['street_address'] = delivery_address.street_address
+		# email_context['postcode'] = delivery_address.postcode
 
-		#adding the order to the context
-		items = Detail.objects.filter(order=current_order)
-		email_context['items'] = items
+		# #adding the order to the context
+		# items = Detail.objects.filter(order=current_order)
+		# email_context['items'] = items
 
-		#adding the total price to the context
-		email_context['total'] = cart.total
+		# #adding the total price to the context
+		# email_context['total'] = cart.total
 
 		#getting the template
 		template = loader.get_template("billing.html")
 
 		#creating the context
-		context = Context(email_context)
+		context = generate_order_request(current_order)
 
 		#rendering the template
 		emailHTML = template.render(context)
@@ -103,9 +102,36 @@ def place(request):
 		response = {'status' : 1}
 
 
-			#show the success page for ordering
+		#show the success page for ordering
 		return HttpResponse(json.dumps(response), content_type="application/json")
 
+#function takes the current delivery object, and creates a context out of it
+def generate_order_request(current_order):
+
+	email_context = {}
+	#adding user name to context
+	email_context['user'] = current_order.user.first_name + " " + current_order.user.first_name
+
+	#adding the restaurant name
+	email_context['restaurant'] = current_order.restaurant.name
+
+	#adding user address to context
+	email_context['street_address'] = current_order.delivery_address.street_address
+	email_context['postcode'] = current_order.delivery_address.postcode
+
+	#adding the order to the context
+	items = Detail.objects.filter(order=current_order)
+	email_context['items'] = items
+
+	#adding the total price to the context
+	email_context['total'] = current_order.total_price
+
+	#creating the context
+	context = Context(email_context)
+
+	return context
+
+#shows the succes page after succesful placement of order
 def success(request):
 	if request.method == 'POST':
 		current_user = request.user
@@ -113,6 +139,7 @@ def success(request):
 
 	return render(request, 'orders/ordered.html', {})
 
+#method to send the mail to the customer
 def send_simple_message(emailHTML):
     return requests.post(
         "https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
