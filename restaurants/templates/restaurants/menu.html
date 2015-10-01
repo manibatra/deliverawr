@@ -250,7 +250,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{stripe_id}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{% url "users:save_address" %}', '{{csrf_token}}')">
 								Add an address
 							</paper-button>
 						</div>

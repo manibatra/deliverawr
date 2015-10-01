@@ -55,7 +55,7 @@ var csrftoken = getCookie('csrftoken');
 
 
 //script for creating a new address in the address modal
-function submitAddress(country, target_url, csrf_token) {
+function submitAddress(target_url, csrf_token) {
 
     if (toggle == 1) {
 
@@ -72,7 +72,6 @@ function submitAddress(country, target_url, csrf_token) {
             data['street_address'] = address;
             data['city'] = city;
             data['postcode'] = String(postcode);
-            data['country'] = country;
             data['csrfmiddlewaretoken'] = csrf_token;
             console.log("about to post data");
             $.post(
