@@ -246,7 +246,8 @@ body {
 }
 
 /* class for the overlay div */
-div.fadeMe {
+div.fadeMe,
+div.main-preload {
     opacity:0.9;
     filter: alpha(opacity=20);
     background-color:white;

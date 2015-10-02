@@ -69,6 +69,7 @@ function submitAddress(target_url, csrf_token) {
         var postcode = $("#postcode_label").val();
         console.log(postcode);
         if (address !== '' && city !== '' && postcode !== '') {
+            $('.fadeMe').show();
             var data = {}
             data['street_address'] = address;
             data['city'] = city;
@@ -93,15 +94,19 @@ function submitAddress(target_url, csrf_token) {
                         $("#address_label").val("");
                         $("#city_label").val("");
                         $("#postcode_label").val("");
+                        $('.fadeMe').hide();
                         $("#deliveryAddressModal").modal('hide');
 
                     } else {
+                        $('.fadeMe').hide();
                         alert('Could not save address');
                     }
 
                 }
 
             )
+        } else {
+            alert("Please fill all the fields");
         }
     }
 
@@ -112,11 +117,9 @@ function submitAddress(target_url, csrf_token) {
 function getAddresses(delivery_info, target_url, csrf_token) {
     $('#defaultAddress').prop('disabled', true);
     $("#panels").children().remove();
-
     $.get(
         target_url,
         function(data) {
-
             for (var i = 0; i < data.user_addresses.length; i++) {
                 $("#panels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons delete-address'>delete</i></div></div>");
                 $("#panels").children().last().find(".panel-body").text(data.user_addresses[i].street_address);
@@ -164,6 +167,7 @@ $("#paymentMethodsButton").on('click', function() {
 //function to save the default address
 function setDefaultAddress(target_url, csrf_token) {
     var id = $("#panels .mdl-shadow--4dp > .panel-body").attr('id');
+    $('.fadeMe').show();
     $.post(
         target_url, {
             'address_id': id,
@@ -173,9 +177,11 @@ function setDefaultAddress(target_url, csrf_token) {
             if (data.status === 1) {
                 $("#addressButton > paper-material").text(data.street_address);
                 $("#addressButton > paper-material").attr('id', '');
+                $('.fadeMe').hide();
                 $("#deliveryAddressModal").modal('hide');
                 $('#defaultAddress').prop('disabled', true);
             } else {
+                $('.fadeMe').hide();
                 alert("Address could not be used, Try again");
             }
         }
@@ -190,6 +196,7 @@ function deleteAddress(element) {
     var choice = confirm("Are you sure you want to delete this address ?")
 
     if (choice == true) {
+        $('.fadeMe').show();
         var id = $(element).parent().siblings().find('.panel-body').attr('id');
         $.post(
             '/user/delete_address/', {
@@ -200,18 +207,22 @@ function deleteAddress(element) {
                 if (data.status === 1) {
                     $(element).parent().parent().remove(); //non default address deleted
                     $('#defaultAddress').prop('disabled', true);
+                    $('.fadeMe').hide();
                 } else if (data.status === 2) { //default address deleted
                     $(element).parent().parent().remove();
                     $("#" + data.default_id).parent().addClass('mdl-shadow--4dp');
                     $("#addressButton > paper-material").text($("#" + data.default_id).text());
                     $("#addressButton").attr('name', 'yes')
                     $('#defaultAddress').prop('disabled', true);
+                    $('.fadeMe').hide();
                 } else if (data.status === 3) {
                     $(element).parent().parent().remove(); //all addresses deleted
                     $("#addressButton > paper-material").text('Add an address');
                     $("#addressButton").attr('name', 'no');
                     $('#defaultAddress').prop('disabled', true);
+                    $('.fadeMe').hide();
                 } else {
+                    $('.fadeMe').hide();
                     alert("Address could not be deleted");
                 }
             }
@@ -261,6 +272,7 @@ function setDefaultCard(card_id) {
         card_id = $("#cardPanels .mdl-shadow--4dp > .panel-body").attr('id');
         change_stuff = 1;
     }
+    $('.fadeMe').show();
     $.post(
         '/payments/make-default/', {
             'card_id': card_id,
@@ -270,6 +282,7 @@ function setDefaultCard(card_id) {
             if (data.status == 1 && change_stuff == 1) {
                 $("#paymentMethodsButton > paper-material").text($("#" + card_id).text());
                 $("#paymentMethodsButton").attr('name', 'yes');
+                $('.fadeMe').hide();
                 $("#paymentInfoModal").modal('hide');
 
             }
@@ -398,6 +411,7 @@ $("#payButton").on('click', function() {
         alert("Please enter a payment method")
     } else {
         $("#payButton").prop("disabled", true);
+        $('.main-preload').show();
         $.post(
             '/payments/charge/', {
                 'csrfmiddlewaretoken': csrftoken,
@@ -408,7 +422,6 @@ $("#payButton").on('click', function() {
                     var url = window.location.href;
                     var url_split = url.split('/');
                     var restaurant_id = url_split[4];
-                    console.log(restaurant_id);
                     $.post(
                         '/orders/place/', {
                             'csrfmiddlewaretoken': csrftoken,
@@ -416,11 +429,13 @@ $("#payButton").on('click', function() {
                         },
                         function(data) {
                             if (data.status == 1) {
+                                $('.main-preload').hide();
                                 window.location.replace('/orders/success/')
                             }
                         }
                     )
                 } else {
+                    $('.main-preload').hide();
                     $("#payButton").prop("disabled", false);
                     alert(data.msg);
                 }
