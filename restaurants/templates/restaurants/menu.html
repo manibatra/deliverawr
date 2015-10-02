@@ -16,20 +16,33 @@
 		<!-- Material Design -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,700">
 		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
-		<!-- Local Stylesheets -->
-		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
+
 		<!-- Global Stylesheets -->
 		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
 		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
 		<!-- Polymer Elements -->
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="{% static 'bower_components/loaders.css/loaders.min.css' %}">
+
+		<!-- Local Stylesheets -->
+		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
+
 	</head>
 	<body>
 		{% include "navbar.html" %}
 		{% include "signup.html" %}
 		{% include "login.html" %}
 		<!--Banner of the restuarant -->
+		<div class="main-preload modal-content">
+			<div class="loader">
+				<div class="loader-inner ball-beat center-block">
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="jumbotron">
 				<div class="row">
@@ -223,6 +236,15 @@
 					<h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
 				</div>
 				<div class="modal-body">
+					<div class="fadeMe modal-content">
+						<div class="loader">
+							<div class="loader-inner ball-beat center-block">
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
 					<div class="row" id="panels">
 					</div>
 					<div class="address-input row" id="inputAddress">
@@ -274,6 +296,15 @@
 					<h4 class="modal-title" id="myModalLabel">Payment Methods</h4>
 				</div>
 				<div class="modal-body">
+					<div class="fadeMe modal-content">
+						<div class="loader">
+							<div class="loader-inner ball-beat center-block">
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
 					<div class="row" id="cardPanels">
 					</div>
 					<div class="row">
