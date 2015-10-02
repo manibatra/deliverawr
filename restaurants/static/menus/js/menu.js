@@ -285,6 +285,7 @@ function deleteCard(element) {
     $('#defaultCard').prop('disabled', true);
 
     if (choice == true) {
+        $('.fadeMe').show();
         $('#defaultCard').prop('disabled', true);
         var id = $(element).parent().siblings().find('.panel-body').attr('id');
         $.post(
@@ -299,18 +300,23 @@ function deleteCard(element) {
                     $("#paymentMethodsButton > paper-material").text(data.brand + " : XXXX-" + data.last);
                     $("#paymentMethodsButton > paper-material").attr('id', data.card_id);
                     $('#defaultCard').prop('disabled', true);
+                    $('.fadeMe').hide();
+
                 } else if (data.status === 2) {
                     $(element).parent().parent().remove();
                     $("#paymentMethodsButton > paper-material").text('Add a Card');
                     $("#paymentMethodsButton").attr('name', 'no')
                     $('#defaultCard').prop('disabled', true);
+                    $('.fadeMe').hide();
+
                 } else {
                     alert("Card could not be deleted");
+                    $('.fadeMe').hide();
+
                 }
             }
 
         )
-
 
     }
 }
