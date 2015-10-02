@@ -23,10 +23,10 @@ var add_handler = StripeCheckout.configure({
                     $("#cardPanels").children().last().find(".panel-body").text(data.brand + " : " + data.last);
                     $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
                     $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
-                    $("#paymentMethodsButton > paper-material").text(token.card.brand + " : " + token.card.last4);
+                    $("#paymentMethodsButton > paper-material").text(token.card.brand + " : XXXX-" + token.card.last4);
                     $("#paymentMethodsButton").attr('name', 'yes');
-                    $("#paymentInfoModal").modal('hide');
                     $('.fadeMe').hide();
+                    $("#paymentInfoModal").modal('hide');
                     setDefaultCard(token.card.id);
                 } else {
                     alert(data.msg);
@@ -139,6 +139,7 @@ function getAddresses(delivery_info, target_url, csrf_token) {
 
 //function to retreive the cards of the customer, TODO : remove the class address from  the panel, add  a waiting symbol
 $("#paymentMethodsButton").on('click', function() {
+    $('.fadeMe').hide();
     $('#defaultCard').prop('disabled', true);
     $("#cardPanels").children().remove();
 

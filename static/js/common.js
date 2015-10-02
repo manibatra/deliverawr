@@ -59,14 +59,17 @@ $(document).ready(function() {
         },
 
         submitHandler: function(form) {
+            $('.fadeMe').show();
             $.ajax({
                 type: "POST",
                 url: $('#signupForm').attr('action'), // or whatever
                 data: $('#signupForm').serialize(),
                 success: function(data) {
                     if (data.status == 1) {
+                        $('.fadeMe').hide();
                         window.location.reload();
                     } else if (data.status == 0) {
+                        $('.fadeMe').hide();
                         alert(data.msg);
                     }
                 }
@@ -96,14 +99,17 @@ $(document).ready(function() {
         },
 
         submitHandler: function(form) {
+            $('.fadeMe').show();
             $.ajax({
                 type: "POST",
                 url: $('#loginForm').attr('action'), // or whatever
                 data: $('#loginForm').serialize(),
                 success: function(data) {
+                    $('.fadeMe').hide();
                     if (data.status == 1) {
                         window.location.reload();
                     } else if (data.status == 0) {
+                        $('.fadeMe').hide();
                         alert(data.msg);
                     }
                 }
