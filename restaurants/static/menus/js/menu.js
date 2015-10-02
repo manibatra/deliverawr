@@ -26,6 +26,7 @@ var add_handler = StripeCheckout.configure({
                     $("#paymentMethodsButton > paper-material").text(token.card.brand + " : " + token.card.last4);
                     $("#paymentMethodsButton").attr('name', 'yes');
                     $("#paymentInfoModal").modal('hide');
+                    $('.fadeMe').hide();
                     setDefaultCard(token.card.id);
                 } else {
                     alert(data.msg);
@@ -240,7 +241,7 @@ $('.add_to_cart').click(function() {
 
 function addCard(stripe_id, mail, image_url) {
 
-
+    $('.fadeMe').show();
     add_handler.open({
         email: mail,
         name: 'Feast Beast',
