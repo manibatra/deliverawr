@@ -49,17 +49,6 @@ def detail(request, restaurant_id):
 				context['brand'] = default_card['brand']
 				context['last4'] = default_card['last4']
 
-
-			#setting the list of cards and brand names
-			# user_payment_methods = []
-			# for card_object in customer['sources']['data']:
-			# 	payment_method = {}
-			# 	payment_method['brand'] = card_object['brand']
-			# 	payment_method['last4'] = card_object['last4']
-			# 	user_payment_methods.append(payment_method)
-
-			# context['user_payment_methods'] = user_payment_methods
-
 		else:
 			context['payment_info'] = 'false'
 	else:
@@ -82,6 +71,12 @@ def detail(request, restaurant_id):
 
 
 	return render(request, 'restaurants/menu.html', context)
+
+
+#render the expression of interest view
+def interested(request):
+	return render(request, "restaurants/interest.html", {})
+
 
 #function to add the product to the cart
 def add(request, restaurant_id, item_id):
