@@ -107,7 +107,11 @@ $(document).ready(function() {
                 success: function(data) {
                     $('.fadeMe').hide();
                     if (data.status == 1) {
-                        window.location.reload();
+                        if (window.location == '/user/verification-complete/') {
+                            window.location.replace('/');
+                        } else {
+                            window.location.reload();
+                        }
                     } else if (data.status == 0) {
                         $('.fadeMe').hide();
                         alert(data.msg);
