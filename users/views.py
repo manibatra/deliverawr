@@ -58,29 +58,36 @@ def signupUser(request):
 			user = User.objects.create_user(email, email, password)
 			user.first_name = first_name
 			user.last_name = last_name
+			user.is_active = False
 			user.save()
 
 			user_phoneNo = UserPhoneNo(user=user, phone_no=phoneNo)
 			user_phoneNo.save()
+			response = {'status' : 1}
 
 		except IntegrityError:
 			response = {'status' : 0, 'msg' : 'User with the entered email already exists'}
 			return HttpResponse(json.dumps(response), content_type='application/json')
 
-		user = authenticate(username=email, password=password)
-		if user is not None:
-			if user.is_active:
-				login(request, user)
-				response = {'status' : 1}
+		# user = authenticate(username=email, password=password)
+		# if user is not None:
+		# 	if user.is_active:
+		# 		login(request, user)
+		# 		response = {'status' : 1}
 
-			else:
-				response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
-		else:
-			response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
+		# 	else:
+		# 		response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
+		# else:
+		# 	response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
 	else:
 		response = {'status' : 0, 'msg' : 'invalid request'}
 
 	return HttpResponse(json.dumps(response), content_type='application/json')
+
+def verification_start(request):
+	context = { 'text' : 'A confirmation email has been sent to your email address. Click on the confirmation\
+					link in your email to activate your account', 'heading' : 'confirm your email address' }
+	return render(request, 'users/verification.html', context)
 
 #method to login the user
 def loginUser(request):

@@ -67,7 +67,7 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.status == 1) {
                         $('.fadeMe').hide();
-                        window.location.reload();
+                        window.location.replace('/user/verification-start/')
                     } else if (data.status == 0) {
                         $('.fadeMe').hide();
                         alert(data.msg);
