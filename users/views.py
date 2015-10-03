@@ -12,10 +12,12 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers import reverse
 import json
+from .utils import *
 
 #importing the models
 from .models import UserAddress
-from .models import UserPhoneNo
+from .models import UserPhoneNo, UserVerification
+from django.utils.crypto import get_random_string
 
 
 
@@ -64,6 +66,18 @@ def signupUser(request):
 			user_phoneNo = UserPhoneNo(user=user, phone_no=phoneNo)
 			user_phoneNo.save()
 			response = {'status' : 1}
+
+			ver_key = get_random_string(32)
+			user_ver_object = UserVerification(user=user, ver_code=ver_key)
+			user_ver_object.save()
+			user_uuid = user_ver_object.id
+
+			ver_key_url = request.build_absolute_uri("/user/verification-complete/")
+			ver_key_url = ver_key_url + str(user_uuid) + ver_key
+
+			emailHTML = generate_email_HTML(ver_key_url)
+
+			send_confirmation_email(user.email, emailHTML)
 
 		except IntegrityError:
 			response = {'status' : 0, 'msg' : 'User with the entered email already exists'}
