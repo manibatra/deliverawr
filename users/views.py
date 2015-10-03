@@ -72,7 +72,7 @@ def signupUser(request):
 			user_ver_object.save()
 			user_uuid = user_ver_object.id
 
-			ver_key_url = request.build_absolute_uri("/user/verification-complete/")
+			ver_key_url = request.build_absolute_uri("/user/verification-confirm/")
 			ver_key_url = ver_key_url + str(user_uuid) + ver_key
 
 			emailHTML = generate_email_HTML(ver_key_url)
@@ -98,9 +98,31 @@ def signupUser(request):
 
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
+
+#method to show a view indacting user to confirm
 def verification_start(request):
 	context = { 'text' : 'A confirmation email has been sent to your email address. Click on the confirmation\
 					link in your email to activate your account', 'heading' : 'confirm your email address' }
+	return render(request, 'users/verification.html', context)
+
+#view to show when user clicks the confirmation link
+def verification_confirm(request, uuid, ver_code):
+	user_ver_object = UserVerification.objects.get(id=uuid)
+	if ver_code == user_ver_object.ver_code:
+		user = user_ver_object.user
+		user.is_active = True
+		user.save()
+		return HttpResponseRedirect(reverse("users:verification_complete"))
+
+	else:
+		context = { 'text' : 'You have arrived here via an invalid link\
+					', 'heading' : 'Invalid Link' }
+	return render(request, 'users/verification.html', context)
+
+#method to complete the verification process
+def verification_complete(request):
+	context = { 'text' : 'Your email has been confirmed. You can login and start using Delivrawr now.\
+					', 'heading' : 'Email Address Confirmed' }
 	return render(request, 'users/verification.html', context)
 
 #method to login the user
@@ -125,7 +147,7 @@ def loginUser(request):
 				login(request, user)
 				response = {'status' : 1}
 			else:
-				response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
+				response = {'status' : 0, 'msg' : 'Please confirm your email address to login'}
 		else:
 			response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
 
