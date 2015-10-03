@@ -107,7 +107,7 @@ $(document).ready(function() {
                 success: function(data) {
                     $('.fadeMe').hide();
                     if (data.status == 1) {
-                        if (window.location == '/user/verification-complete/') {
+                        if (window.location.pathname == '/user/verification-complete/') {
                             window.location.replace('/');
                         } else {
                             window.location.reload();
