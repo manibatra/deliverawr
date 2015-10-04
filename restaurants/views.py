@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.core import serializers
 
 from carton.cart import Cart
+from .utils.py import *
 
 from .mycart import ModifiedCart
 
@@ -75,7 +76,21 @@ def detail(request, restaurant_id):
 
 #render the expression of interest view
 def interested(request):
-	return render(request, "restaurants/interest.html", {})
+	return render(request, "restaurants/interest.html", {'heading' : 'Expression of Interest', 'subheading' : 'We will get back to you\
+															right away', 'show_form' : True})
+
+#render the expression of interest view
+def notify-deliverawr(request):
+	if request.method == 'POST':
+		business_name = request.POST['busName']
+		email_id = request.POST['email']
+		phoneNo = request.POST['phoneNo']
+		address = request.POST['address']
+		text_to_send = business_name + ':' + email_id + ':' + phoneNo + ':' + address
+		send_mail_deliverawr(text_to_send)
+	return render(request, "restaurants/interest.html", {'heading' : 'Thank You', 'subheading' : 'Our team will be contacting you ASAP\
+															', 'show_form' : False})
+
 
 
 #function to add the product to the cart

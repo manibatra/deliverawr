@@ -42,16 +42,17 @@
 		<div class="container main-body">
 			<div class="row text-center pretty-text center-block">
 				<h2>
-					Expression Of Interest
+					{{heading|title}}
 				</h2>
 			</div>
 			<div class="row text-center pretty-text center-block">
 				<span class="sorry-text">
-					We will get back to you right away
+					{{sub_heading}}
 				</span>
 			</div>
+			{% if show_form %}
 			<div class="row text-center pretty-text center-block">
-				<form id="interestForm" action="{% url 'users:signup_user' %}" method="post">
+				<form id="interestForm" action="{% url 'restaurants:notify_deliverawr' %}" method="post">
 					{% csrf_token %}
 					<div class="row">
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -87,6 +88,7 @@
 						</paper-button>
 					</div>
 				</form>
+			{% endif %}
 			</div>
 		</div>
 		<!--Site footer, remains constant across most pages-->
