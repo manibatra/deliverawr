@@ -10,4 +10,7 @@ urlpatterns = [
 	url(r'^delete_address/$', views.delete_address, name='delete_address'),
 	url(r'^get_addresses/$', views.get_addresses, name='get_addresses'),
 	url(r'^setdefault_address/$', views.setdefault_address, name='setdefault_address'),
+	url(r'^interested/$', views.interested, name='interested'),
+	url(r'^notify-deliverawr/$', views.notify_deliverawr, name='notifiy_deliverawr'),
+
 ]

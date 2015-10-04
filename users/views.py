@@ -12,6 +12,7 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers import reverse
 import json
+from .utils import *
 
 #importing the models
 from .models import UserAddress
@@ -198,3 +199,20 @@ def setdefault_address(request):
 		response = {'status' : 0}
 
 	return HttpResponse(json.dumps(response), content_type='application/json')
+
+#render the expression of interest view
+def interested(request):
+	return render(request, "users/driver_interest.html", {'heading' : 'Apply as a Driver', 'subheading' : 'Earn atleast $20 per hour',
+															 'show_form' : True})
+
+#render the expression of interest view
+def notify_deliverawr(request):
+	if request.method == 'POST':
+		driver_name = request.POST['Name']
+		email_id = request.POST['email']
+		phoneNo = request.POST['phoneNo']
+		suburb = request.POST['city']
+		text_to_send = driver_name + ':' + email_id + ':' + phoneNo + suburb
+		send_mail_deliverawr(text_to_send)
+	return render(request, "users/driver_interest.html", {'heading' : 'Thank You', 'subheading' : 'Our team will be contacting you to\
+															schedule an interview ASAP', 'show_form' : False})
