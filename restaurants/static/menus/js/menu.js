@@ -519,3 +519,8 @@ function deleteItem(element) {
 
 
 };
+
+//function ot submit the interest form
+$('#rawrButton').on('click', function() {
+    $('#interestForm').submit();
+});

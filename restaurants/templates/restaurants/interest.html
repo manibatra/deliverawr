@@ -84,7 +84,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<paper-button class="rawr-button center-block text-center">
+						<paper-button id="rawrButton" class="rawr-button center-block text-center">
 							RAWR!
 						</paper-button>
 					</div>
@@ -107,5 +107,11 @@
 		{% include "footer.html" %}
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 		<script src="{% static "js/common.js" %}"></script>
+		<script>
+			//function ot submit the interest form
+$('#rawrButton').on('click', function() {
+    $('#interestForm').submit();
+});
+		</script>
 	</body>
 </html>

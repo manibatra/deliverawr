@@ -54,7 +54,7 @@
 			{% if show_form %}
 			<div class="row text-center pretty-text center-block">
 				<div class="col-md-12">
-				<form id="interestForm" action="{% url 'restaurants:notify_deliverawr' %}" method="post">
+				<form id="driverinterestForm" action="{% url 'users:notify_deliverawr' %}" method="post">
 					{% csrf_token %}
 					<div class="row">
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -85,7 +85,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<paper-button class="rawr-button center-block text-center">
+						<paper-button id="rawrButton" class="rawr-button center-block text-center">
 							RAWR!
 						</paper-button>
 					</div>
@@ -109,5 +109,6 @@
 		{% include "footer.html" %}
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 		<script src="{% static "js/common.js" %}"></script>
+		<script src="{% static "users/js/users.js" %}"></script>
 	</body>
 </html>

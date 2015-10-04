@@ -76,7 +76,7 @@ def detail(request, restaurant_id):
 
 #render the expression of interest view
 def interested(request):
-	return render(request, "restaurants/interest.html", {'heading' : 'Expression of Interest', 'subheading' : 'We will get back to you\
+	return render(request, "restaurants/interest.html", {'heading' : 'Expression of Interest', 'sub_heading' : 'We will get back to you\
 															right away', 'show_form' : True})
 
 #render the expression of interest view
@@ -88,7 +88,7 @@ def notify_deliverawr(request):
 		address = request.POST['address']
 		text_to_send = business_name + ':' + email_id + ':' + phoneNo + ':' + address
 		send_mail_deliverawr(text_to_send)
-	return render(request, "restaurants/interest.html", {'heading' : 'Thank You', 'subheading' : 'Our team will be contacting you ASAP\
+	return render(request, "restaurants/interest.html", {'heading' : 'Thank You', 'sub_heading' : 'Our team will be contacting you ASAP\
 															', 'show_form' : False})
 
 
