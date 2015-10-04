@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.core import serializers
 
 from carton.cart import Cart
-from .utils.py import *
+from .utils import *
 
 from .mycart import ModifiedCart
 
@@ -80,7 +80,7 @@ def interested(request):
 															right away', 'show_form' : True})
 
 #render the expression of interest view
-def notify-deliverawr(request):
+def notify_deliverawr(request):
 	if request.method == 'POST':
 		business_name = request.POST['busName']
 		email_id = request.POST['email']
