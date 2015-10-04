@@ -11,6 +11,6 @@ urlpatterns = [
 	url(r'^get_addresses/$', views.get_addresses, name='get_addresses'),
 	url(r'^setdefault_address/$', views.setdefault_address, name='setdefault_address'),
 	url(r'^interested/$', views.interested, name='interested'),
-	url(r'^notify-deliverawr/$', views.notify_deliverawr, name='notifiy_deliverawr'),
+	url(r'^notify-deliverawr/$', views.notify_deliverawr, name='notify_deliverawr'),
 
 ]
