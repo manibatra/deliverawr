@@ -8,6 +8,8 @@ from .models import Restaurant, DeliveryLocation, MenuItem, DeliveryHours
 #             kwargs["queryset"] = MenuItem.objects.filter(restaurant=self.restaurant)
 #         return super(MenuItemAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
+class DeliveryLocationInline(admin.StackedInline):
+	model = DeliveryLocation
 
 class MenuItemInline(admin.TabularInline):
     model = MenuItem
@@ -27,6 +29,7 @@ class MenuItemInline(admin.TabularInline):
 class RestaurantAdmin(admin.ModelAdmin):
     inlines = [
         MenuItemInline,
+        DeliveryLocationInline,
     ]
 
     def get_form(self, request, obj=None, **kwargs):
@@ -36,6 +39,4 @@ class RestaurantAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Restaurant, RestaurantAdmin)
-admin.site.register(DeliveryLocation)
-admin.site.register(MenuItem)
 admin.site.register(DeliveryHours)
