@@ -1,13 +1,14 @@
+//function ot submit the interest form
 $('#rawrButton').on('click', function() {
-    $('#driverinterestForm').submit();
+    $('#interestForm').submit();
 });
 
 //checking the validity of the interest page
 $(document).ready(function() {
-    $("#driverinterestForm").validate({
+    $("#interestForm").validate({
 
         rules: {
-            Name: {
+            busName: {
                 required: true,
                 rangelength: [2, 30]
             },
@@ -16,7 +17,7 @@ $(document).ready(function() {
                 email: true
             },
 
-            city: {
+            address: {
                 required: true,
             },
 
@@ -29,7 +30,7 @@ $(document).ready(function() {
         },
 
         showErrors: function(errorMap, errorList) {
-            $("#driverinterestForm .error-span").css('visibility', 'hidden');
+            $("#interestForm .error-span").css('visibility', 'hidden');
             $.each(errorMap, function(key, value) {
                 $('.' + key + '-error').css('visibility', 'visible');
                 $('.' + key + '-error').text(value);

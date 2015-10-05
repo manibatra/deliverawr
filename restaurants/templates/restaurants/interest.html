@@ -41,6 +41,11 @@
 		{% include "login.html" %}
 		<!-- Home page main body -->
 		<div class="container main-body">
+			{% if not show_form %}
+			<div class="row">
+				<img class="center-block custom-icon" src="{% static "images/monster.png" %}" alt="The Monster" height="300" width="290">
+			</div>
+			{% endif %}
 			<div class="row text-center pretty-text center-block">
 				<h2>
 					{{heading|title}}
@@ -107,11 +112,6 @@
 		{% include "footer.html" %}
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 		<script src="{% static "js/common.js" %}"></script>
-		<script>
-			//function ot submit the interest form
-$('#rawrButton').on('click', function() {
-    $('#interestForm').submit();
-});
-		</script>
+		<script src="{% static "menus/js/interest.js" %}"></script>
 	</body>
 </html>

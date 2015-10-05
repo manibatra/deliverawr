@@ -41,6 +41,11 @@
 		{% include "login.html" %}
 		<!-- Home page main body -->
 		<div class="container main-body">
+			{% if not show_form %}
+			<div class="row">
+				<img class="center-block custom-icon" src="{% static "images/monster.png" %}" alt="The Monster" height="300" width="290">
+			</div>
+			{% endif %}
 			<div class="row text-center pretty-text center-block">
 				<h2>
 					{{heading|title}}
@@ -60,7 +65,7 @@
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 							<input class="mdl-textfield__input" type="text" name="Name" id="Name" />
 							<label class="mdl-textfield__label signup-form" for="Name">Name</label>
-							<span class="mdl-textfield__error error-span busName-error">Invalid Name!</span>
+							<span class="mdl-textfield__error error-span Name-error">Invalid Name!</span>
 						</div>
 					</div>
 					<div class="row">
