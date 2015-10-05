@@ -83,6 +83,10 @@ def signupUser(request):
 			response = {'status' : 0, 'msg' : 'User with the entered email already exists'}
 			return HttpResponse(json.dumps(response), content_type='application/json')
 
+		except:
+			response = {'status' : 0, 'msg' : 'Things just blew up. Contact us at manibatra2002@gmail.com'}
+			return HttpResponse(json.dumps(response), content_type='application/json')
+
 		# user = authenticate(username=email, password=password)
 		# if user is not None:
 		# 	if user.is_active:
