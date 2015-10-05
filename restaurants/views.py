@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.core import serializers
 
 from carton.cart import Cart
+from .utils import *
 
 from .mycart import ModifiedCart
 
@@ -49,17 +50,6 @@ def detail(request, restaurant_id):
 				context['brand'] = default_card['brand']
 				context['last4'] = default_card['last4']
 
-
-			#setting the list of cards and brand names
-			# user_payment_methods = []
-			# for card_object in customer['sources']['data']:
-			# 	payment_method = {}
-			# 	payment_method['brand'] = card_object['brand']
-			# 	payment_method['last4'] = card_object['last4']
-			# 	user_payment_methods.append(payment_method)
-
-			# context['user_payment_methods'] = user_payment_methods
-
 		else:
 			context['payment_info'] = 'false'
 	else:
@@ -82,6 +72,26 @@ def detail(request, restaurant_id):
 
 
 	return render(request, 'restaurants/menu.html', context)
+
+
+#render the expression of interest view
+def interested(request):
+	return render(request, "restaurants/interest.html", {'heading' : 'Expression of Interest', 'sub_heading' : 'We will get back to you\
+															right away', 'show_form' : True})
+
+#render the expression of interest view
+def notify_deliverawr(request):
+	if request.method == 'POST':
+		business_name = request.POST['busName']
+		email_id = request.POST['email']
+		phoneNo = request.POST['phoneNo']
+		address = request.POST['address']
+		text_to_send = business_name + ':' + email_id + ':' + phoneNo + ':' + address
+		send_mail_deliverawr(text_to_send)
+	return render(request, "restaurants/interest.html", {'heading' : 'Thank You', 'sub_heading' : 'Our team will be contacting you ASAP\
+															', 'show_form' : False})
+
+
 
 #function to add the product to the cart
 def add(request, restaurant_id, item_id):

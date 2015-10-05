@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-		<title>Order Successful!</title>
+		<title>Email Verification</title>
 		<!-- JQUERY -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<!-- Latest compiled and minified CSS -->
@@ -23,6 +23,7 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<!-- Local Stylesheets -->
+		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
 		<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
 		<link rel="stylesheet" href="{% static "orders/stylesheets/ordered.css" %}">
 		<!-- Global Stylesheets -->
@@ -40,18 +41,77 @@
 		{% include "login.html" %}
 		<!-- Home page main body -->
 		<div class="container main-body">
+			{% if not show_form %}
 			<div class="row">
 				<img class="center-block custom-icon" src="{% static "images/monster.png" %}" alt="The Monster" height="300" width="290">
 			</div>
+			{% endif %}
+			<div class="row text-center pretty-text center-block">
+				<h2>
+					{{heading|title}}
+				</h2>
+			</div>
 			<div class="row text-center pretty-text center-block">
 				<span class="sorry-text">
-					Sweet! We are on our way!
+					{{sub_heading}}
 				</span>
 			</div>
+			{% if show_form %}
+			<div class="row text-center pretty-text center-block">
+				<form id="interestForm" action="{% url 'restaurants:notify_deliverawr' %}" method="post">
+					{% csrf_token %}
+					<div class="row">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="busName" id="busName" />
+							<label class="mdl-textfield__label signup-form" for="busName">Business Name</label>
+							<span class="mdl-textfield__error error-span busName-error">Invalid Business Name!</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="email" name="email" id="email"/>
+							<label class="mdl-textfield__label signup-form" for="email">Email</label>
+							<span class="mdl-textfield__error error-span email-error">Invalid Email!</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="phoneNo" id="phoneNo" />
+							<label class="mdl-textfield__label signup-form" for="phoneNo">Phone No</label>
+							<span class="mdl-textfield__error error-span phoneNo-error">Invalid Phone Number!</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="address" id="address" />
+							<label class="mdl-textfield__label signup-form" for="address">Address</label>
+							<span class="mdl-textfield__error error-span address-error">Invalid Address!</span>
+						</div>
+					</div>
+					<div class="row">
+						<paper-button id="rawrButton" class="rawr-button center-block text-center">
+							RAWR!
+						</paper-button>
+					</div>
+				</form>
+			</div>
+			<div class="row steps">
+				<div class="col-md-4 cards">
+					<img src="http://placehold.it/140x100">
+				</div>
+				<div class="col-md-4 cards">
+					<img src="http://placehold.it/140x100">
+				</div>
+				<div class="col-md-4 cards">
+					<img src="http://placehold.it/140x100">
+				</div>
+			</div>
+			{% endif %}
 		</div>
 		<!--Site footer, remains constant across most pages-->
 		{% include "footer.html" %}
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 		<script src="{% static "js/common.js" %}"></script>
+		<script src="{% static "menus/js/interest.js" %}"></script>
 	</body>
 </html>

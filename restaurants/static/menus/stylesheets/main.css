@@ -271,4 +271,10 @@ div.main-preload {
 	background-color: rgb(255, 64, 129);
 }
 
+.rawr-button {
+	width: 100px;
+	background-color: rgb(255, 64, 129) !important;
+	color: white;
+}
+
 

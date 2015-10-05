@@ -150,7 +150,7 @@ def send_simple_message(customer_email, emailHTML):
     return requests.post(
         "https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
         auth=("api", "key-37d788bd314bf02a7fbb52dfe24efe4a"),
-        data={"from": "FeastBeast <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
+        data={"from": "Deliverawr <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
               "to": [customer_email],
               "subject": "Thank you for ordering",
               "html": emailHTML
@@ -162,7 +162,7 @@ def send_sms_customer(domain, order_id, customer_phoneNo):
 	payload = {
     'username': 'manibatra',
     'password': 'lostrume2sm',
-    'from': 'FeastBeast',
+    'from': 'Deliverawr',
     'to' : customer_phoneNo,
     'message' : 'Thank you for ordering. We are on our way. Check your invoice : '+ domain + '/orders/invoice/' + str(order_id)
 	}
