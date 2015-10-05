@@ -67,7 +67,7 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.status == 1) {
                         $('.fadeMe').hide();
-                        window.location.reload();
+                        window.location.replace('/user/verification-start/')
                     } else if (data.status == 0) {
                         $('.fadeMe').hide();
                         alert(data.msg);
@@ -107,7 +107,11 @@ $(document).ready(function() {
                 success: function(data) {
                     $('.fadeMe').hide();
                     if (data.status == 1) {
-                        window.location.reload();
+                        if (window.location.pathname == '/user/verification-complete/') {
+                            window.location.replace('/');
+                        } else {
+                            window.location.reload();
+                        }
                     } else if (data.status == 0) {
                         $('.fadeMe').hide();
                         alert(data.msg);

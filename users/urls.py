@@ -12,5 +12,9 @@ urlpatterns = [
 	url(r'^setdefault_address/$', views.setdefault_address, name='setdefault_address'),
 	url(r'^interested/$', views.interested, name='interested'),
 	url(r'^notify-deliverawr/$', views.notify_deliverawr, name='notify_deliverawr'),
+	url(r'^verification-start/$', views.verification_start, name='verification_start'),
+	url(r'^verification-confirm/(?P<uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?P<ver_code>[0-9a-zA-Z]{32})/$'
+					, views.verification_confirm, name='verification_confirm'),
+	url(r'^verification-complete/$', views.verification_complete, name='verification_complete'),
 
 ]

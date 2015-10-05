@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import uuid
 
 # Create your models here.
 #referencing the default user model to add multiple address related fields
@@ -26,3 +27,9 @@ class UserAddress(models.Model):
 class UserPhoneNo(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	phone_no = models.CharField(max_length=15)
+
+#model to save the user verification code
+class UserVerification(models.Model):
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
+	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	ver_code = models.CharField(max_length=32)
