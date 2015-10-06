@@ -13,6 +13,7 @@ class DeliveryLocationInline(admin.StackedInline):
 
 class MenuItemInline(admin.TabularInline):
     model = MenuItem
+    ordering = ['-option']
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
 
