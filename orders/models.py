@@ -10,10 +10,11 @@ class UserOrder(models.Model):
 	order_time = models.DateTimeField(auto_now_add=True)
 	total_price = models.DecimalField(max_digits=10, decimal_places=2)
 	delivery_address = models.ForeignKey('users.UserAddress', related_name='delivered_to')
+	phone_no = models.ForeignKey('users.UserPhoneNo', related_name='cus_phone_no')
 
 	def __str__(self):
 		           # __unicode__ on Python 2
-		return (str(self.order_id) + " - " + self.restaurant.name)
+		return (str(self.order_id) + " - " + self.restaurant.name + " - " + self.phone_no.phone_no)
 
 
 class Detail(models.Model):
