@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
 	url(r'^', include('home.urls', namespace="home")),
 	url(r'^restaurant/', include('restaurants.urls', namespace="restaurants")),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^{}/admin/'.format(settings.ADMIN_URL_PATH), include(admin.site.urls)),
     url(r'^payments/', include('payments.urls', namespace="payments")),
     url(r'^user/', include('users.urls', namespace="users")),
     url(r'^orders/', include('orders.urls', namespace="orders")),

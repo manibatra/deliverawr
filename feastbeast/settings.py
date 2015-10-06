@@ -32,6 +32,11 @@ try:
 except:
     pass
 
+try:
+    ADMIN_URL_PATH = os.environ.get('ADMIN_URL_PATH')
+except:
+    pass
+
 ALLOWED_HOSTS = ['*']
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
