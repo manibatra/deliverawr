@@ -23,10 +23,18 @@ class UserAddress(models.Model):
 				pass
 		super(UserAddress, self).save(*args, **kwargs)
 
+	def __str__(self):
+		           # __unicode__ on Python 2
+		return (self.street_address + ", " + self.city + " - " + self.postcode)
+
 #model for saving the phone no of the user
 class UserPhoneNo(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	phone_no = models.CharField(max_length=15)
+
+	def __str__(self):
+		           # __unicode__ on Python 2
+		return (self.phone_no)
 
 #model to save the user verification code
 class UserVerification(models.Model):
