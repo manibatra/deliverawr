@@ -11,6 +11,11 @@ class UserOrder(models.Model):
 	total_price = models.DecimalField(max_digits=10, decimal_places=2)
 	delivery_address = models.ForeignKey('users.UserAddress', related_name='delivered_to')
 
+	def __str__(self):
+		           # __unicode__ on Python 2
+		return (str(self.order_id) + " - " + self.restaurant.name)
+
+
 class Detail(models.Model):
 	order = models.ForeignKey('UserOrder', related_name='order_number')
 	menu_item = models.ForeignKey('restaurants.MenuItem', related_name='menu_item')
