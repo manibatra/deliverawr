@@ -11,6 +11,9 @@ from .models import Restaurant, DeliveryLocation, MenuItem, DeliveryHours
 class DeliveryLocationInline(admin.StackedInline):
 	model = DeliveryLocation
 
+class DeliveryHoursInline(admin.StackedInline):
+    model = DeliveryHours
+
 class MenuItemInline(admin.TabularInline):
     model = MenuItem
     ordering = ['-option']
@@ -31,6 +34,7 @@ class RestaurantAdmin(admin.ModelAdmin):
     inlines = [
         MenuItemInline,
         DeliveryLocationInline,
+        DeliveryHoursInline,
     ]
 
     def get_form(self, request, obj=None, **kwargs):
