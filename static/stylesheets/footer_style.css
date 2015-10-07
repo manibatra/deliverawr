@@ -2,6 +2,12 @@
 	width: 100%;
 }
 
+.mail {
+	margin: 30px auto;
+	font-size: 20px;
+	text-decoration: underline;
+}
+
 .center-this {
 	margin: 0 auto;
 	float: none !important;
