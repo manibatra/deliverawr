@@ -56,7 +56,7 @@
 						{{ restaurant.street_address }}, {{ restaurant.city }} - {{ restaurant.postcode }}
 					  </div>
 					  <div class="mdl-card__actions mdl-card--border">
-						12:00 PM - 9:00 PM
+						{{restaurant.opening_time|time:"g:iA"}} - {{restaurant.closing_time|time:"g:iA"}}
 					  </div>
 					</a>
 				{% else %}
@@ -68,7 +68,7 @@
 						{{ restaurant.street_address }}, {{ restaurant.city }} - {{ restaurant.postcode }}
 					  </div>
 					  <div class="mdl-card__actions mdl-card--border">
-						12:00 PM - 9:00 PM
+						{{restaurant.opening_time|time:"g:iA"}} - {{restaurant.closing_time|time:"g:iA"}}
 					  </div>
 					</div>
 				{% endif %}

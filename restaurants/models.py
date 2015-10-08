@@ -29,6 +29,22 @@ class Restaurant(models.Model):
 		else:
 			return False
 
+	def opening_time(self):
+		import datetime
+		now = datetime.datetime.now()
+		current_day = now.strftime("%A")
+		delivery_hours = DeliveryHours.objects.get(restaurant=self, day=current_day[:2])
+		open_hour = delivery_hours.open_hour
+		return open_hour
+
+	def closing_time(self):
+		import datetime
+		now = datetime.datetime.now()
+		current_day = now.strftime("%A")
+		delivery_hours = DeliveryHours.objects.get(restaurant=self, day=current_day[:2])
+		close_hour = delivery_hours.close_hour
+		return close_hour
+
 
 
 #model for the restaurant delivery locations
