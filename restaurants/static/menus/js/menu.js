@@ -446,7 +446,7 @@ $("#payButton").on('click', function() {
 })
 
 function refreshOrders(data) {
-    var total_price = 0;
+    var total_price = 10;
     for (var i = 0; i < data.length; i++) {
         //console.log(data[i]);
         total_price += parseFloat(data[i].price);

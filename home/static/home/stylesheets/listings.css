@@ -42,9 +42,7 @@
 
 .demo-card-square > .mdl-card__title {
   color: #fff;
-  height: 150px;
-  background:
-    bottom right 15% no-repeat #46B6AC;
+  height: 180px;
 }
 
 .restaurant-name {
