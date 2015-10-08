@@ -403,79 +403,37 @@ $("#addToCartModal").on('click', function() {
     $('#custMenuModal').modal('hide');
 });
 
-//functon to charge the customer
-$("#payButton").on('click', function() {
-
-    if ($("#addressButton").attr('name') == 'no') {
-        alert("Please enter a delivery address")
-    } else if ($("#paymentMethodsButton").attr('name') == 'no') {
-        alert("Please enter a payment method")
-    } else {
-        $("#payButton").prop("disabled", true);
-        $('.main-preload').show();
-        $.post(
-            '/payments/charge/', {
-                'csrfmiddlewaretoken': csrftoken,
-            },
-            function(data) {
-                if (data.status == 1) {
-
-                    var url = window.location.href;
-                    var url_split = url.split('/');
-                    var restaurant_id = url_split[4];
-                    $.post(
-                        '/orders/place/', {
-                            'csrfmiddlewaretoken': csrftoken,
-                            'restaurant_id': restaurant_id
-                        },
-                        function(data) {
-                            if (data.status == 1) {
-                                $('.main-preload').hide();
-                                window.location.replace('/orders/success/')
-                            }
-                        }
-                    )
-                } else {
-                    $('.main-preload').hide();
-                    $("#payButton").prop("disabled", false);
-                    alert(data.msg);
-                }
-            }
-        )
-    }
-})
-
 function refreshOrders(data) {
     var total_price = 10;
     for (var i = 0; i < data.length; i++) {
         //console.log(data[i]);
         total_price += parseFloat(data[i].price);
         $("#orderPanels").last().append('\
-                	<div class="row  item-' + data[i].item_id + '">\
-						<div class="col-md-9 pull-left"><strong>' + data[i].name + '</strong></div>\
-						<div class="col-md-2"><strong>$' + data[i].price + '</strong></div>\
-						<div class="col-md-1 pull-right">\
-							<button type="button" class="close" onclick="deleteItem(this);" id="' + data[i].item_id + '" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-						</div>\
-					</div>');
+                    <div class="row  item-' + data[i].item_id + '">\
+                        <div class="col-md-9 pull-left"><strong>' + data[i].name + '</strong></div>\
+                        <div class="col-md-2"><strong>$' + data[i].price + '</strong></div>\
+                        <div class="col-md-1 pull-right">\
+                            <button type="button" class="close" onclick="deleteItem(this);" id="' + data[i].item_id + '" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+                        </div>\
+                    </div>');
         //adding the addons
         for (var j = 0; j < data[i].add_ons.length; j++) {
             total_price += parseFloat(data[i].add_ons[j].price);
             $("#orderPanels").last().append('\
-					<div class="row item-' + data[i].item_id + '">\
-						<div class="col-md-1"></div>\
-						<div class="col-md-3 pull-left"><small>+ ' + data[i].add_ons[j].name + '</small></div>\
-						<div class="col-md-8 pull-left"><small>$' + data[i].add_ons[j].price + '</small></div>\
-					</div>');
+                    <div class="row item-' + data[i].item_id + '">\
+                        <div class="col-md-1"></div>\
+                        <div class="col-md-3 pull-left"><small>+ ' + data[i].add_ons[j].name + '</small></div>\
+                        <div class="col-md-8 pull-left"><small>$' + data[i].add_ons[j].price + '</small></div>\
+                    </div>');
         }
         //adding the removed items  --> irony in the sentance ??
         for (var j = 0; j < data[i].removed.length; j++) {
             $("#orderPanels").last().append('\
-					<div class="row item-' + data[i].item_id + '">\
-						<div class="col-md-1"></div>\
-						<div class="col-md-3 pull-left"><small> -  ' + data[i].removed[j].name + '</small></div>\
-						<div class="col-md-8"></div>\
-					</div>');
+                    <div class="row item-' + data[i].item_id + '">\
+                        <div class="col-md-1"></div>\
+                        <div class="col-md-3 pull-left"><small> -  ' + data[i].removed[j].name + '</small></div>\
+                        <div class="col-md-8"></div>\
+                    </div>');
         }
 
         $("#orderPanels").last().append('<br class="item-' + data[i].item_id + '"><br class="item-' + data[i].item_id + '>');
@@ -485,9 +443,70 @@ function refreshOrders(data) {
     $(".order-badge").text('$' + total_price.toFixed(2))
 }
 
+//functon to confirm payment by customer
+$("#payButton").on('click', function() {
+
+    if ($("#addressButton").attr('name') == 'no') {
+        alert("Please enter a delivery address")
+    } else if ($("#paymentMethodsButton").attr('name') == 'no') {
+        alert("Please enter a payment method")
+    } else {
+        $("#orderPanels").children().remove();
+        $(".review-pay__button").show();
+        $(".confirm-seperator").show();
+        $.get(
+            '/restaurant/get-cart/',
+            function(data) {
+                refreshOrders(data);
+
+            });
+
+    }
+});
+
+//function to charge customer
+$("#reviewAndPay").on('click', function() {
+    $("#reviewAndPay").prop("disabled", true);
+    $('.main-preload').show();
+    $('#orderModal').modal('hide');
+    $.post(
+        '/payments/charge/', {
+            'csrfmiddlewaretoken': csrftoken,
+        },
+        function(data) {
+            if (data.status == 1) {
+
+                var url = window.location.href;
+                var url_split = url.split('/');
+                var restaurant_id = url_split[4];
+                $.post(
+                    '/orders/place/', {
+                        'csrfmiddlewaretoken': csrftoken,
+                        'restaurant_id': restaurant_id
+                    },
+                    function(data) {
+                        if (data.status == 1) {
+                            $('.main-preload').hide();
+                            window.location.replace('/orders/success/')
+                        }
+                    }
+                )
+            } else {
+                $('.main-preload').hide();
+                $("#reviewAndPay").prop("disabled", false);
+                alert(data.msg);
+            }
+        }
+    )
+})
+
+
+
 //function to get the cart to show what is in it so far
 $("#orderButton").on('click', function() {
     $("#orderPanels").children().remove();
+    $(".review-pay__button").hide();
+    $(".confirm-seperator").hide();
     $.get(
         '/restaurant/get-cart/',
         function(data) {

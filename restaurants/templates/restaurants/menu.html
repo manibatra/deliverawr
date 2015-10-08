@@ -136,12 +136,12 @@
 			<div class="col-md-2">
 				<div class="row">
 					<paper-button id="orderButton" class="sidebar__button top-button" data-toggle="modal" data-target="#orderModal">
-						Order<span class="badge order-badge">${{cart.total}}.00</span>
+						Order<span class="badge order-badge">${{cart.total}}</span>
 					</paper-button>
 				</div>
 				<div class="row">
 				{% if request.user.is_authenticated %}
-					<paper-button id="payButton" class="sidebar__button" value="">
+					<paper-button id="payButton" class="sidebar__button" value="" data-toggle="modal" data-target="#orderModal">
 						Pay
 					</paper-button>
 				{% else %}
@@ -304,7 +304,7 @@
 				<div class="modal-footer order-footer">
 					<div class="row delivery-price">
 						<div class="col-md-9"><span class="pull-left">Delivery Fee</span></div>
-						<div class="col-md-2"><strong class="pull-left" id="deliverFee">$10</strong></div>
+						<div class="col-md-2"><strong class="pull-left" id="deliverFee">$10.00</strong></div>
 						<div class="col-md-1"></div>
 					</div>
 					<div class="row">
@@ -312,6 +312,10 @@
 						<div class="col-md-2"><strong class="pull-left" id="basketTotal"></strong></div>
 						<div class="col-md-1"></div>
 					</div>
+					<hr class="confirm-seperator">
+					<paper-button class="review-pay__button text-center" id="reviewAndPay">
+								Confirm Payment
+					</paper-button>
 				</div>
 			</div>
 		</div>
