@@ -55,9 +55,6 @@
 					  <div class="mdl-card__supporting-text">
 						{{ restaurant.street_address }}, {{ restaurant.city }} - {{ restaurant.postcode }}
 					  </div>
-					  <div class="mdl-card__actions mdl-card--border">
-						Delivery Hours
-					  </div>
 					</a>
 				{% endif %}
 				{% endfor %}
@@ -74,6 +71,7 @@
 		{% include "footer.html" %}
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 		<script src="{% static "js/common.js" %}"></script>
+		<script src="{% static "home/js/listings.js" %}"></script>
 		<script type="text/javascript">
 			function toTheRestaurant(restaurant_url) {
 				window.location.replace(restaurant_url);
