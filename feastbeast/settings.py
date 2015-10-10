@@ -141,6 +141,8 @@ USE_TZ = True
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 COMPRESS_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+COMPRESS_ENABLED = True
+
 
 try:
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
