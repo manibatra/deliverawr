@@ -17,6 +17,11 @@ staticfiles
 
 media/*
 
+combined.crt
+server.csr
+server.key
+server.pass.key
+
 
 
 
