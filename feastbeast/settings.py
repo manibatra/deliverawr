@@ -29,6 +29,10 @@ except:
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
     DEBUG = os.environ['DEBUG']
+    if DEBUG == 'False':
+        DEBUG = False
+    else:
+        DEBUG = True
 except:
     pass
 
