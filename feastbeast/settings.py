@@ -66,6 +66,7 @@ INSTALLED_APPS = (
     'orders',
     'users',
     'storages',
+    'compressor',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -138,15 +139,18 @@ USE_TZ = True
 ###################
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE = "feastbeast.storage.CachedS3BotoStorage"
+
+
 
 try:
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
     AWS_QUERYSTRING_AUTH = False
+    AWS_S3_CUSTOM_DOMAIN = 'herokubeastbucketclassicus.s3.amazonaws.com'
 
-    STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+    STATIC_URL = 'https://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
     MEDIA_URL = STATIC_URL + 'media/'
     STATICFILES_DIRS = ( os.path.join(BASE_DIR, "static"), )
     STATIC_ROOT = 'staticfiles'
@@ -154,6 +158,22 @@ try:
 
 except:
     pass
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
+
+
+COMPRESS_STORAGE = STATICFILES_STORAGE
+COMPRESS_ENABLED = True
+COMPRESS_URL = STATIC_URL
+COMPRESS_OFFLINE = True
+COMPRESS_ROOT = STATIC_ROOT
+COMPRESS_CSS_FILTERS = ["compressor.filters.cssmin.CSSMinFilter"]
+COMPRESS_JS_FILTERS = ["compressor.filters.jsmin.JSMinFilter"]
 # Media files (Images stored in database)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
