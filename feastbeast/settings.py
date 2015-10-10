@@ -139,7 +139,7 @@ USE_TZ = True
 ###################
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
-STATICFILES_STORAGE = 'storage.CachedS3BotoStorage'
+STATICFILES_STORAGE = 'feastbeast.storage.CachedS3BotoStorage'
 
 
 
