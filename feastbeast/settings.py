@@ -172,6 +172,8 @@ COMPRESS_ENABLED = True
 COMPRESS_URL = STATIC_URL
 COMPRESS_OFFLINE = True
 COMPRESS_ROOT = STATIC_ROOT
+COMPRESS_CSS_FILTERS = ["compressor.filters.cssmin.CSSMinFilter"]
+COMPRESS_JS_FILTERS = ["compressor.filters.jsmin.JSMinFilter"]
 # Media files (Images stored in database)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
