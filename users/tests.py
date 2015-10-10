@@ -24,23 +24,23 @@ class UserSignupTests(TestCase):
 		self.assertEqual(response['status'], 0)
 
 		#check for normal user signup
-		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'password' : 'testpass' })
+		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'password' : 'testpass', 'phoneNo' : '0414708810' })
 		response = json.loads(response.content.decode('utf-8'))
 		self.assertEqual(response['status'], 1)
 
 	def test_validity_of_password(self):
 		self.client.logout()
 		#check for smaller password length
-		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'password' : 'tef' })
+		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'password' : 'tef', 'phoneNo' : '0414708810' })
 		response = json.loads(response.content.decode('utf-8'))
 		self.assertEqual(response['status'], 0)
 
 		#check for no password
-		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au'  })
+		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'phoneNo' : '0414708810'  })
 		response = json.loads(response.content.decode('utf-8'))
 		self.assertEqual(response['status'], 0)
 
-		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'password' : 'testpass' })
+		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'password' : 'testpass', 'phoneNo' : '0414708810' })
 		response = json.loads(response.content.decode('utf-8'))
 		self.assertEqual(response['status'], 1)
 
@@ -48,7 +48,7 @@ class UserSignupTests(TestCase):
 #tests for user login
 class UserLoginTests(TestCase):
 	def setUp(self): #create a test user to test against
-		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'password' : 'testpass' })
+		response = self.client.post('/user/signup/', {'firstName' : 'Mani', 'lastName' : 'Batra', 'email' : 'manibatra@uq.net.au', 'password' : 'testpass', 'phoneNo' : '0414708810' })
 		self.client.logout()
 
 	def test_validity_of_user_name(self):

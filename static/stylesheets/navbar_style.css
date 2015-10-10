@@ -46,6 +46,12 @@
 	margin-bottom: 22px;
 }
 
+.login-form {
+	font-weight: 200;
+	margin-bottom: 26px;
+}
+
+
 .error-span {
 	position: static;
 }

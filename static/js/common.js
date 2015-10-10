@@ -21,6 +21,13 @@ $(document).ready(function() {
             password: {
                 required: true,
                 minlength: 6
+            },
+
+            phoneNo: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
             }
         },
 
@@ -35,6 +42,11 @@ $(document).ready(function() {
 
             password: {
                 minlength: "Required length : Atleast 6"
+            },
+
+            phoneNo: {
+                minlength: "Required length : At least 10",
+                maxlength: "Required length : At most 10"
             }
         },
 
@@ -47,14 +59,17 @@ $(document).ready(function() {
         },
 
         submitHandler: function(form) {
+            $('.fadeMe').show();
             $.ajax({
                 type: "POST",
                 url: $('#signupForm').attr('action'), // or whatever
                 data: $('#signupForm').serialize(),
                 success: function(data) {
                     if (data.status == 1) {
-                        window.location.reload();
+                        $('.fadeMe').hide();
+                        window.location.replace('/user/verification-start/')
                     } else if (data.status == 0) {
+                        $('.fadeMe').hide();
                         alert(data.msg);
                     }
                 }
@@ -84,21 +99,81 @@ $(document).ready(function() {
         },
 
         submitHandler: function(form) {
+            $('.fadeMe').show();
             $.ajax({
                 type: "POST",
                 url: $('#loginForm').attr('action'), // or whatever
                 data: $('#loginForm').serialize(),
                 success: function(data) {
+                    $('.fadeMe').hide();
                     if (data.status == 1) {
-                        window.location.reload();
+                        if (window.location.pathname == '/user/verification-complete/') {
+                            window.location.replace('/');
+                        } else {
+                            window.location.reload();
+                        }
                     } else if (data.status == 0) {
+                        $('.fadeMe').hide();
                         alert(data.msg);
                     }
                 }
             });
         }
     });
+
+    $("#resetForm").validate({
+
+        rules: {
+            email: {
+                required: true,
+                email: true
+            },
+
+        },
+
+        showErrors: function(errorMap, errorList) {
+            $("#resetForm .error-span").css('visibility', 'hidden');
+            $.each(errorMap, function(key, value) {
+                $('.' + key + '-error').css('visibility', 'visible');
+                $('.' + key + '-error').text(value);
+            });
+        }
+
+    });
+
+    $("#changeForm").validate({
+
+        rules: {
+            new_password1: {
+                required: true,
+                minlength: 6
+            },
+
+            new_password2: {
+                required: true,
+                minlength: 6,
+            }
+
+        },
+
+        showErrors: function(errorMap, errorList) {
+            $("#changeForm .error-span").css('visibility', 'hidden');
+            $.each(errorMap, function(key, value) {
+                $('.' + key + '-error').css('visibility', 'visible');
+                $('.' + key + '-error').text(value);
+            });
+        }
+
+    });
 });
+
+function submitchangeForm() {
+    $('#changeForm').submit();
+}
+
+function submitresetForm() {
+    $('#resetForm').submit();
+}
 
 function submitForm() {
     $('#signupForm').submit();

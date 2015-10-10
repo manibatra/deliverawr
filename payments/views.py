@@ -15,7 +15,11 @@ from users.models import UserAddress
 stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
 
 
-
+# hack to change delivery fee at the moment before a better structure is created
+# 1. Change it in the front end in the menu.html and menu.js
+# 2. Change it in the cart in the total method
+# 3. Change the check in the charge method
+# 4. Change it in the email template send to the user
 # Create your views here.
 def charge(request):
 	# Get the credit card details submitted by the form
@@ -26,7 +30,7 @@ def charge(request):
 		amount = int(cart.total * 100)
 
 		#do not charge if the amount is zero
-		if amount == 0:
+		if amount == 1000:
 			response = { 'status' : 0, 'msg' : 'You have nothing in your cart :( '}
 			return HttpResponse(json.dumps(response), content_type="application/json")
 

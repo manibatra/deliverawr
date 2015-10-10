@@ -145,6 +145,21 @@ body {
 	width: 100%;
 }
 
+.review-pay__button {
+	background-color: rgb(255, 64, 129) !important;
+	color: white;
+	font-family: 'Roboto', Helvetica, Sans-Serif;
+	font-size: 15px;
+	font-weight: 200;
+	margin: 10px 0;
+	width: 100%;
+	display: none;
+}
+
+.confirm-seperator {
+	display: none;
+}
+
 .sidebar__button.customer-data {
 	background-color: white !important;
 	color: rgb(51, 51, 51);
@@ -244,4 +259,42 @@ body {
 	margin-right: 10px;
 	margin-left: 10px;
 }
+
+/* class for the overlay div */
+div.fadeMe,
+div.main-preload {
+    opacity:0.9;
+    filter: alpha(opacity=20);
+    background-color:white;
+    width:100%;
+    height:100%;
+    z-index:10;
+    top:0;
+    left:0;
+    position:fixed;
+    display: none;
+}
+
+.loader-inner {
+	display: inline-block;
+	margin-top: 20%;
+	margin-left: 45%;
+}
+
+
+.ball-beat>div {
+	background-color: rgb(255, 64, 129);
+}
+
+.rawr-button {
+	width: 100px;
+	background-color: rgb(255, 64, 129) !important;
+	color: white;
+}
+
+.delivery-price {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 

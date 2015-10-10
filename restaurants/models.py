@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 #model for the restaurant
 class Restaurant(models.Model):
@@ -14,6 +15,37 @@ class Restaurant(models.Model):
 
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name
+
+	def is_open(self):
+		import datetime
+		now = datetime.datetime.now()
+		current_day = now.strftime("%A")
+		delivery_hours = DeliveryHours.objects.get(restaurant=self, day=current_day[:2])
+		open_hour = delivery_hours.open_hour
+		close_hour = delivery_hours.close_hour
+		time = datetime.datetime.now().time()
+		if(time >= open_hour and time < close_hour):
+			return True
+		else:
+			return False
+
+	def opening_time(self):
+		import datetime
+		now = datetime.datetime.now()
+		current_day = now.strftime("%A")
+		delivery_hours = DeliveryHours.objects.get(restaurant=self, day=current_day[:2])
+		open_hour = delivery_hours.open_hour
+		return open_hour
+
+	def closing_time(self):
+		import datetime
+		now = datetime.datetime.now()
+		current_day = now.strftime("%A")
+		delivery_hours = DeliveryHours.objects.get(restaurant=self, day=current_day[:2])
+		close_hour = delivery_hours.close_hour
+		return close_hour
+
+
 
 #model for the restaurant delivery locations
 class DeliveryLocation(models.Model):
@@ -41,7 +73,7 @@ class DeliveryHours(models.Model):
 			)
 
 	restaurant = models.ForeignKey('restaurants.Restaurant')
-	day = models.CharField(max_length=2, choices=DAYS, unique=True)
+	day = models.CharField(max_length=2, choices=DAYS)
 	open_hour = models.TimeField()
 	close_hour = models.TimeField()
 

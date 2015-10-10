@@ -9,5 +9,6 @@ urlpatterns = [
 	url(r'^add-custom/$', views.addCustom, name='add-custom'),
 	url(r'^get-cart/$', views.getCart, name='get-cart'),
 	url(r'^delete-item/$', views.deleteItem, name='delete-item'),
-
+	url(r'^interested/$', views.interested, name='interested'),
+	url(r'^notify-deliverawr/$', views.notify_deliverawr, name='notify_deliverawr'),
 ]

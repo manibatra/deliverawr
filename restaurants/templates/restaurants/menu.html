@@ -16,20 +16,33 @@
 		<!-- Material Design -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,700">
 		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
-		<!-- Local Stylesheets -->
-		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
+
 		<!-- Global Stylesheets -->
 		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
 		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
 		<!-- Polymer Elements -->
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="{% static 'bower_components/loaders.css/loaders.min.css' %}">
+
+		<!-- Local Stylesheets -->
+		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
+
 	</head>
 	<body>
 		{% include "navbar.html" %}
 		{% include "signup.html" %}
 		{% include "login.html" %}
 		<!--Banner of the restuarant -->
+		<div class="main-preload modal-content">
+			<div class="loader">
+				<div class="loader-inner ball-beat center-block">
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="jumbotron">
 				<div class="row">
@@ -123,12 +136,12 @@
 			<div class="col-md-2">
 				<div class="row">
 					<paper-button id="orderButton" class="sidebar__button top-button" data-toggle="modal" data-target="#orderModal">
-						Order<span class="badge order-badge">{{cart.total}}</span>
+						Order<span class="badge order-badge">${{cart.total}}</span>
 					</paper-button>
 				</div>
 				<div class="row">
 				{% if request.user.is_authenticated %}
-					<paper-button id="payButton" class="sidebar__button" value="">
+					<paper-button id="payButton" class="sidebar__button" value="" data-toggle="modal" data-target="#orderModal">
 						Pay
 					</paper-button>
 				{% else %}
@@ -164,57 +177,7 @@
 		</div>
 	</div>
 	<!--Site footer, remains constant across most pages-->
-	<footer class="mdl-mega-footer">
-		<div class="container">
-			<div class="mdl-mega-footer__middle-section">
-				<div class="col-md-4">
-					<div class="mdl-mega-footer__drop-down-section center-this">
-						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-						<h1 class="mdl-mega-footer__heading">Features</h1>
-						<ul class="mdl-mega-footer__link-list">
-							<li><a href="#">About</a></li>
-							<li><a href="#">Terms</a></li>
-							<li><a href="#">Partners</a></li>
-							<li><a href="#">Updates</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="mdl-mega-footer__drop-down-section center-this">
-						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-						<h1 class="mdl-mega-footer__heading">Details</h1>
-						<ul class="mdl-mega-footer__link-list">
-							<li><a href="#">Specs</a></li>
-							<li><a href="#">Tools</a></li>
-							<li><a href="#">Resources</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="mdl-mega-footer__drop-down-section center-this">
-						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-						<h1 class="mdl-mega-footer__heading">Technology</h1>
-						<ul class="mdl-mega-footer__link-list">
-							<li><a href="#">How it works</a></li>
-							<li><a href="#">Patterns</a></li>
-							<li><a href="#">Usage</a></li>
-							<li><a href="#">Products</a></li>
-							<li><a href="#">Contracts</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<hr>
-			<div class="text-center center-block">
-				<br />
-				<p class="social-text">Join Us</p>
-				<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
-				<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
-				<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
-				<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
-			</div>
-		</div>
-	</footer>
+	{% include "footer.html" %}
 	<div class="modal fade" id="deliveryAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -223,6 +186,15 @@
 					<h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
 				</div>
 				<div class="modal-body">
+					<div class="fadeMe modal-content">
+						<div class="loader">
+							<div class="loader-inner ball-beat center-block">
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
 					<div class="row" id="panels">
 					</div>
 					<div class="address-input row" id="inputAddress">
@@ -236,8 +208,8 @@
 						<div class="col-md-4">
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" name="city_label" id="city_label" />
-								<label class="mdl-textfield__label address-form" for="city_label">City</label>
-								<span class="mdl-textfield__error error-span">Invalid City!</span>
+								<label class="mdl-textfield__label address-form" for="city_label">Suburb</label>
+								<span class="mdl-textfield__error error-span">Invalid Suburb!</span>
 							</div>
 						</div>
 						<div class="col-md-3">
@@ -250,7 +222,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{{stripe_id}}','{% url "users:save_address" %}', '{{csrf_token}}')">
+							<paper-button class="sidebar__button text-center" id="addAddress" onclick="submitAddress('{% url "users:save_address" %}', '{{csrf_token}}')">
 								Add an address
 							</paper-button>
 						</div>
@@ -274,6 +246,15 @@
 					<h4 class="modal-title" id="myModalLabel">Payment Methods</h4>
 				</div>
 				<div class="modal-body">
+					<div class="fadeMe modal-content">
+						<div class="loader">
+							<div class="loader-inner ball-beat center-block">
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
 					<div class="row" id="cardPanels">
 					</div>
 					<div class="row">
@@ -321,11 +302,20 @@
 				<div class="modal-body" id="orderPanels">
 				</div>
 				<div class="modal-footer order-footer">
+					<div class="row delivery-price">
+						<div class="col-md-9"><span class="pull-left">Delivery Fee</span></div>
+						<div class="col-md-2"><strong class="pull-left" id="deliverFee">$10.00</strong></div>
+						<div class="col-md-1"></div>
+					</div>
 					<div class="row">
 						<div class="col-md-9"><strong class="pull-left">TOTAL</strong></div>
 						<div class="col-md-2"><strong class="pull-left" id="basketTotal"></strong></div>
 						<div class="col-md-1"></div>
 					</div>
+					<hr class="confirm-seperator">
+					<paper-button class="review-pay__button text-center" id="reviewAndPay">
+								Confirm Payment
+					</paper-button>
 				</div>
 			</div>
 		</div>
@@ -342,9 +332,5 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 	<script src="{% static "js/common.js" %}"></script>
-	<script type="text/javascript">
-	//hack to display the team image during development
-	//$(document).ready(adding);
-	</script>
 </body>
 </html>

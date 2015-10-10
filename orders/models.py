@@ -10,9 +10,16 @@ class UserOrder(models.Model):
 	order_time = models.DateTimeField(auto_now_add=True)
 	total_price = models.DecimalField(max_digits=10, decimal_places=2)
 	delivery_address = models.ForeignKey('users.UserAddress', related_name='delivered_to')
+	phone_no = models.ForeignKey('users.UserPhoneNo', related_name='cus_phone_no')
+
+	def __str__(self):
+		           # __unicode__ on Python 2
+		return (str(self.order_id) + " - " + self.restaurant.name + " - " + self.phone_no.phone_no)
+
 
 class Detail(models.Model):
 	order = models.ForeignKey('UserOrder', related_name='order_number')
 	menu_item = models.ForeignKey('restaurants.MenuItem', related_name='menu_item')
 	add_ons = models.ManyToManyField('restaurants.MenuItem', related_name='added_items')
 	removed = models.ManyToManyField('restaurants.MenuItem', related_name='removed_items')
+	subtotal = models.DecimalField(max_digits=10, decimal_places=2)
