@@ -66,6 +66,7 @@ INSTALLED_APPS = (
     'orders',
     'users',
     'storages',
+    'compressor',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -139,6 +140,7 @@ USE_TZ = True
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+COMPRESS_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 try:
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
@@ -154,6 +156,15 @@ try:
 
 except:
     pass
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_URL = STATIC_URL
 # Media files (Images stored in database)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
