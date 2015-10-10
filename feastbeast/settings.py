@@ -139,8 +139,8 @@ USE_TZ = True
 ###################
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-COMPRESS_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE = 'storage.CachedS3BotoStorage'
+COMPRESS_STORAGE = STATICFILES_STORAGE
 COMPRESS_ENABLED = True
 
 
@@ -167,6 +167,8 @@ STATICFILES_FINDERS = (
 )
 
 COMPRESS_URL = STATIC_URL
+COMPRESS_OFFLINE = True
+COMPRESS_ROOT = STATIC_ROOT
 # Media files (Images stored in database)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
