@@ -31,12 +31,13 @@ def place(request):
 	if request.method == 'POST':
 		cart = ModifiedCart(request.session)
 		current_user = request.user
-
+		phoneNo_object = UserPhoneNo.objects.get(user=current_user)
 		restaurant_id = request.POST['restaurant_id']
 		delivery_address = UserAddress.objects.get(user=current_user, default=True)
 
 		restaurant = Restaurant.objects.get(pk=restaurant_id)
-		current_order = UserOrder(user=current_user, restaurant=restaurant, total_price=float(cart.total), delivery_address=delivery_address)
+		current_order = UserOrder(user=current_user, restaurant=restaurant, total_price=float(cart.total), delivery_address=delivery_address,
+									phone_no=phoneNo_object)
 		current_order.save()
 		serialised_cart = cart.cart_serializable
 		item_keys = serialised_cart.keys()
@@ -87,7 +88,6 @@ def place(request):
 
 		send_simple_message(current_user.email, emailHTML)
 
-		phoneNo_object = UserPhoneNo.objects.get(user=current_user)
 		send_sms_customer(request.META['HTTP_HOST'], current_order.order_id, phoneNo_object.phone_no)
 
 		cart.clear()

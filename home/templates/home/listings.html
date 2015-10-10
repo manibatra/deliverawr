@@ -2,10 +2,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" content="text/html">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-		<title></title>
+		<title>Restaurants</title>
 		<!-- JQUERY -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<!-- Latest compiled and minified CSS -->
@@ -26,13 +26,13 @@
 		<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
 		<link rel="stylesheet" href="{% static "home/stylesheets/listings.css" %}">
 
-		<!-- Global Stylesheets -->
-		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
-		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
 		<!-- Polymer Elements -->
 		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
+		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
 	</head>
 	<body>
 		{% include "navbar.html" %}
@@ -47,17 +47,31 @@
 			{% if restaurant_found == 'yes' %}
 				<div class="row restaurant-listings">
 				{% for restaurant in restaurant_list %}
+				{% if restaurant.is_open %}
 					<a class="demo-card-square mdl-card mdl-shadow--2dp" href="{% url 'restaurants:menu' restaurant.restaurant_id %}">
-					  <div class="mdl-card__title mdl-card--expand">
-						<h2 class="mdl-card__title-text">{{ restaurant.name }}</h2>
+					  <div class="mdl-card__title mdl-card--expand" style="background: url({{ restaurant.secondary_image.url }}) center / cover;">
+					    	<h2 class="mdl-card__title-text restaurant-name"><span>{{ restaurant.name }}</span></h2>
 					  </div>
 					  <div class="mdl-card__supporting-text">
-						{{ restaurant.address }}
+						{{ restaurant.street_address }}, {{ restaurant.city }} - {{ restaurant.postcode }}
 					  </div>
 					  <div class="mdl-card__actions mdl-card--border">
-						Delivery Hours
+						{{restaurant.opening_time|time:"g:iA"}} - {{restaurant.closing_time|time:"g:iA"}}
 					  </div>
 					</a>
+				{% else %}
+				    <div class="demo-card-square mdl-card mdl-shadow--2dp">
+					  <div class="mdl-card__title mdl-card--expand" style="background: url({{ restaurant.secondary_image.url }}) center / cover;">
+					    	<h2 class="mdl-card__title-text restaurant-name"><span>{{ restaurant.name }}</span></h2>
+					  </div>
+					  <div class="mdl-card__supporting-text">
+						{{ restaurant.street_address }}, {{ restaurant.city }} - {{ restaurant.postcode }}
+					  </div>
+					  <div class="mdl-card__actions mdl-card--border">
+						{{restaurant.opening_time|time:"g:iA"}} - {{restaurant.closing_time|time:"g:iA"}}
+					  </div>
+					</div>
+				{% endif %}
 				{% endfor %}
 				</div>
 			{% else %}
@@ -72,6 +86,7 @@
 		{% include "footer.html" %}
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 		<script src="{% static "js/common.js" %}"></script>
+		<script src="{% static "home/js/listings.js" %}"></script>
 		<script type="text/javascript">
 			function toTheRestaurant(restaurant_url) {
 				window.location.replace(restaurant_url);
