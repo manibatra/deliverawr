@@ -31,11 +31,18 @@ body {
 .main-button {
 	width: 160px;
 	height: 48px;
-	padding-top: 10px;
+	background-color: #dd3e3e !important;
+	color: white;
+	padding-top: 5px;
+
+}
+
+.main-banner {
+	margin-bottom: 50px;
 }
 
 .list-cafe {
-	background-color: rgb(255, 64, 129) !important;
+	background-color: #dd3e3e !important;
 	color: white;
 }
 
@@ -56,7 +63,7 @@ body {
 .works {
 	height: 75vh;
 	background-color: #03a9f4;
-	background: url(../images/banner1.png);
+	background: url(/static/images/banner1.png);
 }
 
 .works-hidden {
