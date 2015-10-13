@@ -38,7 +38,7 @@ body {
 }
 
 .restaurant-name span {
-	background-color: rgba(255, 64, 129, 0.7);
+	background-color: rgba(217, 65, 64, 0.7);
 	display: inline;
 	padding: 0.38rem;  /* Needs prefixing */
 	-webkit-box-decoration-break: clone;
@@ -58,7 +58,7 @@ body {
 }
 
 .team-name {
-	background-color: rgba(255, 64, 129, 0.7);
+	background-color: rgba(217, 65, 64, 0.7);
 	display: inline;
 	padding: 0.38rem;  /* Needs prefixing */
 	-webkit-box-decoration-break: clone;
@@ -116,7 +116,7 @@ body {
 }
 
 .menu-item__button {
-	background-color: rgb(255, 64, 129) !important;
+	background-color: rgb(217, 65, 64) !important;
 	color: white;
 	font-family: 'Roboto', Helvetica, Sans-Serif;
 	font-size: 12px;
@@ -126,7 +126,7 @@ body {
 }
 
 .sidebar__button {
-	background-color: rgb(255, 64, 129) !important;
+	background-color: rgb(217, 65, 64) !important;
 	color: white;
 	font-family: 'Roboto', Helvetica, Sans-Serif;
 	font-size: 15px;
@@ -136,7 +136,7 @@ body {
 }
 
 .options-modal__button {
-	background-color: rgb(255, 64, 129) !important;
+	background-color: rgb(217, 65, 64) !important;
 	color: white;
 	font-family: 'Roboto', Helvetica, Sans-Serif;
 	font-size: 15px;
@@ -146,7 +146,7 @@ body {
 }
 
 .review-pay__button {
-	background-color: rgb(255, 64, 129) !important;
+	background-color: rgb(217, 65, 64) !important;
 	color: white;
 	font-family: 'Roboto', Helvetica, Sans-Serif;
 	font-size: 15px;
@@ -198,7 +198,7 @@ body {
 
 .red .active a,
 .red .active a:hover {
-    background-color: rgb(255, 64, 129) !important;
+    background-color: rgb(217, 65, 64) !important;
 }
 
 .wordwrap {
@@ -283,12 +283,12 @@ div.main-preload {
 
 
 .ball-beat>div {
-	background-color: rgb(255, 64, 129);
+	background-color: rgb(217, 65, 64);
 }
 
 .rawr-button {
 	width: 100px;
-	background-color: rgb(255, 64, 129) !important;
+	background-color: rgb(217, 65, 64) !important;
 	color: white;
 }
 
