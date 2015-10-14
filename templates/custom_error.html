@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-		<title>Email Verification</title>
+		<title>Error</title>
 		<!-- JQUERY -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<!-- Latest compiled and minified CSS -->
@@ -41,17 +41,24 @@
 		{% include "login.html" %}
 		<!-- Home page main body -->
 		<div class="container main-body">
+			<div class="row text-center pretty-text center-block">
+				<h1>
+					<span class="sorry-text">
+						RAWR ?
+					</span>
+				</h1>
+			</div>
 			<div class="row">
-				<img class="center-block custom-icon" src="{% static "images/forhomepage.png" %}" alt="The Monster" height="200" width="150">
+				<img class="center-block custom-icon" src="{% static "images/monstererror.png" %}" alt="The Monster" height="300" width="300">
 			</div>
 			<div class="row text-center pretty-text center-block">
 				<h2>
-					{{ heading|title }}
+					{{ heading }}
 				</h2>
 			</div>
 			<div class="row text-center pretty-text center-block">
 				<span class="sorry-text">
-					{{ text }}
+					{{ subheading }}
 				</span>
 			</div>
 		</div>

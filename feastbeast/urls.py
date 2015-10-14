@@ -38,3 +38,6 @@ if settings.DEBUG:
     urlpatterns += patterns('',
         url(r'^__debug__/', include(debug_toolbar.urls)),
     )
+
+handler404 = 'feastbeast.views.custom_404_view'
+handler500 = 'feastbeast.views.custom_500_view'
