@@ -6,52 +6,40 @@
 </div>
 <footer class="mdl-mega-footer">
 	<div class="container">
-		<div class="mdl-mega-footer__middle-section">
-			<div class="col-md-4">
-				<div class="mdl-mega-footer__drop-down-section center-this">
-					<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-					<h1 class="mdl-mega-footer__heading">Features</h1>
-					<ul class="mdl-mega-footer__link-list">
-						<li><a href="#">About</a></li>
-						<li><a href="#">Terms</a></li>
-						<li><a href="#">Partners</a></li>
-						<li><a href="#">Updates</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="mdl-mega-footer__drop-down-section center-this">
-					<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-					<h1 class="mdl-mega-footer__heading">Details</h1>
-					<ul class="mdl-mega-footer__link-list">
-						<li><a href="#">Specs</a></li>
-						<li><a href="#">Tools</a></li>
-						<li><a href="#">Resources</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="mdl-mega-footer__drop-down-section center-this">
-					<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
-					<h1 class="mdl-mega-footer__heading">Technology</h1>
-					<ul class="mdl-mega-footer__link-list">
-						<li><a href="#">How it works</a></li>
-						<li><a href="{% url 'users:interested' %}">Get a job</a></li>
-						<li><a href="#">Usage</a></li>
-						<li><a href="#">Products</a></li>
-						<li><a href="#">Contracts</a></li>
-					</ul>
+		<div class="row">
+			<div class="mdl-mega-footer__middle-section">
+				<div class="col-md-12">
+					<div class="mdl-mega-footer__drop-down-section center-block">
+						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+						<h1 class="mdl-mega-footer__heading text-center">Company</h1>
+						<ul class="mdl-mega-footer__link-list center-block">
+							<li><a href="#" class="text-center center-block">About Us</a></li>
+							<li><a href="#" class="text-center center-block">Terms and Conditions</a></li>
+							<li><a href="#" class="text-center center-block">Privacy Policy</a></li>
+							<li><a href="#" class="text-center center-block">Disclaimer</a></li>
+							<li><a href="#" class="text-center center-block">Contact Us</a></li>
+							<li><a href="{% url 'users:interested' %}" class="text-center center-block">Get a job</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-		<hr>
-		<div class="text-center center-block">
-			<br />
-			<p class="social-text">Join Us</p>
-			<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
-			<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
-			<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
-			<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+		<div class="row">
+			<div class="col-md-6 "><a href="{% url 'users:interested' %}" class="pull-right partner-row">BECOME A DRIVER</a></div>
+			<div class="col-md-6"><a href="{% url 'restaurants:interested' %}" class="pull-left partner-row">LIST YOUR RESTAURANT</a></div>
+		</div>
+		<div class="row">
+			<hr>
+		</div>
+		<div class="row">
+			<div class="text-center center-block">
+				<br />
+				<p class="social-text">Join Us</p>
+				<a href="https://www.facebook.com/bootsnipp"><i class="social fa fa-facebook-square fa-2x social-fb"></i></a>
+				<a href="https://twitter.com/bootsnipp"><i class="social fa fa-twitter-square fa-2x social-tw"></i></a>
+				<a href="https://plus.google.com/+Bootsnipp-page"><i class="social fa fa-google-plus-square fa-2x social-gp"></i></a>
+				<a href="mailto:bootsnipp@gmail.com"><i class="social fa fa-envelope-square fa-2x social-em"></i></a>
+			</div>
 		</div>
 	</div>
 </footer>
