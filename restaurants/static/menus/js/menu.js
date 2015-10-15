@@ -20,7 +20,7 @@ var add_handler = StripeCheckout.configure({
             function(data) {
                 if (data.status == 1) {
                     $("#cardPanels").last().append("<div class='row vcenter'><div class='col-md-11'><div class='panel panel-default address'><div class='panel-body text-center'></div></div></div><div class='col-md-1'><i class='material-icons'>delete</i></div></div>");
-                    $("#cardPanels").children().last().find(".panel-body").text(data.brand + " : " + data.last);
+                    $("#cardPanels").children().last().find(".panel-body").text(data.brand + " : XXXX-" + data.last);
                     $("#cardPanels").children().last().find(".panel-body").attr('id', data.card_id);
                     $("#cardPanels").children().last().find("i").attr('onclick', "deleteCard(this)");
                     $("#paymentMethodsButton > paper-material").text(token.card.brand + " : XXXX-" + token.card.last4);
