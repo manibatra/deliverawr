@@ -4,7 +4,7 @@
 var toggle = 1;
 var configured = 0;
 var add_handler = StripeCheckout.configure({
-    key: 'pk_test_ZyFNgoOGTLmMjJKaFZ1MwuqD',
+    key: stripe_pub_key,
     locale: 'auto',
     //shippingAddress: true,
     panelLabel: 'Add card',

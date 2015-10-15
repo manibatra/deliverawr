@@ -12,7 +12,6 @@ import json
 from users.models import UserAddress
 # Set your secret key: remember to change this to your live secret key in production
 # See your keys here https://dashboard.stripe.com/account/apikeys
-stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
 
 
 # hack to change delivery fee at the moment before a better structure is created

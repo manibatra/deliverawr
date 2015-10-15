@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.http import JsonResponse
 from django.core import serializers
+from django.conf import settings
 
 from carton.cart import Cart
 from .utils import *
@@ -17,9 +18,6 @@ from restaurants.models import MenuItem
 import stripe
 import json
 
-stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
-
-
 # Create your views here.
 #returns the menu info, stripe_id, default address if any, default card info
 def detail(request, restaurant_id):
@@ -28,7 +26,7 @@ def detail(request, restaurant_id):
 	all_items = MenuItem.objects.exclude(category__exact='').filter(restaurant=restaurant_id)
 	restaurant = Restaurant.objects.get(pk=restaurant_id)
 	all_categories = MenuItem.objects.filter(restaurant=restaurant_id).exclude(category__exact='').order_by('category').values('category').distinct()
-	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant }
+	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant,'stripe_pub_key': str(settings.STRIPE_PUB_KEY) }
 
 	#This ensures that the user is allowed to see the restaurants without logging in
 	#getting the stored user payment info

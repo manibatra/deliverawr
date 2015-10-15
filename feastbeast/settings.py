@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import dj_database_url
 import raven
+import stripe
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -193,6 +194,8 @@ try:
     MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
     SMS_USERNAME = os.environ['SMS_USERNAME']
     SMS_PASSWORD = os.environ['SMS_PASSWORD']
+    stripe.api_key = os.environ['STRIPE_PRI_KEY']
+    STRIPE_PUB_KEY = os.environ['STRIPE_PUB_KEY']
 except:
     pass
 
