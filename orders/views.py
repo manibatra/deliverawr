@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 import json
 from django.conf import settings
+import os
+
 
 #importing the auth framework
 from django.contrib.auth import authenticate, login
@@ -164,8 +166,8 @@ def send_simple_message(customer_email, emailHTML):
 def send_sms_customer(domain, order_id, customer_phoneNo):
 	URL = "https://api.smsbroadcast.com.au/api.php"
 	payload = {
-    'username': 'manibatra',
-    'password': 'lostrume2sm',
+    'username': settings.SMS_USERNAME,
+    'password': settings.SMS_PASSWORD,
     'from': 'Deliverawr',
     'to' : customer_phoneNo,
     'message' : 'Thank you for ordering. We are on our way. Check your invoice : '+ domain + '/orders/invoice/' + str(order_id)

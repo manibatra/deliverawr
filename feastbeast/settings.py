@@ -190,7 +190,9 @@ try:
     EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
     MAILGUN_URL = os.environ['MAILGUN_URL']
     MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
-    MAILGUN_DOMAIN = os.envrion['MAILGUN_DOMAIN']
+    MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
+    SMS_USERNAME = os.environ['SMS_USERNAME']
+    SMS_PASSWORD = os.environ['SMS_PASSWORD']
 except:
     pass
 
