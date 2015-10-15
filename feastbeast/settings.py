@@ -188,6 +188,9 @@ EMAIL_PORT = 587
 try:
     EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
     EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+    MAILGUN_URL = os.environ['MAILGUN_URL']
+    MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
+    MAILGUN_DOMAIN = os.envrion['MAILGUN_DOMAIN']
 except:
     pass
 
@@ -204,6 +207,8 @@ except:
         }
     except:
         pass
+
+
 
 LOGGING = {
     'version': 1,

@@ -4,6 +4,7 @@ from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 import json
+from django.conf import settings
 
 #importing the auth framework
 from django.contrib.auth import authenticate, login
@@ -151,10 +152,10 @@ def success(request):
 #method to send the mail to the customer
 def send_simple_message(customer_email, emailHTML):
     return requests.post(
-        "https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
-        auth=("api", "key-37d788bd314bf02a7fbb52dfe24efe4a"),
-        data={"from": "Deliverawr <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
-              "to": [customer_email],
+        settings.MAILGUN_URL + "/messages",
+        auth=("api", settings.MAILGUN_API_KEY),
+        data={"from": "Deliverawr <mailgun@" + settings.MAILGUN_DOMAIN + ">",
+              "to": [customer_email, 'manibatra2002@gmail.com'],
               "subject": "Thank you for ordering",
               "html": emailHTML
 	})

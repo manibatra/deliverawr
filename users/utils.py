@@ -1,4 +1,4 @@
-import requests
+from django.conf import settings
 
 #importing the django templete renderer
 from django.template import loader, Context
@@ -24,9 +24,9 @@ def generate_email_HTML(ver_key_url):
 #method to send the mail to the customer
 def send_confirmation_email(customer_email, emailHTML):
 		return requests.post(
-				"https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
-				auth=("api", "key-37d788bd314bf02a7fbb52dfe24efe4a"),
-				data={"from": "Deliverawr <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
+				settings.MAILGUN_URL + "/messages",
+				auth=("api", settings.MAILGUN_API_KEY),
+				data={"from": "Deliverawr <mailgun@" + settings.MAILGUN_DOMAIN + ">",
 							"to": [customer_email],
 							"subject": "Confirm Email Address",
 							"html": emailHTML
@@ -36,9 +36,9 @@ def send_confirmation_email(customer_email, emailHTML):
 #method to send the mail to the customer
 def send_mail_deliverawr(text_to_send):
 	return requests.post(
-				"https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
-				auth=("api", "key-37d788bd314bf02a7fbb52dfe24efe4a"),
-				data={"from": "Deliverawr <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
+				settings.MAILGUN_URL + "/messages",
+				auth=("api", settings.MAILGUN_API_KEY),
+				data={"from": "Deliverawr <mailgun@" + settings.MAILGUN_DOMAIN + ">",
 							"to": ["manibatra2002@gmail.com"],
 							"subject": "Expression of Interest - Driver",
 							"text": text_to_send

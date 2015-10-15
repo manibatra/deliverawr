@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 
 #auth related imports
 from django.contrib.auth import authenticate, login, logout
