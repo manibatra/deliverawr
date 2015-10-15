@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.http import JsonResponse
 from django.core import serializers
 
@@ -88,8 +88,10 @@ def notify_deliverawr(request):
 		address = request.POST['address']
 		text_to_send = business_name + ':' + email_id + ':' + phoneNo + ':' + address
 		send_mail_deliverawr(text_to_send)
-	return render(request, "restaurants/interest.html", {'heading' : 'Thank You', 'sub_heading' : 'Our team will be contacting you ASAP\
+		return render(request, "restaurants/interest.html", {'heading' : 'Thank You', 'sub_heading' : 'Our team will be contacting you ASAP\
 															', 'show_form' : False})
+	else:
+		raise Http404()
 
 
 

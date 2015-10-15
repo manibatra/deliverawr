@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 import json
@@ -99,17 +100,23 @@ def place(request):
 		#show the success page for ordering
 		return HttpResponse(json.dumps(response), content_type="application/json")
 
+	else:
+		raise Http404()
+
 
 
 #function to show the order on page
 def order_invoice(request, order_id):
-	current_order =  UserOrder.objects.get(order_id=order_id)
-	if current_order.user.id == request.user.id:
-		context_dict = generate_order_dict(current_order)
-		return render(request, "orders/order_invoice.html", context_dict)
+	try:
+		current_order =  UserOrder.objects.get(order_id=order_id)
+		if current_order.user.id == request.user.id:
+			context_dict = generate_order_dict(current_order)
+			return render(request, "orders/order_invoice.html", context_dict)
+	except:
+		raise Http404()
 
 	else:
-	    HttpResponse("404 page")
+	    raise Http404()
 
 
 #function takes the current delivery object, and creates a context out of it
@@ -139,10 +146,6 @@ def generate_order_dict(current_order):
 
 #shows the succes page after succesful placement of order
 def success(request):
-	if request.method == 'POST':
-		current_user = request.user
-		restaurant = request.POST['restaurant_id']
-
 	return render(request, 'orders/ordered.html', {})
 
 #method to send the mail to the customer
