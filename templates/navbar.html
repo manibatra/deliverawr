@@ -21,6 +21,7 @@
 				<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
 				<li role="presentation"><a href="#"><paper-button noink data-target="#loginModal" data-toggle="modal">Login</paper-button></a></li>
 			{% endif %}
+			<li role="presentation"><a href="{% url 'users:interested' %}"><paper-button class="list-cafe">BECOME A DRIVER</paper-button></a></li>
 			<li role="presentation"><a href="{% url 'restaurants:interested' %}"><paper-button class="list-cafe">LIST YOUR RESTAURANT</paper-button></a></li>
 		</ul>
 	</div>
