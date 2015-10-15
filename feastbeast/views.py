@@ -5,3 +5,6 @@ def custom_404_view(request):
 
 def custom_500_view(request):
 	return render(request, "custom_error.html", {'heading' : 'HTTP 500 ERROR', 'subheading' : 'Oops! Something broke at our end! We are fixing it ASAP!!!'})
+
+def privacy(request):
+	return render(request, "company/privacy.html", {})
