@@ -8,3 +8,6 @@ def custom_500_view(request):
 
 def privacy(request):
 	return render(request, "company/privacy.html", {})
+
+def disclaimer(request):
+	return render(request, "company/disclaimer.html", {})
