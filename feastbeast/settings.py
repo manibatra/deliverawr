@@ -183,7 +183,7 @@ COMPRESS_JS_FILTERS = ["compressor.filters.jsmin.JSMinFilter"]
 
 # Settings for email
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 try:
     EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
