@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load compress %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -6,22 +7,18 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
 		<title>Become a driver</title>
-		<!-- JQUERY -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 		<!-- Include Font Awesome Stylesheet in Header -->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Material Design -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500">
+		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
+		{% compress css %}
 		<!-- Social Buttons -->
 		<link rel="stylesheet" href="{% static "stylesheets/bootstrap-social.css" %}">
-		<!-- Material Design -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,500">
-		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
-		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<!-- Local Stylesheets -->
 		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
 		<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
@@ -29,8 +26,7 @@
 		<!-- Global Stylesheets -->
 		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
 		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
-		<!-- Polymer Elements -->
-		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
+		{% endcompress %}
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		{% include "google_analytics.html" %}
@@ -59,7 +55,7 @@
 			</div>
 			{% if show_form %}
 			<div class="row pretty-text center-block">
-				<div class="col-md-9 text-justify text-left padding-right-helper">
+				<div class="col-md-9 text-left padding-right-helper">
 					<p>Earning that extra buck has never been easier with Deliverawr! Our business flourishes on amazing deliverers who are passionate about customer service. We are always on the lookout for the next superstar who genuinely loves bringing a smile to our customer’s faces when they receive their delivery!</p>
 
 					<p>Whether you own a car, bike, scooter, van or any motor vehicle really that can transport goods- we are looking for superstars like you who are road savvy and really know their way around town.</p>
@@ -79,6 +75,8 @@
 						<li class="list-group-item">That you are passionate about providing great service and memorable delivery experiences to our customers.</li>
 					</ul>
 					</p>
+
+					<p>If you fit the description above, please fill out the application form below and we’ll be in touch shortly!</p>
 				</div>
 				<div class="col-md-3 text-center pull-right">
 					<form id="driverinterestForm" action="{% url 'users:notify_deliverawr' %}" method="post">
@@ -134,8 +132,17 @@
 		</div>
 		<!--Site footer, remains constant across most pages-->
 		{% include "footer.html" %}
+				<!-- JQUERY -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+		{% compress js %}
+		<!-- Polymer Elements -->
+		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
 		<script src="{% static "js/common.js" %}"></script>
 		<script src="{% static "users/js/users.js" %}"></script>
+		{% endcompress %}
 	</body>
 </html>

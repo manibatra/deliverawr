@@ -54,53 +54,60 @@
 				</span>
 			</div>
 			{% if show_form %}
-			<div class="row text-center pretty-text center-block">
-				<form id="interestForm" action="{% url 'restaurants:notify_deliverawr' %}" method="post">
-					{% csrf_token %}
-					<div class="row">
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-							<input class="mdl-textfield__input" type="text" name="busName" id="busName" />
-							<label class="mdl-textfield__label signup-form" for="busName">Business Name</label>
-							<span class="mdl-textfield__error error-span busName-error">Invalid Business Name!</span>
+			<div class="row pretty-text center-block">
+				<div class="col-md-9 text-justify text-left padding-right-helper">
+					<p>At Deliverawr, we believe every business should have the opportunity to connect with every one of their customers- especially those who want your food delivered to their door! We are here to make the process of deliveries simple and fun for you and for your customers.</p>
+
+					<p>Yes it’s no lie that organizing delivery can be a hassle, particularly on those busy days! What we do is we provide deliverers to get your delicious food safely from your restaurant to your awesome customers. Our Rawrers are super friendly and are passionate about great customer service and they can’t seem to stop smiling which is why we love them! You can rest assure that your business will be represented well by our fun service- which was made to help businesses like yours grow.</p>
+				</div>
+				<div class="col-md-3 pull-right text-center">
+					<form id="interestForm" action="{% url 'restaurants:notify_deliverawr' %}" method="post">
+						{% csrf_token %}
+						<div class="row">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="busName" id="busName" />
+								<label class="mdl-textfield__label signup-form" for="busName">Business Name</label>
+								<span class="mdl-textfield__error error-span busName-error">Invalid Business Name!</span>
+							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-							<input class="mdl-textfield__input" type="email" name="email" id="email"/>
-							<label class="mdl-textfield__label signup-form" for="email">Email</label>
-							<span class="mdl-textfield__error error-span email-error">Invalid Email!</span>
+						<div class="row">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="email" name="email" id="email"/>
+								<label class="mdl-textfield__label signup-form" for="email">Email</label>
+								<span class="mdl-textfield__error error-span email-error">Invalid Email!</span>
+							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-							<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="phoneNo" id="phoneNo" />
-							<label class="mdl-textfield__label signup-form" for="phoneNo">Phone No</label>
-							<span class="mdl-textfield__error error-span phoneNo-error">Invalid Phone Number!</span>
+						<div class="row">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="phoneNo" id="phoneNo" />
+								<label class="mdl-textfield__label signup-form" for="phoneNo">Phone No</label>
+								<span class="mdl-textfield__error error-span phoneNo-error">Invalid Phone Number!</span>
+							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-							<input class="mdl-textfield__input" type="text" name="address" id="address" />
-							<label class="mdl-textfield__label signup-form" for="address">Address</label>
-							<span class="mdl-textfield__error error-span address-error">Invalid Address!</span>
+						<div class="row">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" name="address" id="address" />
+								<label class="mdl-textfield__label signup-form" for="address">Address</label>
+								<span class="mdl-textfield__error error-span address-error">Invalid Address!</span>
+							</div>
 						</div>
-					</div>
-					<div class="row">
-						<paper-button id="rawrButton" class="rawr-button center-block text-center">
-							RAWR!
-						</paper-button>
-					</div>
-				</form>
+						<div class="row">
+							<paper-button id="rawrButton" class="rawr-button center-block text-center">
+								RAWR!
+							</paper-button>
+						</div>
+					</form>
+				</div>
 			</div>
 			<div class="row steps">
-				<div class="col-md-4 cards">
-					<img src="http://placehold.it/140x100">
+				<div class="col-md-4">
+					<img class="center-block img-responsive" height="300" width="300" src="{% static 'menus/images/rest1.jpg' %}">
 				</div>
-				<div class="col-md-4 cards">
-					<img src="http://placehold.it/140x100">
+				<div class="col-md-4">
+					<img class="center-block img-responsive" height="300" width="300" src="{% static 'menus/images/rest2.jpg' %}">
 				</div>
-				<div class="col-md-4 cards">
-					<img src="http://placehold.it/140x100">
+				<div class="col-md-4">
+					<img class="center-block img-responsive" height="300" width="300" src="{% static 'menus/images/rest3.jpg' %}">
 				</div>
 			</div>
 			{% endif %}
