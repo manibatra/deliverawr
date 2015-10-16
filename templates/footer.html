@@ -13,11 +13,11 @@
 						<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
 						<h1 class="mdl-mega-footer__heading text-center">Company</h1>
 						<ul class="mdl-mega-footer__link-list center-block">
-							<li><a href="#" class="text-center center-block">About Us</a></li>
-							<li><a href="#" class="text-center center-block">Terms and Conditions</a></li>
+							<li><a href="{% url 'about-us' %}" class="text-center center-block">About Us</a></li>
+							<li><a href="{% url 'terms' %}" class="text-center center-block">Terms and Conditions</a></li>
 							<li><a href="{% url 'privacy' %}" class="text-center center-block">Privacy Policy</a></li>
 							<li><a href="{% url 'disclaimer' %}" class="text-center center-block">Disclaimer</a></li>
-							<li><a href="#" class="text-center center-block">Contact Us</a></li>
+							<li><a href="{% url 'contact-us' %}" class="text-center center-block">Contact Us</a></li>
 						</ul>
 					</div>
 				</div>

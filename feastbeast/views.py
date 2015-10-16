@@ -11,3 +11,12 @@ def privacy(request):
 
 def disclaimer(request):
 	return render(request, "company/disclaimer.html", {})
+
+def about_us(request):
+	return render(request, "company/about_us.html", {})
+
+def terms(request):
+	return render(request, "company/terms.html", {})
+
+def contact_us(request):
+	return render(request, "company/contact_us.html", {})
