@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 import json
+from django.conf import settings
+import os
+
 
 #importing the auth framework
 from django.contrib.auth import authenticate, login
@@ -99,17 +103,23 @@ def place(request):
 		#show the success page for ordering
 		return HttpResponse(json.dumps(response), content_type="application/json")
 
+	else:
+		raise Http404()
+
 
 
 #function to show the order on page
 def order_invoice(request, order_id):
-	current_order =  UserOrder.objects.get(order_id=order_id)
-	if current_order.user.id == request.user.id:
-		context_dict = generate_order_dict(current_order)
-		return render(request, "orders/order_invoice.html", context_dict)
+	try:
+		current_order =  UserOrder.objects.get(order_id=order_id)
+		if current_order.user.id == request.user.id:
+			context_dict = generate_order_dict(current_order)
+			return render(request, "orders/order_invoice.html", context_dict)
+	except:
+		raise Http404()
 
 	else:
-	    HttpResponse("404 page")
+	    raise Http404()
 
 
 #function takes the current delivery object, and creates a context out of it
@@ -139,19 +149,15 @@ def generate_order_dict(current_order):
 
 #shows the succes page after succesful placement of order
 def success(request):
-	if request.method == 'POST':
-		current_user = request.user
-		restaurant = request.POST['restaurant_id']
-
 	return render(request, 'orders/ordered.html', {})
 
 #method to send the mail to the customer
 def send_simple_message(customer_email, emailHTML):
     return requests.post(
-        "https://api.mailgun.net/v3/sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org/messages",
-        auth=("api", "key-37d788bd314bf02a7fbb52dfe24efe4a"),
-        data={"from": "Deliverawr <mailgun@sandboxc0c1bcb688814d6c94674b7d42ca1018.mailgun.org>",
-              "to": [customer_email],
+        settings.MAILGUN_URL + "/messages",
+        auth=("api", settings.MAILGUN_API_KEY),
+        data={"from": "Deliverawr <mailgun@" + settings.MAILGUN_DOMAIN + ">",
+              "to": [customer_email, 'manibatra2002@gmail.com'],
               "subject": "Thank you for ordering",
               "html": emailHTML
 	})
@@ -160,8 +166,8 @@ def send_simple_message(customer_email, emailHTML):
 def send_sms_customer(domain, order_id, customer_phoneNo):
 	URL = "https://api.smsbroadcast.com.au/api.php"
 	payload = {
-    'username': 'manibatra',
-    'password': 'lostrume2sm',
+    'username': settings.SMS_USERNAME,
+    'password': settings.SMS_PASSWORD,
     'from': 'Deliverawr',
     'to' : customer_phoneNo,
     'message' : 'Thank you for ordering. We are on our way. Check your invoice : '+ domain + '/orders/invoice/' + str(order_id)

@@ -6,7 +6,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-		<title>Order Successful!</title>
+		<title>Order Invoice</title>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<!-- Optional theme -->
@@ -31,6 +31,7 @@
 
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		{% include "google_analytics.html" %}
 
 	</head>
 	<body>
@@ -43,7 +44,7 @@
 		{% else %}
 		<div class="container main-body">
 			<div class="row">
-				<img class="center-block custom-icon" src="{% static "images/monster.png" %}" alt="The Monster" height="300" width="290">
+				<img class="center-block custom-icon" src="{% static "images/forhomepage.png" %}" alt="The Monster" height="200" width="150">
 			</div>
 			<div class="row text-center pretty-text center-block">
 				<span class="sorry-text">

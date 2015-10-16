@@ -5,20 +5,20 @@
 }
 
 .brand-image {
-	margin: 1% 0 6%;
+	margin: 10px 0 10px;
 }
 
 .brand-text {
 	margin: 0 10px;
 	line-height: 69px;
-	color: #f44336;
+	color: #dd3e3e;
 	height: 69px;
-	font-family: "Roboto";
-	font-weight: 500;
+	font-family: "Roboto", "Helvetica", "Arial";
+	font-weight: 400;
 }
 
 .list-cafe {
-	background-color: rgb(255, 64, 129) !important;
+	background-color: #dd3e3e !important;
 	color: white;
 }
 
@@ -58,14 +58,14 @@
 
 .signup-button {
 	width: 100%;
-	background-color: rgb(255, 64, 129) !important;
+	background-color: rgb(217, 65, 64) !important;
 	color: white;
 
 }
 
 h5 {
 	margin: 0 auto 5px;
-	color: rgb(255, 64, 129);
+	color: rgb(217, 65, 64);
 }
 
 .facebook-label {

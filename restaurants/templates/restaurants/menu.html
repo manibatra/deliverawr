@@ -6,7 +6,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-		<title></title>
+		<title>{{ restaurant.name }} | Menu</title>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<!-- Optional theme -->
@@ -14,7 +14,7 @@
 		<!-- Include Font Awesome Stylesheet in Header -->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		<!-- Material Design -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,700">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,400,500">
 		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
 		{% compress css %}
 		<!-- Global Stylesheets -->
@@ -29,6 +29,7 @@
 		<!-- Polymer Elements -->
 		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		{% include "google_analytics.html" %}
 
 
 	</head>
@@ -331,6 +332,9 @@
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+	var stripe_pub_key = '{{ stripe_pub_key }}';
+	</script>
 
 	{% compress js %}
 	<!--Custom Script -->

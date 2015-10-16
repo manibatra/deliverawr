@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 
 #auth related imports
 from django.contrib.auth import authenticate, login, logout
@@ -9,7 +10,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 
-from django.http import HttpResponseRedirect,HttpResponse
+from django.http import HttpResponseRedirect,HttpResponse, Http404
 from django.core.urlresolvers import reverse
 import json
 from .utils import *
@@ -98,7 +99,7 @@ def signupUser(request):
 		# else:
 		# 	response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
 	else:
-		response = {'status' : 0, 'msg' : 'invalid request'}
+		raise Http404()
 
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -156,7 +157,7 @@ def loginUser(request):
 			response = {'status' : 0, 'msg' : 'user could not be loged in! try again'}
 
 	else:
-		response = {'status' : 0, 'msg' : 'invalid request'}
+		raise Http404()
 
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -209,7 +210,7 @@ def save_address(request):
 
 
 	else:
-		response = {'status' : 0}
+		raise Http404()
 
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -231,6 +232,8 @@ def delete_address(request):
 			except UserAddress.DoesNotExist:
 				response = {'status' : 3} #there are no more addresses left
 		return HttpResponse(json.dumps(response), content_type='application/json')
+	else:
+		raise Http404()
 
 
 
@@ -242,8 +245,7 @@ def setdefault_address(request):
 		new_default.save()
 		response = {'status' : 1, 'street_address' : new_default.street_address}
 	else:
-		response = {'status' : 0}
-
+		raise Http404()
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 #render the expression of interest view
@@ -260,5 +262,7 @@ def notify_deliverawr(request):
 		suburb = request.POST['city']
 		text_to_send = driver_name + ':' + email_id + ':' + phoneNo + suburb
 		send_mail_deliverawr(text_to_send)
-	return render(request, "users/driver_interest.html", {'heading' : 'Thank You', 'subheading' : 'Our team will be contacting you to\
-															schedule an interview ASAP', 'show_form' : False})
+		return render(request, "users/driver_interest.html", {'heading' : 'Thank You', 'subheading' : 'Our team will be contacting you to\
+																schedule an interview ASAP', 'show_form' : False})
+	else:
+		raise Http404()

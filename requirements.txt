@@ -11,3 +11,4 @@ django-storages-redux
 boto
 django-debug-toolbar
 django_compressor
+raven

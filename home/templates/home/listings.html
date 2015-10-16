@@ -14,7 +14,7 @@
 		<!-- Include Font Awesome Stylesheet in Header -->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		<!-- Material Design -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,500,700">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,400,500">
 		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<!-- Polymer Elements -->
@@ -31,6 +31,8 @@
 		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
 		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
 		{% endcompress %}
+		{% include "google_analytics.html" %}
+
 	</head>
 	<body>
 		{% include "navbar.html" %}
@@ -63,7 +65,7 @@
 					    	<h2 class="mdl-card__title-text restaurant-name"><span>{{ restaurant.name }}</span></h2>
 					  </div>
 					  <div class="mdl-card__supporting-text">
-						{{ restaurant.street_address }}, {{ restaurant.city }} - {{ restaurant.postcode }}
+						{{ restaurant.street_sddress }}, {{ restaurant.city }} - {{ restaurant.postcode }}
 					  </div>
 					  <div class="mdl-card__actions mdl-card--border">
 						{{restaurant.opening_time|time:"g:iA"}} - {{restaurant.closing_time|time:"g:iA"}}

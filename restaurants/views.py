@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.http import JsonResponse
 from django.core import serializers
+from django.conf import settings
 
 from carton.cart import Cart
 from .utils import *
@@ -17,9 +18,6 @@ from restaurants.models import MenuItem
 import stripe
 import json
 
-stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
-
-
 # Create your views here.
 #returns the menu info, stripe_id, default address if any, default card info
 def detail(request, restaurant_id):
@@ -28,7 +26,7 @@ def detail(request, restaurant_id):
 	all_items = MenuItem.objects.exclude(category__exact='').filter(restaurant=restaurant_id)
 	restaurant = Restaurant.objects.get(pk=restaurant_id)
 	all_categories = MenuItem.objects.filter(restaurant=restaurant_id).exclude(category__exact='').order_by('category').values('category').distinct()
-	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant }
+	context = {'categories': all_categories, 'items': all_items, 'restaurant': restaurant,'stripe_pub_key': str(settings.STRIPE_PUB_KEY) }
 
 	#This ensures that the user is allowed to see the restaurants without logging in
 	#getting the stored user payment info
@@ -76,7 +74,7 @@ def detail(request, restaurant_id):
 
 #render the expression of interest view
 def interested(request):
-	return render(request, "restaurants/interest.html", {'heading' : 'Expression of Interest', 'sub_heading' : 'We will get back to you\
+	return render(request, "restaurants/interest.html", {'heading' : 'Deliver with us', 'sub_heading' : 'We will get back to you\
 															right away', 'show_form' : True})
 
 #render the expression of interest view
@@ -88,8 +86,10 @@ def notify_deliverawr(request):
 		address = request.POST['address']
 		text_to_send = business_name + ':' + email_id + ':' + phoneNo + ':' + address
 		send_mail_deliverawr(text_to_send)
-	return render(request, "restaurants/interest.html", {'heading' : 'Thank You', 'sub_heading' : 'Our team will be contacting you ASAP\
+		return render(request, "restaurants/interest.html", {'heading' : 'Thank You', 'sub_heading' : 'Our team will be contacting you ASAP\
 															', 'show_form' : False})
+	else:
+		raise Http404()
 
 
 

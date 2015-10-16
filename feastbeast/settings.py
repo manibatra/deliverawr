@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import dj_database_url
+import raven
+import stripe
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -67,9 +69,12 @@ INSTALLED_APPS = (
     'users',
     'storages',
     'compressor',
+    'raven.contrib.django.raven_compat',
+
 )
 
 MIDDLEWARE_CLASSES = (
+    'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -143,13 +148,13 @@ STATICFILES_STORAGE = "feastbeast.storage.CachedS3BotoStorage"
 
 
 
-try:
+try:#aws settings
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
     AWS_QUERYSTRING_AUTH = False
     AWS_S3_CUSTOM_DOMAIN = 'herokubeastbucketclassicus.s3.amazonaws.com'
-
+    #static media settings
     STATIC_URL = 'https://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
     MEDIA_URL = STATIC_URL + 'media/'
     STATICFILES_DIRS = ( os.path.join(BASE_DIR, "static"), )
@@ -179,13 +184,84 @@ COMPRESS_JS_FILTERS = ["compressor.filters.jsmin.JSMinFilter"]
 
 # Settings for email
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 try:
+    #email smtp settings
     EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
     EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+    #mailgun settings
+    MAILGUN_URL = os.environ['MAILGUN_URL']
+    MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
+    MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
+    #sms settings
+    SMS_USERNAME = os.environ['SMS_USERNAME']
+    SMS_PASSWORD = os.environ['SMS_PASSWORD']
+    #stripe settings
+    stripe.api_key = os.environ['STRIPE_PRI_KEY']
+    STRIPE_PUB_KEY = os.environ['STRIPE_PUB_KEY']
 except:
     pass
+
+try:#sentry settings
+    RAVEN_CONFIG = {
+        'dsn': os.environ.get('RAVEN_DSN'),
+        'release': raven.fetch_git_sha(os.path.dirname(__file__)),
+
+    }
+except:
+    try:
+         RAVEN_CONFIG = {
+            'dsn': os.environ.get('RAVEN_DSN'),
+        }
+    except:
+        pass
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['sentry'],
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
+        },
+    },
+    'handlers': {
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+    },
+}
+
 
 try:
     from .local_settings import *
