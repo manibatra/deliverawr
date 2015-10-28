@@ -88,3 +88,14 @@ h5 {
 		margin: 50px auto;
 	}
 }
+
+@media screen and (max-width: 753px) {
+	.navbar {
+		height: 70px;
+	}
+
+	.navbar-collapse {
+		margin-top: 20px;
+		background-color:  rgb(231, 231, 231);
+	}
+}
