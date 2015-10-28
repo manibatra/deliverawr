@@ -98,4 +98,8 @@ h5 {
 		margin-top: 20px;
 		background-color:  rgb(231, 231, 231);
 	}
+
+	.navbar-brand {
+		font-size: 17px;
+	}
 }

@@ -148,6 +148,12 @@ h5 {
 	}
 }
 
+@media screen and (max-width: 368px) {
+	.main-button {
+		width: 130px;
+	}
+}
+
 .margin-vertical-helper {
 	margin: 30px auto;
 }
