@@ -41,6 +41,10 @@ body {
 	margin-bottom: 50px;
 }
 
+.banner-image {
+	max-width: 100%;
+}
+
 .list-cafe {
 	background-color: #dd3e3e !important;
 	color: white;

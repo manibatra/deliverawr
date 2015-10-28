@@ -56,7 +56,10 @@
 				<div class="container">
 					<div class="row main-banner">
 						<div class="col-md-12">
-							<img src="{% static "images/banner.png" %}" alt="HomePage Monster" class="center-block" height="200" width="600">
+							<picture class="center-block">
+								<source srcset="{% static "images/forhomepage.png" %}" alt="The Monster" height="200" width="150" media="(max-width: 600px)">
+								<img src="{% static "images/banner.png" %}" alt="HomePage Monster" class="banner-image center-block">
+							</picture>
 						</div>
 					</div>
 					<div class="row">
