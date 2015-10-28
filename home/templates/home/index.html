@@ -52,42 +52,46 @@
 			</div>
 		</div>
 		<div class="container">
-			<div class="jumbotron">
-				<div class="container">
-					<div class="row main-banner">
-						<div class="col-md-12">
-							<picture class="center-block">
-								<source srcset="{% static "images/forhomepage.png" %}" alt="The Monster" height="200" width="150" media="(max-width: 600px)">
-								<img src="{% static "images/banner.png" %}" alt="HomePage Monster" class="banner-image center-block">
-							</picture>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<paper-button class="main-button center-block" id="howItWorks">
-								HOW IT WORKS
-							</paper-button>
-						</div>
-					</div>
-					<div class="row">
-						<form id="postcodeForm" action="{% url 'home:listings' %}" method="get">
-							<div class="col-md-12 jumbo-foot">
-								<div class="row">
-									<div class="col-md-7 col-xs-6">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label pull-right">
-										    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="postcode" id="postcode" />
-										    <label class="mdl-textfield__label signup-form" for="postcode">Postcode</label>
-										    <span class="mdl-textfield__error postcode-error">Invalid postcode!</span>
-										</div>
-									</div>
-									<div class="col-md-5 col-xs-6">
-										<paper-button onClick="getListing()" class="main-button pull-left">
-										GET SOME FOOD
-										</paper-button>
-									</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="jumbotron">
+						<div class="container">
+							<div class="row main-banner">
+								<div class="col-md-12">
+									<picture class="center-block">
+										<source srcset="{% static "images/forhomepage.png" %}" alt="The Monster" height="200" width="150" media="(max-width: 600px)">
+										<img src="{% static "images/banner.png" %}" alt="HomePage Monster" class="banner-image center-block">
+									</picture>
 								</div>
 							</div>
-						</form>
+							<div class="row">
+								<div class="col-md-12">
+									<paper-button class="main-button center-block" id="howItWorks">
+										HOW IT WORKS
+									</paper-button>
+								</div>
+							</div>
+							<div class="row">
+								<form id="postcodeForm" action="{% url 'home:listings' %}" method="get">
+									<div class="col-md-12 jumbo-foot">
+										<div class="row">
+											<div class="col-md-7 col-xs-6">
+												<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label pull-right">
+												    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="postcode" id="postcode" />
+												    <label class="mdl-textfield__label signup-form" for="postcode">Postcode</label>
+												    <span class="mdl-textfield__error postcode-error">Invalid postcode!</span>
+												</div>
+											</div>
+											<div class="col-md-5 col-xs-6">
+												<paper-button onClick="getListing()" class="main-button pull-left">
+												GET SOME FOOD
+												</paper-button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
