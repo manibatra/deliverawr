@@ -55,12 +55,12 @@
 			</div>
 			{% if show_form %}
 			<div class="row pretty-text center-block">
-				<div class="col-md-9 text-justify text-left padding-right-helper">
+				<div class="col-md-9 col-xs-12 text-justify text-center padding-right-helper">
 					<p>At Deliverawr, we believe every business should have the opportunity to connect with every one of their customers- especially those who want your food delivered to their door! We are here to make the process of deliveries simple and fun for you and for your customers.</p>
 
 					<p>Yes it’s no lie that organizing delivery can be a hassle, particularly on those busy days! What we do is we provide deliverers to get your delicious food safely from your restaurant to your awesome customers. Our Rawrers are super friendly and are passionate about great customer service and they can’t seem to stop smiling which is why we love them! You can rest assure that your business will be represented well by our fun service- which was made to help businesses like yours grow.</p>
 				</div>
-				<div class="col-md-3 pull-right text-center">
+				<div class="col-md-3 col-xs-12 pull-right text-center">
 					<form id="interestForm" action="{% url 'restaurants:notify_deliverawr' %}" method="post">
 						{% csrf_token %}
 						<div class="row">
