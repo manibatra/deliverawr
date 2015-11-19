@@ -125,6 +125,19 @@ body {
 	margin: 20px;
 }
 
+@media screen and (max-width: 737px) {
+	.menu-item__actions {
+		height: 155px;
+		display: block;
+	}
+
+	.menu-item__button {
+		float: none !important;
+		margin: 10px auto;
+		display: block;
+	}
+}
+
 .sidebar__button {
 	background-color: rgb(217, 65, 64) !important;
 	color: white;
