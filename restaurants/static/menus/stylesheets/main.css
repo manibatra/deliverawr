@@ -6,6 +6,10 @@ body {
 	padding: 20px 0 0;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .jumbotron {
 	background-color: #fff;
 	padding-bottom: 50px;
@@ -16,6 +20,7 @@ body {
 	position: absolute;
 	height: 60vh;
 	width: 100%;
+	max-width: 100%;
 }
 
 .overlay-container {
