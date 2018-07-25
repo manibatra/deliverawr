@@ -2,10 +2,30 @@
 	width: 100%;
 }
 
+.mdl-mega-footer {
+	background-color: #dd3e3e;
+}
+
+.mdl-mega-footer__drop-down-section{
+	float: none !important;
+}
+
+.mdl-mega-footer__heading {
+	padding: 0;
+}
+
+.mdl-mega-footer__link-list {
+	color: white;
+}
+
+.partner-row {
+	color: white;
+}
+
 .mail {
-	margin: 30px auto;
 	font-size: 20px;
 	text-decoration: underline;
+	margin-left: 15px;
 }
 
 .center-this {

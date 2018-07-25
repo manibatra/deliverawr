@@ -1,32 +1,36 @@
 {% load staticfiles %}
+{% load compress %}
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-		<title></title>
+		<title>{{ restaurant.name }} | Menu</title>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="{% static "stylesheets/bootstrap-social.css" %}">
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 		<!-- Include Font Awesome Stylesheet in Header -->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		<!-- Material Design -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,700">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,400,500">
 		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
-
+		{% compress css %}
 		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="{% static "stylesheets/bootstrap-social.css" %}">
 		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
 		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
-		<!-- Polymer Elements -->
-		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="{% static 'bower_components/loaders.css/loaders.min.css' %}">
 
 		<!-- Local Stylesheets -->
 		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
+		{% endcompress %}
+		<!-- Polymer Elements -->
+		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		{% include "google_analytics.html" %}
+
 
 	</head>
 	<body>
@@ -324,13 +328,19 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!--Stripe Checkout Script -->
 	<script src="https://checkout.stripe.com/checkout.js"></script>
-	<!--Custom Script -->
-	<script src="{% static "menus/js/menu.js" %}"></script>
-	<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
 	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+	var stripe_pub_key = '{{ stripe_pub_key }}';
+	</script>
+
+	{% compress js %}
+	<!--Custom Script -->
+	<script src="{% static "menus/js/menu.js" %}"></script>
+	<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
 	<script src="{% static "js/common.js" %}"></script>
+	{% endcompress %}
 </body>
 </html>

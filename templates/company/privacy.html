@@ -1,0 +1,83 @@
+{% load staticfiles %}
+{% load compress %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+		<title>Privacy and Security</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<!-- Include Font Awesome Stylesheet in Header -->
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Material Design -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500">
+		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
+		{% compress css %}
+		<!-- Social Buttons -->
+		<link rel="stylesheet" href="{% static "stylesheets/bootstrap-social.css" %}">
+		<!-- Local Stylesheets -->
+		<link rel="stylesheet" href="{% static "menus/stylesheets/main.css" %}">
+		<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
+		<link rel="stylesheet" href="{% static "orders/stylesheets/ordered.css" %}">
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
+		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
+		{% endcompress %}
+		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		{% include "google_analytics.html" %}
+
+	</head>
+	<body>
+		{% include "navbar.html" %}
+		{% include "signup.html" %}
+		{% include "login.html" %}
+		<!-- Home page main body -->
+		<div class="container main-body">
+			<div class="row">
+				<img class="center-block custom-icon" src="{% static "images/forhomepage.png" %}" alt="The Monster" height="200" width="150">
+			</div>
+			<div class="row text-center pretty-text center-block">
+				<h2>
+					Privacy and Security
+				</h2>
+			</div>
+			<div class="row text-center pretty-text sorry-text center-block">
+					<p>Deliverawr! is committed to the protection of your personal information and privacy.</p>
+					<p>By using this website, you agree to and consent to the collection, use and disclosure of personal information by Deliverawr!.</p>
+					<p>We only collect relevant personal information in order to fulfil the purposes of conducting business as an online delivery provider including (but not limited to): 
+					<ul class="list-group">
+
+						<li class="list-group-item">Your name</li>
+						<li class="list-group-item"> Your contact details including your email, home address and billing address</li>
+						<li class="list-group-item">Your payment details</li>
+						<li class="list-group-item">Other personal information that we collect in the course of a transaction or that you provide us when you contact us.</li>
+					</ul>
+					</p>
+
+					<p>We use Stripe as our third party online payments system. You can check out their terms and conditions <a href="https://stripe.com/au/terms">here</a>.</p>
+
+					<p>Please feel free to contact us at <a href="mailto:rawr@deliverawr.com?Subject=Hello!" target="_top">rawr@deliverawr.com</a> if you have any further questions! We’re happy to help.</p>
+
+			</div>
+		</div>
+		<!--Site footer, remains constant across most pages-->
+		{% include "footer.html" %}
+		<!-- JQUERY -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		{% compress js %}
+		<!-- Polymer Elements -->
+		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
+		<script src="{% static "js/common.js" %}"></script>
+		{% endcompress %}
+	</body>
+</html>

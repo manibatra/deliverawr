@@ -9,8 +9,8 @@
 			<span class="icon-bar"></span>
 			</button>
 			<a href="{% url 'home:landing' %}" class="navbar-brand brand-title">
-				<img alt="Brand" width="50vw" height="50vw" src="{% static "images/monster.png" %}" class="pull-left brand-image">
-				<span class="pull-right brand-text">deliverawr</span>
+				<img alt="Brand" width="100" height="50" src="{% static "images/monster.png" %}" class="pull-left brand-image">
+				<span class="pull-right brand-text">DELIVERAWR!</span>
 			</a>
 		</div>
 		<ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="myNavbar">
@@ -21,6 +21,7 @@
 				<li role="presentation"><a href="#signupModal"><paper-button noink data-target="#signupModal" data-toggle="modal">SignUp</paper-button></a></li>
 				<li role="presentation"><a href="#"><paper-button noink data-target="#loginModal" data-toggle="modal">Login</paper-button></a></li>
 			{% endif %}
+			<li role="presentation"><a href="{% url 'users:interested' %}"><paper-button class="list-cafe">BECOME A DRIVER</paper-button></a></li>
 			<li role="presentation"><a href="{% url 'restaurants:interested' %}"><paper-button class="list-cafe">LIST YOUR RESTAURANT</paper-button></a></li>
 		</ul>
 	</div>

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 
 
@@ -12,7 +12,6 @@ import json
 from users.models import UserAddress
 # Set your secret key: remember to change this to your live secret key in production
 # See your keys here https://dashboard.stripe.com/account/apikeys
-stripe.api_key = "sk_test_Qt90eBDjHDIYHCO0YREdeEGk"
 
 
 # hack to change delivery fee at the moment before a better structure is created
@@ -78,7 +77,7 @@ def charge(request):
 		response = {'status' : 1, 'msg' : 'card successfully charged'}
 		return HttpResponse(json.dumps(response), content_type="application/json")
 	else:
-		HttpResponse("invalid request - 404")
+		raise Http404()
 
 
 
@@ -151,6 +150,8 @@ def addCard(request):
 			return HttpResponse(json.dumps(response), content_type="application/json")
 
 		return HttpResponse(json.dumps(response), content_type='application/json')
+	else:
+		raise Http404()
 
 #function to make the card default
 def makeDefault(request):
@@ -161,7 +162,7 @@ def makeDefault(request):
 		customer.save()
 		response = {'status' : 1}
 	else:
-		response = {'status' : 0}
+		raise Http404()
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 
@@ -179,7 +180,7 @@ def deleteCard(request):
 			default_card = customer.sources.retrieve(default_card_id)
 			response = {'status' : 1, 'brand' : default_card.brand, 'last' : default_card.last4, 'card_id' : default_card.id}
 	else:
-		response = {'status' : 0}
+		raise Http404()
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth import views as auth_views
+from . import views as global_views
 
 
 urlpatterns = [
@@ -27,6 +28,11 @@ urlpatterns = [
     url(r'^payments/', include('payments.urls', namespace="payments")),
     url(r'^user/', include('users.urls', namespace="users")),
     url(r'^orders/', include('orders.urls', namespace="orders")),
+    url(r'^privacy/$', global_views.privacy, name='privacy'),
+    url(r'^disclaimer/$', global_views.disclaimer, name='disclaimer'),
+    url(r'^about-us/$', global_views.about_us, name='about-us'),
+    url(r'^terms/$', global_views.terms, name='terms'),
+    url(r'^contact-us/$', global_views.contact_us, name='contact-us'),
     url(r'^password/reset-password/$', auth_views.password_reset, {'template_name': 'password.html'}, name='password_reset'),
     url(r'^password/reset-password-done/$', auth_views.password_reset_done, {'template_name': 'password_reset_done.html'}, name="password_reset_done"),
     url(r'^password/reset-password-confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'template_name': 'password_reset_confirm.html'}, name="password_reset_confirm"),
@@ -38,3 +44,6 @@ if settings.DEBUG:
     urlpatterns += patterns('',
         url(r'^__debug__/', include(debug_toolbar.urls)),
     )
+
+handler404 = 'feastbeast.views.custom_404_view'
+handler500 = 'feastbeast.views.custom_500_view'

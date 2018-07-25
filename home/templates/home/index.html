@@ -1,36 +1,43 @@
 {% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-		<title></title>
-		<!-- JQUERY -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<title>Deliverawr!</title>
+
+
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 		<!-- Include Font Awesome Stylesheet in Header -->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Material Design -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,500">
+		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+
+
+		{% load compress %}
+		{% compress css %}
+
 		<!-- Social Buttons -->
 		<link rel="stylesheet" href="{% static "stylesheets/bootstrap-social.css" %}">
-		<!-- Material Design -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,500,700">
-		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css">
-		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<!-- Global Stylesheets -->
+
+				<!-- Global Stylesheets -->
 		<link rel="stylesheet" href="{% static "stylesheets/navbar_style.css" %}">
 		<link rel="stylesheet" href="{% static "stylesheets/footer_style.css" %}">
-		<!-- Polymer Elements -->
-		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
-		<link rel="import" href="{% static 'bower_components/paper-button/paper-button.html' %}">
+
 		<link rel="stylesheet" href="{% static 'bower_components/loaders.css/loaders.min.css' %}">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="{% static "home/stylesheets/main.css" %}">
+		{% endcompress %}
+		{% include "google_analytics.html" %}
+
+
 
 	</head>
 	<body>
@@ -47,14 +54,14 @@
 		<div class="container">
 			<div class="jumbotron">
 				<div class="container">
-					<div class="row">
+					<div class="row main-banner">
 						<div class="col-md-12">
-							<h1 class="text-center home-heading">DELIVERAWR</h1>
+							<img src="{% static "images/banner.png" %}" alt="HomePage Monster" class="center-block" height="200" width="600">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<paper-button raised class="main-button center-block" id="howItWorks">
+							<paper-button class="main-button center-block" id="howItWorks">
 								HOW IT WORKS
 							</paper-button>
 						</div>
@@ -71,7 +78,7 @@
 										</div>
 									</div>
 									<div class="col-md-5 col-xs-6">
-										<paper-button onClick="getListing()" raised class="main-button pull-left">
+										<paper-button onClick="getListing()" class="main-button pull-left">
 										GET SOME FOOD
 										</paper-button>
 									</div>
@@ -81,7 +88,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row home-sub">
+			<!--<div class="row home-sub">
 				<div class="col-md-12">
 					<h3 class="text-center home-sub">TRY SOME LOCAL DELICACIES</h3>
 				</div>
@@ -120,14 +127,23 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<!--Site footer, remains constant across most pages-->
 		{% include "footer.html" %}
 		{% include "signup.html" %}
 		{% include "login.html" %}
+		<!-- Polymer Elements -->
+		<script type="text/javascript" src="{% static 'bower_components/webcomponentsjs/webcomponents-lite.js' %}"></script>
+
+		<!-- JQUERY -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
-		<script src="{% static "home/js/home.js" %}"></script>
+		{% compress js %}
 		<script src="{% static "js/common.js" %}"></script>
 		<script type="text/javascript">
 			function getListing() {
@@ -145,5 +161,6 @@
 			$(document).ready(slider);
 
 		</script>
+		{% endcompress %}
 	</body>
 </html>
